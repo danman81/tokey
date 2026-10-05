@@ -22,4 +22,4 @@ jobs:
         run: |
           /usr/bin/python3 scripts/package.py
           cd dist
-          sha256sum -c llm-benchmark-0.2.0a1.sha256
+          sha256sum -c llm-benchmark-*.sha256
