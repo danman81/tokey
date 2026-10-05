@@ -1,0 +1,24 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system Python and GTK bindings
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-gi python3-cairo gir1.2-gtk-4.0 desktop-file-utils
+      - name: Run focused release tests
+        run: /usr/bin/python3 -m unittest discover -s tests -v
+      - name: Verify deterministic source archive
+        run: |
+          /usr/bin/python3 scripts/package.py
+          sha256sum -c dist/llm-benchmark-0.2.0a1.sha256
