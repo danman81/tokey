@@ -21,4 +21,5 @@ jobs:
       - name: Verify deterministic source archive
         run: |
           /usr/bin/python3 scripts/package.py
-          sha256sum -c dist/llm-benchmark-0.2.0a1.sha256
+          cd dist
+          sha256sum -c llm-benchmark-0.2.0a1.sha256
