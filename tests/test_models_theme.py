@@ -110,8 +110,8 @@ class ThemeTests(unittest.TestCase):
 class ConfigTests(unittest.TestCase):
     def test_shipped_config_has_current_pinned_runners(self):
         loaded = config.load_config(config.default_config_path())
-        self.assertEqual(loaded.system_name, "🐇")
-        self.assertEqual(len(loaded.runners), 5)
+        self.assertEqual(loaded.system_name, "")
+        self.assertEqual(len(loaded.runners), 10)
         self.assertTrue(all(len(item.sha256) == 64 and item.bytes > 0 for item in loaded.runners))
 
     def test_empty_optional_values_stay_empty(self):

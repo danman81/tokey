@@ -43,6 +43,6 @@ test_locked_mascot (test_models_theme.ThemeTests.test_locked_mascot) ... ok
 test_theme_is_data_not_css_code (test_models_theme.ThemeTests.test_theme_is_data_not_css_code) ... ok
 
 ----------------------------------------------------------------------
-Ran 43 tests in 1.425s
+Ran 43 tests in 1.628s
 
 OK

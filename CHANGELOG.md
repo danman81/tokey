@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0a3 — 2026-10-05
+
+- Expand the default roster to ten popular Q4 models that individually fit
+  comfortably in 16 GB RAM.
+- Keep the rabbit easter egg in the example config, but commented out by default.
+
 ## 0.2.0a2 — 2026-10-05
 
 - Ship a short, editable config with five current pinned GGUF runners.

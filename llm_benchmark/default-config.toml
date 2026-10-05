@@ -1,11 +1,16 @@
-# Optional. The rabbit wakes up Tokey's little easter egg.
-system_name = "🐇"
+# Optional. Uncomment the rabbit to wake up Tokey's little easter egg.
+# system_name = "🐇"
 
 # Add or remove IDs to set the model rows. Tokey sizes the window once at launch.
 runners = [
   "minicpm5-2b",
+  "lfm2.5-2.6b",
+  "llama-3.2-3b",
+  "phi-4-mini",
   "spark-x2.5-4b",
+  "jan-v3.5-4b",
   "qwen3.8-4b",
+  "deepseek-r1-7b",
   "ornith-1.5-9b",
   "qwen3.5-9b",
 ]

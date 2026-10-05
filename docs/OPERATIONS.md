@@ -7,7 +7,7 @@ ordinary XDG integration; no physical reboot test has been performed.
 
 Default ~/.local paths:
 
-- share/llm-benchmark/app-0.2.0a2/llm_benchmark
+- share/llm-benchmark/app-0.2.0a3/llm_benchmark
 - bin/llm-benchmark (stable technical launcher for Tokey)
 - share/applications/net.llmbenchmark.Desktop.desktop
 - share/icons/hicolor/scalable/apps/net.llmbenchmark.Desktop.svg

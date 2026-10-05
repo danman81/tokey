@@ -23,22 +23,28 @@ Open **Tokey** from the app launcher or run `~/.local/bin/llm-benchmark gui`.
 
 ## Config
 
-The shipped config uses five current, practical Q4_K_M models. Copy it before
+The shipped config uses ten popular, practical Q4_K_M models. Every model is
+under 5.8 GB, leaving comfortable headroom on a 16 GB machine. Copy the config before
 making changes:
 
 ```sh
 mkdir -p ~/.config/tokey
-cp ~/.local/share/llm-benchmark/app-0.2.0a2/llm_benchmark/default-config.toml ~/.config/tokey/config.toml
+cp ~/.local/share/llm-benchmark/app-0.2.0a3/llm_benchmark/default-config.toml ~/.config/tokey/config.toml
 ```
 
 ```toml
-# Optional. The rabbit wakes up Tokey's little easter egg.
-system_name = "🐇"
+# Optional. Uncomment the rabbit to wake up Tokey's little easter egg.
+# system_name = "🐇"
 
 runners = [
   "minicpm5-2b",
+  "lfm2.5-2.6b",
+  "llama-3.2-3b",
+  "phi-4-mini",
   "spark-x2.5-4b",
+  "jan-v3.5-4b",
   "qwen3.8-4b",
+  "deepseek-r1-7b",
   "ornith-1.5-9b",
   "qwen3.5-9b",
 ]
@@ -46,7 +52,8 @@ runners = [
 
 Add or remove runner IDs freely. Tokey chooses the window height from that list
 when it opens and keeps the size fixed for the rest of the session. The first
-run downloads the selected models and verifies every file before use.
+run downloads the selected models and verifies every file before use. The full
+default collection uses about 30 GB of disk, so trim the list if storage is tight.
 
 ## Notes
 

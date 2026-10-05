@@ -1,6 +1,6 @@
 # Arch package recipe.
 pkgname=llm-benchmark
-pkgver=0.2.0a2
+pkgver=0.2.0a3
 pkgrel=1
 pkgdesc='Local LLM engine benchmarking with independently verified sample statistics'
 arch=('any')

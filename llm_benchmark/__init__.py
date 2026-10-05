@@ -1,3 +1,3 @@
 """Tokey — measured local inference performance."""
 
-__version__ = "0.2.0a2"
+__version__ = "0.2.0a3"

@@ -23,7 +23,7 @@ class InstallTests(unittest.TestCase):
             subprocess.run(cmd, check=True, capture_output=True, env=env)
             launcher = prefix/"bin/llm-benchmark"
             version = subprocess.check_output([str(launcher), "--version"], text=True).strip()
-            self.assertEqual(version, "0.2.0a2")
+            self.assertEqual(version, "0.2.0a3")
             subprocess.run(["desktop-file-validate", str(prefix/"share/applications/net.llmbenchmark.Desktop.desktop")], check=True)
             model = prefix/"share/llm-benchmark/models/user-model.txt"
             model.parent.mkdir()
