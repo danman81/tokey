@@ -27,6 +27,9 @@ test_recovery_respects_active_lock (test_core.StorageTests.test_recovery_respect
 test_roundtrip_and_privacy (test_core.StorageTests.test_roundtrip_and_privacy) ... ok
 test_install_launch_reinstall_and_recoverable_uninstall (test_install.InstallTests.test_install_launch_reinstall_and_recoverable_uninstall) ... ok
 test_untracked_target_preserved (test_install.InstallTests.test_untracked_target_preserved) ... ok
+test_empty_optional_values_stay_empty (test_models_theme.ConfigTests.test_empty_optional_values_stay_empty) ... ok
+test_shipped_config_has_current_pinned_runners (test_models_theme.ConfigTests.test_shipped_config_has_current_pinned_runners) ... ok
+test_unknown_runner_is_rejected (test_models_theme.ConfigTests.test_unknown_runner_is_rejected) ... ok
 test_bad_hash_rejected (test_models_theme.DownloadTests.test_bad_hash_rejected) ... ok
 test_cancel_before_network (test_models_theme.DownloadTests.test_cancel_before_network) ... ok
 test_corrupt_existing_model_not_overwritten (test_models_theme.DownloadTests.test_corrupt_existing_model_not_overwritten) ... ok
@@ -40,6 +43,6 @@ test_locked_mascot (test_models_theme.ThemeTests.test_locked_mascot) ... ok
 test_theme_is_data_not_css_code (test_models_theme.ThemeTests.test_theme_is_data_not_css_code) ... ok
 
 ----------------------------------------------------------------------
-Ran 40 tests in 1.463s
+Ran 43 tests in 1.425s
 
 OK

@@ -1,10 +1,11 @@
-"""Pinned starter model download; no server or account required."""
+"""Pinned model downloads; no server or account required."""
 import fcntl
 from pathlib import Path
 import threading
 import urllib.request
 
 from .core import BenchmarkError, Cancelled, data_home, file_hash
+from .config import Model
 
 MODEL = {
     "name": "SmolLM2 135M · Q4_K_M",
@@ -24,6 +25,27 @@ def starter_path():
 
 
 def download_starter(destination=None, cancel=None, progress=None):
+    return download_model(MODEL, destination, cancel, progress)
+
+
+def model_path(model: Model):
+    return data_home() / "models" / model.filename
+
+
+def download_catalog_model(model: Model, destination=None, cancel=None, progress=None):
+    pin = {
+        "name": f"{model.name} {model.size} · Q4_K_M",
+        "filename": model.filename,
+        "repository": model.repository,
+        "revision": model.revision,
+        "sha256": model.sha256,
+        "bytes": model.bytes,
+        "url": model.url,
+    }
+    return download_model(pin, destination or model_path(model), cancel, progress)
+
+
+def download_model(pin, destination=None, cancel=None, progress=None):
     cancel = cancel or threading.Event()
     progress = progress or (lambda value: None)
     destination = Path(destination) if destination else starter_path()
@@ -33,15 +55,15 @@ def download_starter(destination=None, cancel=None, progress=None):
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as exc:
-            raise BenchmarkError("Another starter-model download is running.") from exc
+            raise BenchmarkError("Another model download is running.") from exc
         if destination.exists():
-            progress("Checking existing starter model…")
-            if destination.stat().st_size == MODEL["bytes"] and file_hash(destination, cancel) == MODEL["sha256"]:
+            progress("Checking existing model…")
+            if destination.stat().st_size == pin["bytes"] and file_hash(destination, cancel) == pin["sha256"]:
                 return destination
-            raise BenchmarkError("The existing starter model failed verification. Choose another destination or remove that file before retrying.")
+            raise BenchmarkError("The existing model failed verification. Remove that file before retrying.")
         offset = part.stat().st_size if part.exists() else 0
-        if offset >= MODEL["bytes"]:
-            if offset == MODEL["bytes"] and file_hash(part, cancel) == MODEL["sha256"]:
+        if offset >= pin["bytes"]:
+            if offset == pin["bytes"] and file_hash(part, cancel) == pin["sha256"]:
                 part.replace(destination)
                 return destination
             part.unlink()
@@ -51,12 +73,12 @@ def download_starter(destination=None, cancel=None, progress=None):
         headers = {"User-Agent": "LLM-Benchmark/0.1", "Accept-Encoding": "identity"}
         if offset:
             headers["Range"] = f"bytes={offset}-"
-        req = urllib.request.Request(MODEL["url"], headers=headers)
+        req = urllib.request.Request(pin["url"], headers=headers)
         with urllib.request.urlopen(req, timeout=10) as response:
             if not response.url.startswith("https://"):
                 raise BenchmarkError("Download was redirected to an insecure URL.")
             if response.status == 206:
-                expected = f"bytes {offset}-{MODEL['bytes'] - 1}/{MODEL['bytes']}"
+                expected = f"bytes {offset}-{pin['bytes'] - 1}/{pin['bytes']}"
                 if response.headers.get("Content-Range") != expected:
                     raise BenchmarkError("Server returned an unexpected download range.")
                 mode = "ab"
@@ -72,12 +94,12 @@ def download_starter(destination=None, cancel=None, progress=None):
                     if not chunk:
                         break
                     offset += len(chunk)
-                    if offset > MODEL["bytes"]:
+                    if offset > pin["bytes"]:
                         raise BenchmarkError("Downloaded file exceeds the pinned model size.")
                     f.write(chunk)
-                    progress(f"Downloading starter model · {offset / 1e6:.1f} / {MODEL['bytes'] / 1e6:.1f} MB")
+                    progress(f"Downloading {pin['name']} · {offset / 1e6:.1f} / {pin['bytes'] / 1e6:.1f} MB")
         progress("Verifying downloaded model SHA-256…")
-        if offset != MODEL["bytes"] or file_hash(part, cancel) != MODEL["sha256"]:
+        if offset != pin["bytes"] or file_hash(part, cancel) != pin["sha256"]:
             part.unlink(missing_ok=True)
             raise BenchmarkError("Download checksum or size did not match. The file was rejected; retry the download.")
         part.replace(destination)

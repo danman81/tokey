@@ -1,10 +1,4 @@
-"""Tokey's fixed GTK4/WebKit desktop surface.
-
-The benchmark engine remains a separate Python/subprocess boundary.  WebKit is
-used only as the GTK presentation widget so the approved HTML/CSS reference is
-the executable visual specification rather than something reinterpreted by a
-second widget layout.
-"""
+"""Tokey's GTK4/WebKit desktop window."""
 from __future__ import annotations
 
 import json
@@ -16,15 +10,22 @@ import datetime as dt
 import gi
 
 gi.require_version("Gtk", "4.0")
+gi.require_version("Gdk", "4.0")
 gi.require_version("WebKit", "6.0")
 from gi.repository import Gdk, Gio, GLib, Gtk, WebKit
 
 from .core import PROFILES, Runner, Store, environment
-from .models import MODEL, download_starter, starter_path
+from .config import load_config
+from .models import download_catalog_model
 
 
 WIDTH = 560
-HEIGHT = 332
+BASE_HEIGHT = 263
+ROW_HEIGHT = 13
+
+
+def window_height(runner_count: int) -> int:
+    return BASE_HEIGHT + ROW_HEIGHT * max(1, runner_count)
 
 
 def _surface_path() -> Path:
@@ -41,8 +42,11 @@ class TokeyWindow(Gtk.ApplicationWindow):
         self.report = None
         self.progress = 0
         self.status = ""
-        self.set_default_size(WIDTH, HEIGHT)
-        self.set_size_request(WIDTH, HEIGHT)
+        self.config = load_config()
+        self.results = {}
+        height = window_height(len(self.config.runners))
+        self.set_default_size(WIDTH, height)
+        self.set_size_request(WIDTH, height)
         self.set_resizable(False)
 
         settings = WebKit.Settings()
@@ -68,8 +72,9 @@ class TokeyWindow(Gtk.ApplicationWindow):
         document = (
             "<!doctype html><html><head><meta charset='utf-8'>"
             "<meta name='viewport' content='width=560,initial-scale=1'>"
-            "<style>html,body{width:560px;height:332px;margin:0;overflow:hidden;"
-            "background:#05090d}#tokey-cockpit{margin:0!important;min-height:332px!important}</style>"
+            f"<style>html,body{{width:560px;height:{height}px;margin:0;overflow:hidden;"
+            f"background:#05090d}}#tokey-cockpit{{margin:0!important;height:{height}px!important;"
+            f"min-height:{height}px!important;max-height:{height}px!important}}</style>"
             "</head><body>" + fragment + "<script>" + adapter + "</script></body></html>"
         )
         self.webview.load_html(document, "file:///app/")
@@ -108,24 +113,26 @@ class TokeyWindow(Gtk.ApplicationWindow):
     def _state(self, notice=""):
         running = bool(self.worker and self.worker.is_alive())
         complete = bool(self.report and self.report.get("status") == "complete" and not running)
-        generation = self.report.get("metrics", {}).get("generation", {}).get("mean") if complete else None
-        model = {
-            "name": "SmolLM2",
-            "size": "135M",
-            "active": running,
-            "result": {"generation": generation},
-            "tooltip": "\n".join(filter(None, [
-                MODEL["name"], "Backend: llama.cpp CPU",
-                f"Generation: {generation:.1f} tok/s" if generation is not None else None,
-                "First-token latency and peak memory are not measured by this release.",
-            ])),
-        }
+        models = []
+        for item in self.config.runners:
+            report = self.results.get(item.id)
+            generation = report.get("metrics", {}).get("generation", {}).get("mean") if report else None
+            models.append({
+                "name": item.name, "size": item.size,
+                "active": running and self.status.startswith(item.name),
+                "result": {"generation": generation},
+                "tooltip": "\n".join(filter(None, [
+                    f"{item.name} {item.size} · Q4_K_M", "Backend: llama.cpp CPU",
+                    f"Generation: {generation:.1f} tok/s" if generation is not None else None,
+                ])),
+            })
+        generations = [item["result"]["generation"] for item in models if item["result"]["generation"] is not None]
         env = environment()
         return {
             "running": running, "paused": self.pause.is_set(), "complete": complete,
             "progress": 100 if complete else self.progress, "status": self.status,
-            "hardware": env["cpu"], "models": [model],
-            "generationScale": max(10, (generation or 50) * 1.1), "notice": notice,
+            "hardware": env["cpu"], "systemName": self.config.system_name, "models": models,
+            "generationScale": max(10, max(generations, default=50) * 1.1), "notice": notice,
         }
 
     def _publish(self, notice=""):
@@ -152,19 +159,38 @@ class TokeyWindow(Gtk.ApplicationWindow):
         self.cancel.clear()
         self.pause.clear()
         self.report = None
+        self.results = {}
         self.progress = 1
-        self.status = "Preparing verified starter model…"
+        self.status = "Preparing model queue…"
         self.worker = threading.Thread(target=self._run, daemon=True)
         self.worker.start()
         self._publish()
 
     def _run(self):
         try:
-            model = download_starter(cancel=self.cancel, progress=self._progress)
-            self.report = Runner(self.store).run(model, PROFILES[0], min(2, os.cpu_count() or 1),
-                                                 self.cancel, self._progress, self.pause)
-            self.status = "Run complete" if self.report["status"] == "complete" else self.report.get("error", "Run ended")
-            self.progress = 100 if self.report["status"] == "complete" else self.progress
+            if not self.config.runners:
+                raise ValueError("Add at least one runner to config.toml")
+            total = len(self.config.runners)
+            for index, item in enumerate(self.config.runners):
+                def progress(message, current=item, done=index):
+                    self.status = f"{current.name} · {message}"
+                    stages = {"Checking": 5, "Downloading": 15, "Verifying downloaded": 25,
+                              "Verifying model": 35, "Measuring": 50, "Independently": 90}
+                    phase = next((value for prefix, value in stages.items() if message.startswith(prefix)), 1)
+                    self.progress = int((done + phase / 100) / total * 100)
+                    GLib.idle_add(self._publish)
+                model = download_catalog_model(item, cancel=self.cancel, progress=progress)
+                self.progress = 35
+                report = Runner(self.store).run(model, PROFILES[0], min(2, os.cpu_count() or 1),
+                                                self.cancel, progress, self.pause)
+                self.results[item.id] = report
+                if report["status"] != "complete":
+                    raise RuntimeError(report.get("error", "Run ended"))
+                self.progress = int((index + 1) / total * 100)
+                GLib.idle_add(self._publish)
+            self.report = {"status": "complete", "metrics": {}}
+            self.status = "Run complete"
+            self.progress = 100
         except Exception as exc:
             self.report = {"status": "failed", "error": str(exc), "metrics": {}}
             self.status = str(exc)

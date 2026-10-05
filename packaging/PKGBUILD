@@ -1,6 +1,6 @@
-# Local package recipe. No public distribution or license choice is implied.
+# Arch package recipe.
 pkgname=llm-benchmark
-pkgver=0.2.0a1
+pkgver=0.2.0a2
 pkgrel=1
 pkgdesc='Local LLM engine benchmarking with independently verified sample statistics'
 arch=('any')
@@ -14,6 +14,7 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
   install -d "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/assets" "$pkgdir/usr/bin"
   install -m644 llm_benchmark/*.py "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/"
+  install -m644 llm_benchmark/default-config.toml "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/"
   install -m644 llm_benchmark/assets/tokey-cockpit.html "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/assets/"
   install -m644 llm_benchmark/assets/production-adapter.js "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/assets/"
   install -m755 packaging/llm-benchmark "$pkgdir/usr/bin/llm-benchmark"

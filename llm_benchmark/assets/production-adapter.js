@@ -68,6 +68,18 @@
       root.dataset.paused = String(Boolean(state.paused));
       root.dataset.complete = String(Boolean(state.complete));
       root.dataset.production = 'true';
+      const systemName = el('system-name');
+      if (state.systemName === '🐇') {
+        if (!systemName.querySelector('.tc-rabbit-travel')) {
+          systemName.innerHTML = '<span class="tc-rabbit-travel"><span class="tc-rabbit-facing"><span class="tc-system-rabbit">🐇</span></span></span>';
+        }
+        systemName.dataset.rabbitEgg = 'true';
+        systemName.dataset.celebrating = String(Boolean(state.complete));
+      } else {
+        systemName.textContent = state.systemName || '';
+        systemName.dataset.rabbitEgg = 'false';
+        delete systemName.dataset.celebrating;
+      }
       iconState(state);
       el('hardware').textContent = state.running ? '' : (state.hardware || '');
       el('status').hidden = !state.status;

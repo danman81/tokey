@@ -79,7 +79,7 @@ class SampleChart(Gtk.DrawingArea):
             cr.move_to(22, height / 2 - 4)
             cr.show_text("Your measurements will appear here.")
             cr.move_to(22, height / 2 + 17)
-            cr.show_text("No simulated results.")
+            cr.show_text("No results yet.")
             return
         values = self.metric["rates"]
         left, top, right, bottom = 58, 22, width - 22, height - 33

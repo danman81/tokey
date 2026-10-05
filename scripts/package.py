@@ -11,7 +11,7 @@ sys.path.insert(0, str(ROOT))
 from llm_benchmark import __version__
 
 name = "llm-benchmark-"+__version__
-files = [ROOT/p for p in ("README.md", "LICENSE", "NOTICE.md", "CHANGELOG.md", "AGENTS.md", "CURRENT-STATE.md", "DECISIONS.md")]
+files = [ROOT/p for p in ("README.md", "LICENSE", "NOTICE.md", "CHANGELOG.md")]
 for directory in ("llm_benchmark", "assets", "packaging", "scripts", "tests", "docs"):
     files += [p for p in (ROOT/directory).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
 buffer = io.BytesIO()

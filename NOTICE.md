@@ -1,6 +1,6 @@
 # Local prerelease and third-party notices
 
-Tokey is the user-approved product name. No relationship with UL, 3DMark, Omarchy,
+Tokey is the product name. No relationship with UL, 3DMark, Omarchy,
 Hugging Face or the llama.cpp authors is implied.
 
 The project owner has not selected a public source license, commercial terms,
@@ -13,12 +13,9 @@ licenses and upstream notices remain with those packages. GTK/PyGObject/Cairo
 remain separately installed system dependencies with their own licenses.
 No engine binary or model is included in the source archive.
 
-The optional starter is downloaded only on request from
-https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF at the revision and
-SHA-256 in llm_benchmark/models.py. Its source model is
-https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct, whose model card
-identifies Apache-2.0. Review the relevant model/quantization repository
-notices before redistributing model files or shipping a commercial bundle.
+Configured models are downloaded only when a run needs them. Their repositories,
+revisions, sizes and SHA-256 hashes are pinned in `llm_benchmark/config.py`.
+Review each model card and quantization repository before redistributing files.
 
 The interface uses code-native styling and an original SVG icon; no movie
 artwork, fonts, logos or other third-party visual assets are bundled.

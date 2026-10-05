@@ -30,9 +30,9 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
       <button type="button" id="tc-run" class="tc-primary" aria-label="Run Tokey!"><span id="tc-run-label">Run Tokey!</span><span id="tc-pause-icon" hidden><i data-lucide="pause" aria-hidden="true"></i></span><span id="tc-resume-icon" hidden><i data-lucide="play" aria-hidden="true"></i></span><span id="tc-rerun-icon" hidden><i data-lucide="refresh-cw" aria-hidden="true"></i><i class="tc-arrow-core" data-lucide="refresh-cw" aria-hidden="true"></i></span></button>
     </div>
   </div>
-  <div id="tc-progress" role="progressbar" aria-label="Simulated run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  <div id="tc-progress" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
   <div class="tc-data" role="region" aria-label="Model results; scroll horizontally on narrow screens">
-    <table aria-label="Simulated model comparison: speed, latency and memory">
+    <table aria-label="Model comparison: speed, latency and memory">
       <colgroup><col class="tc-model-col"><col><col><col></colgroup>
       <thead><tr>
         <th scope="col"><div class="tc-col-head"><span class="tc-head-title">Model</span><small><span id="tc-model-note" class="tc-desc-full">Parameters</span><span id="tc-model-note-short" class="tc-desc-brief">Parameters</span></small></div></th>
@@ -50,7 +50,7 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
       <button type="button" id="tc-copy-caption">Copy caption</button>
     </div>
     <span id="tc-feedback" class="tc-sr" role="status" aria-live="polite"></span>
-    <span id="tc-export-note" class="tc-sr">Saving and copying media are unavailable in this prototype.</span>
+    <span id="tc-export-note" class="tc-sr">Sharing controls become available when the run finishes.</span>
     <span id="tc-caption-status" role="status" aria-live="polite" aria-atomic="true"></span>
   </section>
 </div>
@@ -119,7 +119,7 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
  #tokey-cockpit #tc-caption:is(:hover,:focus-visible),#tokey-cockpit .tc-sharing :is(button,select):not(:disabled):hover{border-color:var(--tc-accent)}
  #tokey-cockpit #tc-caption:focus-visible{outline-width:1px}
  #tokey-cockpit #tc-caption:focus{background:#0b697466}
- /* Share the approved thin green hover treatment without changing hit areas. */
+ /* Use the same thin green hover treatment without changing hit areas. */
  #tokey-cockpit button:not(:disabled):hover,#tokey-cockpit #tc-run:not(:disabled):hover,#tokey-cockpit [data-device]:not(:disabled):hover,#tokey-cockpit select:not(:disabled):hover{border-color:var(--tc-accent)}
  #tokey-cockpit th button:hover{outline:1px solid var(--tc-accent);outline-offset:-1px;border-radius:5px}
  #tokey-cockpit th button:focus-visible{outline:2px solid var(--tc-accent);outline-offset:2px}
@@ -178,13 +178,12 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
  @media(max-width:600px){#tokey-cockpit .tc-toolbar{grid-template-columns:1fr auto;gap:6px}#tokey-cockpit .tc-devices{grid-row:1;grid-column:1}#tokey-cockpit .tc-run-controls{grid-row:1;grid-column:2}#tokey-cockpit .tc-context{grid-row:2;grid-column:1 / -1}}
  @media(prefers-reduced-motion:reduce){#tokey-cockpit:is([data-running=true],[data-complete=true]) :is(.tc-track span,#tc-progress span){transition:none}}
  /* Compact width without soft-wrapping text or moving caption controls. */
- #tokey-cockpit{width:560px;min-width:560px;max-width:560px;height:332px;min-height:332px;max-height:332px;margin-inline:auto}
+ #tokey-cockpit{width:560px;min-width:560px;max-width:560px;margin-inline:auto}
  #tokey-cockpit .tc-head .tc-extra{display:none}
  #tokey-cockpit :is(.tc-head,.tc-toolbar,.tc-sharing){padding-left:10px;padding-right:10px}
  #tokey-cockpit .tc-head{padding-top:9px;padding-bottom:0;border-bottom:0}
  #tokey-cockpit .tc-toolbar{padding-top:1px}
- /* Fixed benchmark cockpit: resizing may crop/scroll the host, but never
-    reflow application controls or identity into additional rows. */
+ /* Keep controls and identity on one line. */
  #tokey-cockpit .tc-head{flex-wrap:nowrap}
  #tokey-cockpit .tc-head .tc-brand{transform:translateY(4px)}
  #tokey-cockpit .tc-wordmark-stack{position:relative;display:block;flex:none}
@@ -334,8 +333,7 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
     is a separate overlay, so background clipping can never trim its silhouette. */
  #tokey-cockpit[data-complete=true] .tc-wordmark{animation:none!important;background-image:none!important;color:var(--tc-brand-base)!important}
  #tokey-cockpit[data-complete=true] .tc-wordmark-glint{opacity:1}
- /* Capture contract only: exporters are not implemented in this preview.
-    GIF/MP4 retain the completion cycle; PNG removes the glint, not just motion. */
+ /* PNG captures use resting colors instead of an animation frame. */
  #tokey-cockpit[data-export=true][data-export-format=PNG] :is(.tc-brand pre,.tc-track span,#tc-progress span){animation:none;background-image:none}
  #tokey-cockpit[data-export=true][data-export-format=PNG] .tc-brand pre{color:var(--tc-brand-base)}
  #tokey-cockpit[data-export=true][data-export-format=PNG] .tc-wordmark-glint{display:none}
@@ -350,389 +348,3 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
   #tokey-cockpit[data-complete=true] .tc-wordmark-glint{display:none}
  }
 </style>
-<script>
-(()=>{
- const root=document.getElementById('tokey-cockpit'),el=id=>root.querySelector('#tc-'+id);
- // Separate travel, facing and jump so completion can freeze x/direction
- // without restarting the current vertical hop or rotating the emoji.
- const rabbit=el('system-name').querySelector('.tc-system-rabbit'),rabbitTravel=document.createElement('span'),rabbitFacing=document.createElement('span');
- rabbitTravel.className='tc-rabbit-travel';rabbitFacing.className='tc-rabbit-facing';
- rabbit.replaceWith(rabbitTravel);rabbitTravel.append(rabbitFacing);rabbitFacing.append(rabbit);
- const friendDock=document.createElement('span'),friendRoster=['🐈','🐈‍⬛','🐕','🐩','🐿️','🐇','🐖','🐄','🐂','🐃','🐎','🐐','🐏','🐑','🐅','🐆','🦌','🦬','🦣','🐘','🦏','🦛','🐪','🐫','🦙','🦒','🦓','🦘','🦫','🦭','🐢','🐊','🦎','🦕','🦖','🐦','🐦‍⬛','🐧','🕊️','🦅','🦆','🦢','🦉','🦤','🪿','🦩','🦜','🐓','🦃','🐣','🐤','🐥'];let friendRound=0;
- friendDock.className='tc-rabbit-friends';friendDock.setAttribute('aria-hidden','true');el('system-name').append(friendDock);
- let friendFloor=0;
- const updateRabbitLane=()=>{
-  const systemName=el('system-name'),lane=systemName.getBoundingClientRect(),brand=root.querySelector('.tc-brand').getBoundingClientRect(),meta=root.querySelector('.tc-system-meta').getBoundingClientRect(),anchor=el('ram-anchor').getBoundingClientRect(),rabbitWidth=rabbit.offsetWidth,brandSharesFloor=brand.bottom>lane.top&&brand.top<lane.bottom;
-  const minimumGap=2,leftInkAllowance=5,rightLimit=meta.left-lane.left-rabbitWidth-minimumGap,anchorCenter=anchor.left+anchor.width/2-lane.left,right=Math.min(rightLimit,anchorCenter-rabbitWidth/2),rightGap=Math.max(minimumGap,meta.left-(lane.left+right+rabbitWidth)),leftBoundary=brandSharesFloor?brand.right:lane.left,leftLimit=leftBoundary-lane.left+rightGap+leftInkAllowance,left=Math.min(right,leftLimit);
-  systemName.style.setProperty('--tc-rabbit-anchor',anchorCenter+'px');
-  systemName.style.setProperty('--tc-rabbit-left',left+'px');
-  systemName.style.setProperty('--tc-rabbit-right',right+'px');
- };
- const clearRabbitFriends=()=>{friendDock.replaceChildren();delete friendDock.dataset.layout;};
- const positionRabbitFriends=(captureFloor=false)=>{
-  const friends=[...friendDock.children];if(friends.length!==2)return false;
-  const systemName=el('system-name'),lane=systemName.getBoundingClientRect(),bunny=rabbit.getBoundingClientRect(),brand=root.querySelector('.tc-brand').getBoundingClientRect(),meta=root.querySelector('.tc-system-meta').getBoundingClientRect();
-  const header=root.querySelector('.tc-head').getBoundingClientRect(),brandSharesFloor=brand.bottom>bunny.top&&brand.top<bunny.bottom;
-  const gap=2,entryTravel=6,widths=friends.map(friend=>friend.offsetWidth),bunnyLeft=bunny.left-lane.left,bunnyRight=bunny.right-lane.left,safeLeft=(brandSharesFloor?brand.right+gap:header.left)-lane.left,safeRight=meta.left-lane.left-gap;
-  if(captureFloor)friendFloor=bunny.bottom-lane.top;
-  const split=[bunnyLeft-gap-widths[0],bunnyRight+gap],leftNear=bunnyLeft-gap-widths[0],left=[leftNear,leftNear-gap-widths[1]],rightNear=bunnyRight+gap,right=[rightNear,rightNear+widths[0]+gap];
-  const fits=(positions,margin=entryTravel)=>positions.every((x,i)=>x-margin>=safeLeft&&x+widths[i]+margin<=safeRight);
-  let positions,entries,layout;
-  if(fits(split)){positions=split;entries=['left','right'];layout='split';}
-  else if(fits(left)){positions=left;entries=['left','left'];layout='left';}
-  else if(fits(right)){positions=right;entries=['right','right'];layout='right';}
-  else if(fits(split,0)){positions=split;entries=['still','still'];layout='split-still';}
-  else if(fits(left,0)){positions=left;entries=['still','still'];layout='left-still';}
-  else if(fits(right,0)){positions=right;entries=['still','still'];layout='right-still';}
-  else{clearRabbitFriends();return false;}
-  friends.forEach((friend,i)=>{friend.style.left=positions[i]+'px';friend.style.top=(friendFloor-friend.offsetHeight)+'px';friend.dataset.entry=entries[i];});
-  friendDock.dataset.layout=layout;return true;
- };
- const inviteRabbitFriends=()=>{
-  clearRabbitFriends();
-  for(const offset of [0,3]){const friend=document.createElement('span');friend.className='tc-rabbit-friend';friend.textContent=friendRoster[(friendRound+offset)%friendRoster.length];friendDock.append(friend);}
-  friendRound=(friendRound+2)%friendRoster.length;
-  positionRabbitFriends(true);
- };
- const rabbitLayoutObserver=new ResizeObserver(()=>{updateRabbitLane();if(el('system-name').dataset.celebrating==='true')positionRabbitFriends();});
- rabbitLayoutObserver.observe(root);rabbitLayoutObserver.observe(root.querySelector('.tc-identity'));updateRabbitLane();
- const rabbitTextObserver=new MutationObserver(()=>{updateRabbitLane();if(el('system-name').dataset.celebrating==='true')positionRabbitFriends();});
- rabbitTextObserver.observe(root.querySelector('.tc-identity'),{subtree:true,childList:true,characterData:true});
- const rabbitMotion=matchMedia('(prefers-reduced-motion:reduce)');
- el('system-name').addEventListener('animationend',event=>{
-  if(event.animationName==='tc-rabbit-coin')delete el('system-name').dataset.entrance;
- });
- rabbitMotion.addEventListener('change',event=>{if(event.matches)delete el('system-name').dataset.entrance;});
- rabbit.addEventListener('animationiteration',event=>{
-  if(event.animationName==='tc-rabbit-hop'&&root.dataset.complete==='true'&&el('system-name').dataset.rabbitEgg==='true'){inviteRabbitFriends();el('system-name').dataset.celebrating='true';}
- });
- const statusText=(id,text)=>{if(el(id).textContent!==text)el(id).textContent=text;};
- const models=[
-  {name:'Llama 3.2',size:'3B',speed:38,latency:.8,memory:2.4},
-  {name:'Qwen3',size:'4B',speed:30,latency:1.1,memory:3.1},
-  {name:'Gemma 3',size:'4B',speed:26,latency:1.3,memory:3.4},
-  {name:'Phi-4 mini',size:'3.8B',speed:33,latency:.9,memory:2.9},
-  {name:'DeepSeek R1',size:'8B distill',speed:17,latency:2.2,memory:5.8},
-  {name:'Llama 3.1',size:'8B',speed:19,latency:1.8,memory:5.5},
-  {name:'Mistral',size:'7B',speed:22,latency:1.6,memory:5.1},
-  {name:'Qwen2.5',size:'7B',speed:21,latency:1.7,memory:5.2},
-  {name:'Gemma 2',size:'9B',speed:15,latency:2.4,memory:7.1},
-  {name:'SmolLM2',size:'1.7B',speed:46,latency:.5,memory:1.6}];
- // All values remain fictional. Separate stores prevent CPU/GPU results mixing.
- const devices=['CPU','GPU'],completed={CPU:new Set(),GPU:new Set()},live={CPU:new Map(),GPU:new Map()};
- // UI preview only: 20 jobs x 30 ticks x 10ms = about 6 seconds (40x original).
- const stepsPerModel=30,stepsPerPhase=3,demoTickMs=10;
- // Overall progress follows the relative work of the technical stages instead
- // of advancing at one artificial constant rate. Equal backend boundaries are
- // still useful guidance because every model completes the same ten stages.
- const phaseWork=[.04,.12,.05,.10,.17,.06,.17,.20,.06,.03],phaseWorkTotal=phaseWork.reduce((sum,work)=>sum+work,0);
- let sample=true,running=false,paused=false,device='CPU',sort='speed',queue=[],tick=0,timer=null;
- // Preview vocabulary only, not reports of real loading or inference.
- const phases=['Reading tensor metadata and quantization layout','Mapping weight tensors into inference buffers','Binding compute workers to the execution backend','Reserving attention KV-cache and scratch buffers','Warming matrix kernels; priming execution graphs','Tokenizing prompt text; packing input token batches','Prefilling attention; timing first-token latency','Decoding autoregressively; extending the KV cache','Sampling token throughput and memory high-water','Aggregating timings; committing this model row'];
- const compactPhases=['Tensor metadata','Weight mapping','Worker binding','KV-cache allocation','Kernel warm-up','Tokenizing prompt','Prefill / first token','Decode / KV update','Token-rate sampling','Timing aggregation'];
- const backendPhases={CPU:['Binding CPU workers; scheduling tensor operations','CPU worker scheduling'],GPU:['Staging GPU tensors; scheduling compute kernels','GPU kernel scheduling']};
- const hardware={CPU:'Intel Core i7-8650U · 4 cores / 8 threads',GPU:'Intel UHD Graphics 620 · integrated',NPU:'Not detected · unavailable'};
- const val=(i,key)=>{const f=device==='GPU'?1.7:1;return key==='speed'?models[i][key]*f:key==='latency'?models[i][key]/f:models[i][key];};
- const max=key=>key==='speed'?(device==='GPU'?90:50):key==='latency'?3:8;
- const rows=models.map((m,i)=>{
-  const tr=document.createElement('tr');tr.dataset.index=i;
-  tr.innerHTML=`<td><button type="button" class="tc-model" aria-label="Details for ${m.name} ${m.size}"><span class="tc-model-name">${m.name}</span> <span class="tc-size">${m.size}</span></button></td>`+['speed','latency','memory'].map(k=>`<td data-key="${k}"><div class="tc-metric"><span class="tc-number"></span><div class="tc-track" aria-hidden="true"><span></span></div><span class="tc-pending" hidden><span class="tc-pending-full"></span><span class="tc-pending-short" aria-hidden="true"></span></span></div></td>`).join('');
-  return tr;
- });
- // Show only values that exist for this row's current run. Do not pad the
- // hover card with unknown model metadata or placeholder statements.
- function modelDetails(i,has,active){
-  if(!has&&!active)return '';
-  const m=models[i],partial=live[device]?.get(i)||{},lines=[m.name+' · '+m.size,device];
-  if(has||partial.speed>0)lines.push('Generation: '+(val(i,'speed')*(has?1:partial.speed)).toFixed(1)+' tok/s');
-  if(has||partial.latency>0)lines.push('First token: '+(val(i,'latency')*(has?1:partial.latency)).toFixed(2)+' s');
-  if(has||partial.memory>0)lines.push('Memory: '+(val(i,'memory')*(has?1:partial.memory)).toFixed(2)+' GiB');
-  return lines.join('\n');
- }
- function syncTooltips(){
-  root.querySelectorAll('[data-tooltip]').forEach(trigger=>{
-   const text=trigger.dataset.tooltip.split('\n').flatMap(line=>{
-    const lines=[];let part='';
-    for(const word of line.split(/\s+/)){if(part&&part.length+word.length+1>38){lines.push(part);part='';}part+=(part?' ':'')+word;}
-    lines.push(part);return lines;
-   }).join('\n');
-   if(trigger.dataset.tooltip!==text)trigger.dataset.tooltip=text;
-   // The host owns creation, placement and dismissal; refresh its plain text
-   // when a run/device changes while the same tooltip remains visible.
-   for(const id of (trigger.getAttribute('aria-describedby')||'').split(' ')){
-    const tip=document.getElementById(id);
-    if(tip?.matches('.tooltip[role=tooltip]')&&tip.textContent!==text)tip.textContent=text;
-   }
-  });
- }
- function draw(){
-  // Exact rabbit name only, not a custom name containing a rabbit. No config
-  // loader implied: this is the explicit name in the current preview.
-  const systemName=el('system-name');
-  systemName.dataset.rabbitEgg=String(rabbit.textContent.trim().replace(/\uFE0F/g,'')==='🐇');
-  el('system-details').dataset.tooltip=[...(systemName.dataset.rabbitEgg==='true'?[]:['System name: '+rabbit.textContent.trim()]),'Board: NUC7i7DNB','OS: Omarchy 4.0.4','Fanless enclosure'].join('\n');
-  updateRabbitLane();
-  if(!running||systemName.dataset.rabbitEgg!=='true')delete systemName.dataset.entrance;
-  if(running||systemName.dataset.rabbitEgg!=='true'){delete systemName.dataset.celebrating;clearRabbitFriends();}
-  // Snapshot the actual painted position before root's running state changes.
-  // The hop keeps its phase; animationiteration begins celebration at ground.
-  if(canShare()&&root.dataset.complete!=='true'&&systemName.dataset.rabbitEgg==='true'){
-   const travel=new DOMMatrixReadOnly(getComputedStyle(rabbitTravel).transform),facing=new DOMMatrixReadOnly(getComputedStyle(rabbitFacing).transform);
-   systemName.style.setProperty('--tc-rabbit-x',travel.m41+'px');
-   systemName.style.setProperty('--tc-rabbit-facing',String(facing.m11<0?-1:1));
-  }
-  const job=queue[Math.floor(tick/stepsPerModel)],current=job?.index;
-  const order=models.map((_,i)=>i).sort((a,b)=>{
-   if(running)return a-b;
-   const av=device!=='NPU'&&completed[device].has(a),bv=device!=='NPU'&&completed[device].has(b);
-   return av&&bv?(sort==='speed'?val(b,sort)-val(a,sort):val(a,sort)-val(b,sort)):Number(bv)-Number(av)||a-b;
-  });
-  for(const i of order){const tr=rows[i],has=device!=='NPU'&&completed[device].has(i),active=running&&current===i;tr.dataset.active=String(active);
-   const details=modelDetails(i,has,active),modelButton=tr.querySelector('.tc-model');
-   if(details){tr.dataset.tooltip=details;modelButton.dataset.tooltip=details;}else{delete tr.dataset.tooltip;delete modelButton.dataset.tooltip;}
-   for(const key of ['speed','latency','memory']){
-    const fraction=has?1:live[device]?.get(i)?.[key]||0,shown=has||fraction>0;
-    const td=tr.querySelector('[data-key='+key+']'),value=val(i,key)*fraction;
-    // Keep every available-device track visible from launch; only live or
-    // completed measurements reveal a value and grow the electric-green fill.
-    td.querySelector('.tc-number').hidden=!shown;td.querySelector('.tc-track').hidden=device==='NPU';td.querySelector('.tc-pending').hidden=device!=='NPU';
-    if(shown)td.removeAttribute('aria-label');else td.setAttribute('aria-label',device==='NPU'?'Unavailable':'Not measured yet');
-    td.querySelector('.tc-number').textContent=value.toFixed(key==='speed'?1:2);td.querySelector('.tc-track span').style.width=value/max(key)*100+'%';
-    const pending=device==='NPU'?'N/A':'Queued';
-    td.querySelector('.tc-pending').setAttribute('aria-label',pending);
-    td.querySelector('.tc-pending-full').textContent=pending;
-    td.querySelector('.tc-pending-short').textContent=pending;
-   }
-   // Leave stable rows mounted during ticks so native bar transitions can run.
-   if(el('models').children[order.indexOf(i)]!==tr)el('models').insertBefore(tr,el('models').children[order.indexOf(i)]||null);
-  }
-  el('hardware').textContent=hardware[device];el('hardware').hidden=running;
-  el('model-note').textContent='Parameters';root.dataset.running=String(running);root.dataset.paused=String(paused);
-  el('model-note-short').textContent='Parameters';
-  const rerun=!running&&!sample,finished=canShare(),label=running?(paused?'Resume run':'Pause run'):rerun?'Run again':'Run Tokey!';
-  root.dataset.complete=String(finished);
-  el('run-label').textContent=label;el('run-label').hidden=running||rerun;el('pause-icon').hidden=!running||paused;el('resume-icon').hidden=!paused;el('rerun-icon').hidden=!rerun;
-  el('run').classList.toggle('tc-icon',running||rerun);el('run').classList.toggle('tc-primary',!running&&!rerun);el('run').dataset.complete=String(finished);
-  el('run').setAttribute('aria-label',finished?'Run complete. Run again':label);el('run').dataset.tooltip=finished?'Run complete - run again':label;
-  syncSharing();
-  // Available devices come from this preview's recorded hardware snapshot.
-  root.querySelectorAll('[data-device]').forEach(b=>{const available=devices.includes(b.dataset.device),active=running&&b.dataset.device===device;b.hidden=!available;b.disabled=running||!available;b.dataset.active=String(active);b.setAttribute('aria-pressed',String(b.dataset.device===device));b.setAttribute('aria-label',b.dataset.device+(active?(paused?' - simulated run paused':' - processing simulated run'):' - view results'));b.dataset.tooltip=active?(paused?'Paused ':'Processing ')+device+' results':'View '+b.dataset.device+' results';});
-  const metricHelp={speed:'Generation speed in tokens per second. Higher is faster.',latency:'Time to first token in seconds. Lower is faster.',memory:'Memory usage in GiB. A shorter bar means less memory used.'};
-  const units={speed:'tok/s',latency:'s',memory:'GiB'};
-  root.querySelectorAll('[data-sort]').forEach(b=>{const key=b.dataset.sort;b.closest('th').setAttribute('aria-sort',key===sort?(sort==='speed'?'descending':'ascending'):'none');b.querySelector('.tc-sort-arrow').textContent=key===sort?(sort==='speed'?'↓':'↑'):'';b.dataset.tooltip=metricHelp[key]+(device==='NPU'?' No NPU results available.':' Bars use a zero-based scale: 0-'+max(key)+' '+units[key]+'.');});
-  const phase=Math.floor((tick%stepsPerModel)/stepsPerPhase);
-  const detail=phase===2?backendPhases[device]?.[0]||phases[phase]:phases[phase],compactDetail=phase===2?backendPhases[device]?.[1]||compactPhases[phase]:compactPhases[phase];
-  el('status').hidden=!running;
-  statusText('status-prefix',paused?'Paused · ':'');
-  statusText('stage',running?models[current].name+' '+models[current].size+' · ':'');
-  statusText('detail',running?detail:'');statusText('detail-compact',running?compactDetail:'');
-  if(running){const message='Simulated · '+(paused?'Paused · ':'')+device+' · '+models[current].name+' '+models[current].size+' - '+detail;if(el('status').getAttribute('aria-label')!==message)el('status').setAttribute('aria-label',message);}else el('status').removeAttribute('aria-label');
-  el('outcome').textContent=paused?'Simulated run paused. Progress preserved. Resume to continue.':rerun?'Simulated CPU and GPU run complete. NPU unavailable.':'';
-  // Whole-run work, never the selected device's local progress. Completed jobs
-  // count fully; the active job advances according to its actual technical
-  // stage, so metadata, mapping, warm-up, prefill and decode move differently.
-  const completedJobs=Math.floor(tick/stepsPerModel),jobStep=tick%stepsPerModel,phaseIndex=Math.min(phaseWork.length-1,Math.floor(jobStep/stepsPerPhase)),phaseStep=jobStep%stepsPerPhase,finishedPhaseWork=phaseWork.slice(0,phaseIndex).reduce((sum,work)=>sum+work,0),activePhaseWork=phaseWork[phaseIndex]*(phaseStep/stepsPerPhase),workDone=completedJobs+(finishedPhaseWork+activePhaseWork)/phaseWorkTotal;
-  const progress=queue.length?Math.min(100,workDone/queue.length*100):0;el('progress').setAttribute('aria-valuenow',String(progress));el('progress').firstElementChild.style.width=progress+'%';
-  syncTooltips();
- }
- function clearTimer(){clearInterval(timer);timer=null;}
- function advance(){
-  if(!running||paused)return;
-  const job=queue[Math.floor(tick/stepsPerModel)],step=tick%stepsPerModel+1;
-  const clamp=n=>Math.max(0,Math.min(1,n));
-  live[job.device].set(job.index,{memory:step/stepsPerModel,latency:clamp((step-12)/12),speed:clamp((step-18)/12)});
-  tick++;if(step===stepsPerModel)completed[job.device].add(job.index);
-  if(tick===queue.length*stepsPerModel){clearTimer();running=false;}else device=queue[Math.floor(tick/stepsPerModel)].device;
-  draw();
- }
- el('run').addEventListener('click',()=>{
-  if(running){
-   clearTimer();paused=!paused;draw();
-   if(!paused)timer=setInterval(advance,demoTickMs);
-   return;
-  }
-  clearTimer();sample=false;paused=false;devices.forEach(d=>{completed[d].clear();live[d].clear();});
-  // Commit zero widths and progress semantics before enabling interpolation.
-  // This also clears an in-flight final transition if rerun is clicked quickly.
-  root.dataset.resetting='true';root.dataset.complete='false';
-  el('system-name').style.removeProperty('--tc-rabbit-x');el('system-name').style.removeProperty('--tc-rabbit-facing');
-  if(el('system-name').dataset.rabbitEgg==='true'&&!rabbitMotion.matches)el('system-name').dataset.entrance='true';
-  queue=devices.flatMap(d=>models.map((_,index)=>({device:d,index})));device='CPU';tick=0;running=true;draw();
-  void el('progress').offsetWidth;
-  delete root.dataset.resetting;
-  timer=setInterval(advance,demoTickMs);
- });
- root.querySelectorAll('[data-device]').forEach(b=>b.addEventListener('click',()=>{if(running||!devices.includes(b.dataset.device))return;device=b.dataset.device;draw();}));
- root.querySelectorAll('[data-sort]').forEach(b=>b.addEventListener('click',()=>{sort=b.dataset.sort;draw();}));
- const feedback=text=>{el('feedback').textContent=text;};
- const canShare=()=>!sample&&!running&&queue.length>0&&tick===queue.length*stepsPerModel;
- el('save').addEventListener('click',()=>{if(canShare())feedback(el('format').value+" export isn't ready in this demo yet. Nothing was saved or uploaded.");});
- el('copy-results').addEventListener('click',()=>{
-  if(!canShare())return;
-  el('copy-menu').hidePopover();el('copy').focus();
-  captionNotice(el('format').value+' export not available yet',false);
- });
- function syncSharing(){
-  const ready=canShare();
-  root.dataset.exportFormat=el('format').value;
-  for(const id of ['format','save','copy-results'])el(id).disabled=!ready;
-  el('copy-results').textContent='Copy results · '+el('format').value;
-  el('copy-results').dataset.tooltip=ready?'Result copying is unavailable in this prototype':'Complete the run to copy results';
-  statusText('export-note',(ready?'':'Complete the run to unlock sharing controls. ')+ 'Saving and copying media are unavailable in this prototype.');
-  el('format').dataset.tooltip=ready?'Export format':'Export format - complete the run first';
-  for(const action of ['save']){
-   const label=(action==='save'?'Save ':'Copy ')+el('format').value;
-   el(action).setAttribute('aria-label',label);el(action).setAttribute('aria-describedby','tc-export-note');el(action).dataset.tooltip=label+(ready?' - unavailable in this demo':' - complete the run first');
-  }
-  if(!ready)el('feedback').textContent='';
- }
- el('format').addEventListener('change',()=>{syncSharing();el('feedback').textContent='';});
- const caption=el('caption');
- const captionCelebration=document.createElement('div');
- captionCelebration.id='tc-caption-celebration';captionCelebration.hidden=true;
- captionCelebration.setAttribute('aria-hidden','true');root.append(captionCelebration);
- function stopCaptionDance(){captionCelebration.hidden=true;captionCelebration.replaceChildren();}
- function startCaptionDance(){
-  stopCaptionDance();
-  if(!caption.value.includes('🐇')||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  const c=getComputedStyle(caption),r=caption.getBoundingClientRect(),bounds=root.getBoundingClientRect();
-  Object.assign(captionCelebration.style,{
-   left:(r.left-bounds.left-root.clientLeft+parseFloat(c.borderLeftWidth))+'px',
-   top:(r.top-bounds.top-root.clientTop+parseFloat(c.borderTopWidth))+'px',
-   width:caption.clientWidth+'px',height:caption.clientHeight+'px',
-   paddingLeft:c.paddingLeft,paddingRight:c.paddingRight,font:c.font,
-   letterSpacing:c.letterSpacing,background:c.backgroundColor
-  });
-  const viewport=document.createElement('div'),mirror=document.createElement('span');
-  viewport.className='tc-caption-viewport';mirror.className='tc-caption-mirror';
-  // Text nodes preserve arbitrary user captions safely, without HTML parsing.
-  caption.value.split('🐇').forEach((part,i)=>{
-   if(i){const bunny=document.createElement('span');bunny.className='tc-caption-copy-rabbit';bunny.textContent='🐇';mirror.append(bunny);}
-   mirror.append(document.createTextNode(part));
-  });
-  mirror.style.transform='translateX('+(-caption.scrollLeft)+'px)';
-  viewport.append(mirror);captionCelebration.append(viewport);captionCelebration.hidden=false;
- }
- captionCelebration.addEventListener('animationend',event=>{if(event.animationName==='tc-rabbit-hop')stopCaptionDance();});
- for(const event of ['focus','pointerdown','scroll'])caption.addEventListener(event,stopCaptionDance);
- // Cancel on layout changes; never let a transient visual cover another control.
- new ResizeObserver(stopCaptionDance).observe(root);
- let captionNoticeTimer=null,captionCopyPending=false,captionRevision=0;
- function clearCaptionNotice(){
-  stopCaptionDance();
-  clearTimeout(captionNoticeTimer);caption.dataset.copied='false';
-  el('caption-status').dataset.visible='false';el('caption-status').textContent='';
- }
- function captionNotice(message,success){
-  clearCaptionNotice();caption.dataset.copied=String(success);
-  const notice=el('caption-status');notice.dataset.success=String(success);
-  notice.textContent=message;notice.dataset.visible='true';
-  if(success)startCaptionDance();
-  captionNoticeTimer=setTimeout(clearCaptionNotice,success?1600:3000);
- }
- el('copy-caption').addEventListener('click',async()=>{
-  if(captionCopyPending)return;
-  el('copy-menu').hidePopover();el('copy').focus();
-  const text=caption.value,revision=captionRevision;
-  if(!text){captionNotice('Caption is empty',false);return;}
-  clearCaptionNotice();captionCopyPending=true;
-  try{
-   if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
-   await navigator.clipboard.writeText(text);
-   if(revision===captionRevision)captionNotice('Caption copied to clipboard',true);
-  }catch{
-   if(revision===captionRevision){
-    // Respect host clipboard permissions. Native copying remains available.
-    caption.focus();caption.select();captionNotice('Copy blocked - use Ctrl+C',false);
-   }
-  }finally{captionCopyPending=false;}
- });
- caption.addEventListener('input',()=>{captionRevision++;clearCaptionNotice();});
- const copyChoices=()=>[...el('copy-menu').querySelectorAll('button:not(:disabled)')];
- el('copy').addEventListener('keydown',event=>{
-  if(!['ArrowDown','ArrowUp'].includes(event.key))return;
-  event.preventDefault();el('copy-menu').showPopover();
-  const choices=copyChoices();choices[event.key==='ArrowUp'?choices.length-1:0]?.focus();
- });
- el('copy-menu').addEventListener('keydown',event=>{
-  if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
-  event.preventDefault();const choices=copyChoices(),index=choices.indexOf(document.activeElement);
-  const next=event.key==='Home'?0:event.key==='End'?choices.length-1:(index+(event.key==='ArrowDown'?1:-1)+choices.length)%choices.length;
-  choices[next]?.focus();
- });
- // Original themed copy, assembled only within a compatible voice.
- // Caption copy is for the UI preview; fixture data is still fictional.
- const captionVoices=[
-  {name:'White rabbit',leads:[
-   'Follow the rabbit.','The rabbit found another door.','One more turn down the rabbit hole.',
-   'A white rabbit in the machine room.','Curiosity has a way of finding the exit.','The rabbit left the terminal open.'
-  ],tails:[
-   'Question the numbers.','Keep a little doubt in the system.','Look past the pretty bars.',
-   'The interesting part is what comes next.','Bring questions, not prophecies.','No oracle included.'
-  ]},
-  {name:'Neon noir',leads:[
-   'Rain outside. Neon on the screen.','Somewhere between midnight and a blinking cursor.',
-   'The city can wait a minute.','Another late night at the terminal.',
-   'A little neon for the night shift.','The skyline looks better in dark mode.'
-  ],tails:[
-   'Still curious about what comes next.','Nothing here needs a dramatic soundtrack.',
-   'Leaving room for a plot twist.','Coffee is doing most of the heavy lifting.',
-   'The rabbit keeps odd hours.','Just one more look before signing off.'
-  ]},
-  {name:'Terminal notes',leads:[
-   'Operator note: curiosity is still online.','Console open. Questions queued.',
-   'Session log: exploring the interface.','Status: somewhere inside the rabbit hole.',
-   'New entry in the machine-room notebook.','The cursor is waiting for a better question.'
-  ],tails:[
-   'Evidence gets the last word.','No victory claims in this log.',
-   'The real test comes later.','Keep the assumptions visible.',
-   'Nothing to declare except curiosity.','Leave the hype at the login screen.'
-  ]},
-  {name:'Dry humor',leads:[
-   'The rabbit has better cable management.','Cyberpunk budget: one desk lamp.',
-   'I was promised a trench coat.','My hacker origin story involves a spreadsheet.',
-   'The sunglasses were not strictly necessary.','Plot twist: the rabbit works in QA.'
-  ],tails:[
-   'The aesthetic is ahead of the evidence.','Dramatic lighting sold separately.',
-   'Please hold the victory music.','No chosen-one privileges here.',
-   'Someone still has to read the fine print.','Very cinematic. Still a work in progress.'
-  ]},
-  {name:'Curiosity',leads:[
-   'What would the real run look like?','Which model would you try first?',
-   'How deep does this rabbit hole go?','What would change on your machine?',
-   'Which bar caught your eye?','What should we ask the machine next?'
-  ],tails:[
-   'I have questions, not a verdict.','The rabbit has my attention.',
-   'Saving the conclusions for actual measurements.','A good question beats a bold claim.',
-   "I'm here for the details.",'Curiosity is the whole point.'
-  ]},
-  {name:'Minimal',leads:[
-   'Neon mood.','Rabbit mode.','After-hours curiosity.','Inside the grid.',
-   'A quiet terminal.','Dark screen. Open questions.'
-  ],tails:[
-   'No prophecy.','Just the preview.','Stay curious.','Read the fine print.',
-   'Evidence first.','One Tokey run at a time.'
-  ]}
- ];
- const captionPool=captionVoices.flatMap(voice=>voice.leads.flatMap(lead=>voice.tails.map(tail=>({
-  voice:voice.name,lead,text:lead+' '+tail+' 🐇 #Tokey'
- }))));
- let captionDeck=[],lastCaption=caption.value,lastVoice='White rabbit',lastLead='Follow the rabbit.';
- function refillCaptions(){
-  captionDeck=captionPool.filter(item=>item.text!==lastCaption);
-  for(let i=captionDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[captionDeck[i],captionDeck[j]]=[captionDeck[j],captionDeck[i]];}
- }
- function nextCaption(){
-  if(!captionDeck.length)refillCaptions();
-  // Prefer a different voice and opening, without discarding unseen entries.
-  const index=captionDeck.findIndex(item=>item.voice!==lastVoice&&item.lead!==lastLead);
-  const next=captionDeck.splice(index<0?0:index,1)[0];
-  caption.value=next.text;lastCaption=next.text;lastVoice=next.voice;lastLead=next.lead;
-  el('caption-status').textContent=next.voice+' caption: '+next.text;
- }
- // Caption library retained for future sharing work; no shuffle control.
- const layout={row:17};function density(){root.style.setProperty('--tc-row',layout.row+'px');}draw();density();
- if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:density});tweak.addSlider(layout,'row',{label:'Row spacing',min:17,max:30,unit:'px'});}
- window.addEventListener('pagehide',clearTimer,{once:true});
-})();
-</script>

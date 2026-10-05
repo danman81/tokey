@@ -1,9 +1,15 @@
 # Changelog
 
+## 0.2.0a2 — 2026-10-05
+
+- Ship a short, editable config with five current pinned GGUF runners.
+- Set the fixed window height once at launch from the configured runner count.
+- Run configured models in order and keep each completed result in its row.
+- Replace project-planning notes with a concise README and focused technical docs.
+
 ## 0.2.0a1 — 2026-10-05
 
-- Adopt the user-approved fixed 560×332 Tokey cockpit as the executable visual
-  specification inside a native GTK4/WebKitGTK window.
+- Add the fixed-width Tokey cockpit in a native GTK4/WebKitGTK window.
 - Connect Run/Pause/Resume/Rerun to the verified out-of-process CPU runner.
 - Automatically obtain and checksum the pinned starter model.
 - Keep unmeasured first-token latency and peak memory visibly unavailable.

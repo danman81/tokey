@@ -64,6 +64,7 @@ for path in (version_dir, launcher, desktop, icon, manifest):
 (version_dir/"llm_benchmark").mkdir(parents=True)
 for path in (ROOT/"llm_benchmark").glob("*.py"):
     shutil.copy2(path, version_dir/"llm_benchmark"/path.name)
+shutil.copy2(ROOT/"llm_benchmark"/"default-config.toml", version_dir/"llm_benchmark"/"default-config.toml")
 shutil.copytree(ROOT/"llm_benchmark"/"assets", version_dir/"llm_benchmark"/"assets")
 for path in (launcher, desktop, icon):
     path.parent.mkdir(parents=True, exist_ok=True)

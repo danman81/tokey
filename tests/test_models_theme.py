@@ -6,7 +6,7 @@ import threading
 import unittest
 from unittest.mock import patch
 
-from llm_benchmark import core, models, theme
+from llm_benchmark import config, core, models, theme
 
 
 class Response(io.BytesIO):
@@ -105,6 +105,29 @@ class ThemeTests(unittest.TestCase):
             path.write_text('mode="light"\nbackground="#ffffff"\n')
             _, p = theme.read_palette(root)
         self.assertEqual(p["background"], theme.FALLBACK["background"])
+
+
+class ConfigTests(unittest.TestCase):
+    def test_shipped_config_has_current_pinned_runners(self):
+        loaded = config.load_config(config.default_config_path())
+        self.assertEqual(loaded.system_name, "🐇")
+        self.assertEqual(len(loaded.runners), 5)
+        self.assertTrue(all(len(item.sha256) == 64 and item.bytes > 0 for item in loaded.runners))
+
+    def test_empty_optional_values_stay_empty(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "config.toml"
+            path.write_text("runners = []\n")
+            loaded = config.load_config(path)
+        self.assertEqual(loaded.system_name, "")
+        self.assertEqual(loaded.runners, ())
+
+    def test_unknown_runner_is_rejected(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "config.toml"
+            path.write_text('runners = ["made-up"]\n')
+            with self.assertRaises(ValueError):
+                config.load_config(path)
 
 
 if __name__ == "__main__":
