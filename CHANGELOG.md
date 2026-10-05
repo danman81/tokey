@@ -1,0 +1,26 @@
+# Changelog
+
+## 0.2.0a1 — 2026-10-05
+
+- Adopt the user-approved fixed 560×332 Tokey cockpit as the executable visual
+  specification inside a native GTK4/WebKitGTK window.
+- Connect Run/Pause/Resume/Rerun to the verified out-of-process CPU runner.
+- Automatically obtain and checksum the pinned starter model.
+- Keep unmeasured first-token latency and peak memory visibly unavailable.
+- Add completion-gated PNG saving and clipboard copying.
+- Preserve the exact mascot, wordmark, completion glints and rabbit easter egg.
+- Add `webkitgtk-6.0` as a packaged runtime dependency.
+
+## 0.1.0rc1 — 2026-10-03
+
+First local release candidate. Native GTK4 desktop for Omarchy; dark
+Netrunner-derived appearance; responsive setup, results, sample charts,
+history, compatible comparisons and privacy-reduced JSON export.
+
+CPU llama-bench integration; three versioned profiles; pinned optional GGUF
+starter; before/after model/runtime hashes; raw evidence; independent
+statistics; cancellation and bounded subprocess supervision; interrupted-run
+recovery; corruption detection. Unsupported measurements remain unavailable.
+
+This is not a broadly validated commercial release. See the validation report
+and known limitations before interpreting measurements or distributing it.

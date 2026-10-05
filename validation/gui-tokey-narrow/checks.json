@@ -1,0 +1,16 @@
+{
+  "requested_size": [
+    430,
+    620
+  ],
+  "errors": [],
+  "actual_size": [
+    434,
+    620
+  ],
+  "wayland": true,
+  "status_text": "SAVED RESULT  /  Showing validated local evidence.",
+  "export_roundtrip": true,
+  "comparison_text": "Both runs must be complete and validated.",
+  "elapsed_s": 3.931824882980436
+}

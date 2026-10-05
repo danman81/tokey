@@ -1,0 +1,92 @@
+{
+  "method": "Independent Decimal(50-digit) arithmetic on real raw nanoseconds; not a clock calibration",
+  "runs": [
+    {
+      "id": "20261004T032552Z-7dbaf92a",
+      "profile": "quick",
+      "status": "complete",
+      "metrics": {
+        "prompt": {
+          "mean": 149.4872131141948,
+          "sample_sd": 5.720679289810112,
+          "cv_percent": 3.826868646912312,
+          "mean_relative_difference": "2.9057605383875478214297506512083631478621322414709E-17",
+          "sd_relative_difference": "4.2846971566657173947466248211063508609562600976378E-16"
+        },
+        "generation": {
+          "mean": 68.74005895619456,
+          "sample_sd": 2.235283428291667,
+          "cv_percent": 3.2517915495477356,
+          "mean_relative_difference": "7.1831627415467450746791987701421322716747320671033E-17",
+          "sd_relative_difference": "4.5893506754688429252808813104283051074869091077781E-16"
+        }
+      },
+      "warnings": [
+        "Engine asserts are enabled; these results describe this build, not an optimized-build rating.",
+        "Synthetic engine workload. Excludes tokenization, sampling, model loading and end-to-end first-token latency. Does not measure answer quality.",
+        "Desktop activity and power/thermal conditions are not controlled. No universal hardware score is assigned."
+      ]
+    },
+    {
+      "id": "20261004T032601Z-4d27ba38",
+      "profile": "standard",
+      "status": "complete",
+      "metrics": {
+        "prompt": {
+          "mean": 126.24250520658295,
+          "sample_sd": 10.821036255001479,
+          "cv_percent": 8.57162667779284,
+          "mean_relative_difference": "1.0639841954241870428529486554649582633064745141803E-18",
+          "sd_relative_difference": "8.2454133387277005623049901161070356902445985093080E-17"
+        },
+        "generation": {
+          "mean": 75.37080189415515,
+          "sample_sd": 2.223975092991939,
+          "cv_percent": 2.9507117306714017,
+          "mean_relative_difference": "7.8752040056236750209724375208403080540297216660421E-18",
+          "sd_relative_difference": "8.3519779574579266722294132045551801560845024205781E-17"
+        }
+      },
+      "warnings": [
+        "Engine asserts are enabled; these results describe this build, not an optimized-build rating.",
+        "Run-to-run variation exceeds 5%. This is a review flag, not an accuracy confidence bound. Repeat under quieter conditions.",
+        "Synthetic engine workload. Excludes tokenization, sampling, model loading and end-to-end first-token latency. Does not measure answer quality.",
+        "Desktop activity and power/thermal conditions are not controlled. No universal hardware score is assigned."
+      ]
+    },
+    {
+      "id": "20261004T032647Z-d7734081",
+      "profile": "long",
+      "status": "complete",
+      "metrics": {
+        "prompt": {
+          "mean": 91.43496318445824,
+          "sample_sd": 7.131088433916641,
+          "cv_percent": 7.799082742047579,
+          "mean_relative_difference": "1.7823137643049660909175378361829362228579409983050E-17",
+          "sd_relative_difference": "7.8122153348782974396037028841327385357548246240368E-17"
+        },
+        "generation": {
+          "mean": 74.9451403530085,
+          "sample_sd": 4.131719913041926,
+          "cv_percent": 5.512992428302351,
+          "mean_relative_difference": "1.4437553577265400830430750346746657947060743180797E-16",
+          "sd_relative_difference": "3.4673739891407969897518287479013037350858578163500E-16"
+        }
+      },
+      "warnings": [
+        "Engine integer-duration SD differs from independent calculation. Displayed statistics use raw samples, not that engine aggregate.",
+        "Engine asserts are enabled; these results describe this build, not an optimized-build rating.",
+        "Run-to-run variation exceeds 5%. This is a review flag, not an accuracy confidence bound. Repeat under quieter conditions.",
+        "Synthetic engine workload. Excludes tokenization, sampling, model loading and end-to-end first-token latency. Does not measure answer quality.",
+        "Desktop activity and power/thermal conditions are not controlled. No universal hardware score is assigned."
+      ]
+    }
+  ],
+  "errors": [],
+  "cancelled_run": {
+    "id": "20261004T032959Z-37709f51",
+    "status": "cancelled",
+    "metrics": {}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "product": "Tokey",
+  "version": "0.1.0rc1",
+  "unit_tests": 40,
+  "unit_exit_code": 0,
+  "source_archive": "llm-benchmark-0.1.0rc1.tar.gz",
+  "source_sha256": "4568fccca79d46e82555095e166ef76883023f4997ac45912903ecbcbcc2cd9e",
+  "two_consecutive_source_builds_identical": true,
+  "arch_package": "llm-benchmark-0.1.0rc1-1-any.pkg.tar.zst",
+  "arch_package_sha256": "6a8885365518e156393311ee12c4ca2ce408d7dd720426a33eae632b2f051cc8",
+  "makepkg_exit_code": 0,
+  "packaged_module_version": "0.1.0rc1",
+  "installed_sources_match": true,
+  "desktop_entry_valid": true,
+  "installed_live_run": "20261004T034746Z-86c9dc7c",
+  "installed_live_run_status": "complete",
+  "installed_window": {"title": "Tokey", "workspace": 4, "size": [1000, 620], "xwayland": false},
+  "publicly_published": false
+}

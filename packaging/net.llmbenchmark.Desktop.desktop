@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Tokey
+Comment=Measured local LLM performance, with raw evidence
+Exec=llm-benchmark gui
+Icon=net.llmbenchmark.Desktop
+Terminal=false
+Categories=System;
+Keywords=Tokey;AI;LLM;benchmark;llama;performance;
+StartupNotify=true
+StartupWMClass=net.llmbenchmark.Desktop

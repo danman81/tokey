@@ -1,0 +1,15 @@
+{
+  "requested_size": [
+    1000,
+    620
+  ],
+  "errors": [],
+  "actual_size": [
+    1000,
+    620
+  ],
+  "wayland": true,
+  "run_status": "complete",
+  "run_id": "20261004T033205Z-b2e6957a",
+  "elapsed_s": 9.079283082974143
+}

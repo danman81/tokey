@@ -1,0 +1,738 @@
+<div id="tokey-cockpit" aria-label="Compact Tokey dashboard">
+  <header class="tc-head">
+    <div class="tc-brand">
+      <pre class="tc-rabbit" role="img" aria-label="Tokey rabbit mascot"> (\_/)
+(='.'=)
+(")_(")
+</pre>
+      <span class="tc-wordmark-stack"><pre class="tc-wordmark" role="img" aria-label="Tokey">██████ ▄████▄ ██ ▄█▀ ██████ ██  ██
+  ██   ██  ██ ████   ██▄▄    ▀██▀
+  ██   ▀████▀ ██ ▀█▄ ██▄▄▄▄   ██
+</pre><pre class="tc-wordmark-glint" aria-hidden="true">██████ ▄████▄ ██ ▄█▀ ██████ ██  ██
+  ██   ██  ██ ████   ██▄▄    ▀██▀
+  ██   ▀████▀ ██ ▀█▄ ██▄▄▄▄   ██
+</pre></span>
+    </div>
+    <div class="tc-identity"><span id="tc-system-details" data-tooltip="Board: NUC7i7DNB
+OS: Omarchy 4.0.4
+Fanless enclosure"><span id="tc-system-name"><span class="tc-system-rabbit">🐇</span></span><span class="tc-system-meta"><span class="tc-name-separator"> ·</span> NUC7i7DNB · Omarchy 4.0.4<span class="tc-extra"> · Fanless</span></span></span><span class="tc-ram-line" data-tooltip="32 GiB installed
+2 × 16 GiB Kingston
+DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston DDR4-2133<span class="tc-extra"> · SO-DIMM</span></span></div>
+  </header>
+  <div class="tc-toolbar">
+    <div class="tc-devices" role="group" aria-label="Example execution device"><button data-device="CPU" aria-pressed="true" type="button">CPU</button><button data-device="GPU" aria-pressed="false" type="button">GPU</button><button data-device="NPU" aria-pressed="false" type="button" hidden disabled>NPU</button></div>
+    <div class="tc-context">
+      <span id="tc-hardware">Intel Core i7-8650U · 4 cores / 8 threads</span>
+      <div id="tc-status" role="status" aria-live="polite" aria-atomic="true" hidden><span id="tc-status-prefix"></span><span id="tc-stage"></span><span id="tc-detail"></span><span id="tc-detail-compact"></span></div>
+      <span id="tc-outcome" class="tc-sr" role="status" aria-live="polite"></span>
+    </div>
+    <div class="tc-run-controls" data-share-exclude>
+      <button type="button" id="tc-run" class="tc-primary" aria-label="Run Tokey!"><span id="tc-run-label">Run Tokey!</span><span id="tc-pause-icon" hidden><i data-lucide="pause" aria-hidden="true"></i></span><span id="tc-resume-icon" hidden><i data-lucide="play" aria-hidden="true"></i></span><span id="tc-rerun-icon" hidden><i data-lucide="refresh-cw" aria-hidden="true"></i><i class="tc-arrow-core" data-lucide="refresh-cw" aria-hidden="true"></i></span></button>
+    </div>
+  </div>
+  <div id="tc-progress" role="progressbar" aria-label="Simulated run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  <div class="tc-data" role="region" aria-label="Model results; scroll horizontally on narrow screens">
+    <table aria-label="Simulated model comparison: speed, latency and memory">
+      <colgroup><col class="tc-model-col"><col><col><col></colgroup>
+      <thead><tr>
+        <th scope="col"><div class="tc-col-head"><span class="tc-head-title">Model</span><small><span id="tc-model-note" class="tc-desc-full">Parameters</span><span id="tc-model-note-short" class="tc-desc-brief">Parameters</span></small></div></th>
+        <th scope="col" aria-sort="descending"><div class="tc-col-head"><button class="tc-head-title" type="button" data-sort="speed" aria-label="Sort by generation speed" data-tooltip="Generation speed in tokens per second. Higher is faster."><span class="tc-label-full">Generation</span><span class="tc-label-brief">Gen.</span><span class="tc-sort-arrow">↓</span></button><small>↑ faster · tok/s</small></div></th>
+        <th scope="col" aria-sort="none"><div class="tc-col-head"><button class="tc-head-title" type="button" data-sort="latency" aria-label="Sort by time to first token" data-tooltip="Time to first token in seconds. Lower is faster."><span class="tc-label-full">First token</span><span class="tc-label-brief">TTFT</span><span class="tc-sort-arrow"></span></button><small>↓ faster · s</small></div></th>
+        <th scope="col" aria-sort="none"><div class="tc-col-head"><button class="tc-head-title" type="button" data-sort="memory" aria-label="Sort by memory usage" data-tooltip="Memory usage in GiB. A shorter bar means less memory used."><span class="tc-label-full">Memory</span><span class="tc-label-brief">Mem.</span><span class="tc-sort-arrow"></span></button><small>↓ less · GiB</small></div></th>
+      </tr></thead>
+      <tbody id="tc-models"></tbody>
+    </table>
+  </div>
+  <section class="tc-sharing" aria-label="Sharing controls">
+    <div class="tc-captionbar"><input id="tc-caption" type="text" aria-label="Share caption" value="Follow the rabbit. Question the numbers. 🐇 #Tokey"><select id="tc-format" aria-label="Export format" aria-describedby="tc-export-note" disabled><option value="GIF" selected>GIF</option><option value="PNG">PNG</option><option value="MP4">MP4</option></select><button type="button" id="tc-save" class="tc-icon" aria-label="Save" data-tooltip="Save" disabled><i data-lucide="save" aria-hidden="true"></i></button><button type="button" id="tc-copy" class="tc-icon" aria-label="Copy options" data-tooltip="Copy results or caption" popovertarget="tc-copy-menu"><i data-lucide="copy" aria-hidden="true"></i></button></div>
+    <div id="tc-copy-menu" popover role="group" aria-label="Copy options">
+      <button type="button" id="tc-copy-results" aria-describedby="tc-export-note" disabled>Copy results · GIF</button>
+      <button type="button" id="tc-copy-caption">Copy caption</button>
+    </div>
+    <span id="tc-feedback" class="tc-sr" role="status" aria-live="polite"></span>
+    <span id="tc-export-note" class="tc-sr">Saving and copying media are unavailable in this prototype.</span>
+    <span id="tc-caption-status" role="status" aria-live="polite" aria-atomic="true"></span>
+  </section>
+</div>
+<style>
+ #tokey-cockpit{--tc-bg:#05090d;--tc-panel:#0a1318;--tc-edge:#18323d;--tc-text:#d0d0d0;--tc-muted:#71848b;--tc-accent:#3bfb1b;--tc-cyan:#55ead4;--tc-blue:#3fc2e0;--tc-deep:#0b6974;--tc-brand-base:#3bfb1b;--tc-row:32px;color:var(--tc-text);background:radial-gradient(circle at 84% -24%,#0b697422,transparent 34rem),var(--tc-bg);border:1px solid var(--tc-edge);border-radius:10px;font:11px/1.35 Inter,system-ui,sans-serif;color-scheme:dark;max-width:980px;margin:auto;overflow:hidden}
+ #tokey-cockpit *{box-sizing:border-box}#tokey-cockpit [hidden]{display:none!important}#tokey-cockpit button,#tokey-cockpit input,#tokey-cockpit select{font:inherit;color:var(--tc-text)}#tokey-cockpit button,#tokey-cockpit select{background:var(--tc-panel);border:1px solid var(--tc-edge);border-radius:5px;padding:6px 10px;cursor:pointer}#tokey-cockpit button:hover{border-color:var(--tc-cyan)}#tokey-cockpit button:disabled{opacity:.45;cursor:not-allowed}#tokey-cockpit :is(button,select,input):focus-visible{outline:2px solid var(--tc-cyan);outline-offset:2px}#tokey-cockpit .tc-muted,#tokey-cockpit small{color:var(--tc-muted);font-size:11px}#tokey-cockpit .tc-head{display:flex;align-items:center;gap:20px;padding:12px 14px;border-bottom:1px solid var(--tc-edge);flex-wrap:wrap}
+ #tokey-cockpit .tc-brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}#tokey-cockpit .tc-brand pre{padding:0;margin:0;border:0;background-color:transparent;white-space:pre;letter-spacing:0;font-family:"DejaVu Sans Mono","Liberation Mono",monospace;font-weight:400;font-variant-ligatures:none;font-feature-settings:"liga" 0;overflow:visible;flex:none}#tokey-cockpit .tc-rabbit{font-size:13px;line-height:1.05;color:var(--tc-brand-base)}#tokey-cockpit .tc-wordmark{font-size:11px;line-height:1;color:var(--tc-brand-base)}#tokey-cockpit .tc-brand pre{background-image:linear-gradient(110deg,transparent 0 39%,#168fe800 41%,#168fe866 43%,#168fe8 45%,#30cfff 47%,#abffbf 48% 49.5%,#ffffff 49.75% 50.25%,#abffbf 50.5% 52%,#30cfff 53%,#168fe8 55%,#168fe866 57%,#168fe800 59%,transparent 61% 100%),linear-gradient(var(--tc-brand-base),var(--tc-brand-base));background-size:300% 100%,100% 100%;background-position:100% 50%,0 0;background-repeat:no-repeat,no-repeat;animation:tc-glint-burst 1.2s linear infinite;background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 4px #30cfff66)}#tokey-cockpit .tc-identity{display:grid;gap:3px;margin-left:auto}#tokey-cockpit .tc-toolbar{display:flex;align-items:center;gap:10px;padding:9px 14px;flex-wrap:wrap}#tokey-cockpit .tc-devices{display:flex;gap:3px}#tokey-cockpit .tc-devices button{padding:5px 11px}#tokey-cockpit [data-device][aria-pressed=true]{background:#0b697466;border-color:#55ead466;color:var(--tc-cyan)}#tokey-cockpit #tc-status{font-size:11px;color:var(--tc-muted)}#tokey-cockpit .tc-primary{background:var(--tc-blue);color:#05090d;border-color:var(--tc-blue);font-weight:600;margin-left:auto;box-shadow:0 0 14px #3fc2e022}
+ #tokey-cockpit #tc-progress{height:1px;background:var(--tc-edge)}#tokey-cockpit #tc-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--tc-deep),var(--tc-blue),var(--tc-cyan));transition:width .2s}
+ #tokey-cockpit .tc-data{padding:0 14px}#tokey-cockpit table{width:100%;table-layout:fixed;border-collapse:collapse}#tokey-cockpit .tc-model-col{width:28%}#tokey-cockpit th{text-align:left;font-weight:500;padding:9px 8px 8px;border-bottom:1px solid var(--tc-edge)}#tokey-cockpit th:first-child,#tokey-cockpit td:first-child{padding-left:0}#tokey-cockpit th small{display:block;font-weight:400;margin-top:2px}#tokey-cockpit th button{padding:0;border:0;border-radius:0;background:none;text-align:left;font-weight:500}#tokey-cockpit th button span{color:var(--tc-cyan)}#tokey-cockpit td{height:var(--tc-row);padding:5px 8px;border-bottom:1px solid var(--tc-edge);vertical-align:middle}#tokey-cockpit tbody tr:nth-child(even){background:var(--tc-panel)}#tokey-cockpit .tc-model{display:flex;align-items:center;gap:8px;min-width:0}#tokey-cockpit .tc-model-name{font-weight:500}#tokey-cockpit .tc-size{font-size:11px;color:var(--tc-muted);margin-left:auto;white-space:nowrap}#tokey-cockpit .tc-number{font-variant-numeric:tabular-nums;display:block;text-align:right;font-size:11px;line-height:1.1;margin-bottom:4px}#tokey-cockpit .tc-track{height:4px;background:var(--tc-edge)}#tokey-cockpit .tc-track span{display:block;height:100%;background:var(--tc-cyan)}#tokey-cockpit td[data-key=latency] .tc-track span{background:var(--tc-blue)}#tokey-cockpit td[data-key=memory] .tc-track span{background:var(--tc-deep)}#tokey-cockpit .tc-pending{font-size:11px;text-align:right;color:var(--tc-muted)}#tokey-cockpit tr[data-active=true]{background:#0b697455}#tokey-cockpit tfoot td{font-size:11px;color:var(--tc-muted);border:0;padding:7px 8px;height:auto;text-align:right}#tokey-cockpit tfoot td:first-child{text-align:left}
+ #tokey-cockpit .tc-sharing{padding:9px 14px;background:var(--tc-panel);border-top:1px solid var(--tc-edge)}#tokey-cockpit .tc-captionbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap}#tokey-cockpit .tc-captionbar{margin-top:0}#tokey-cockpit #tc-caption{flex:1;min-width:120px;background:var(--tc-bg);border:1px solid var(--tc-edge);border-radius:4px;padding:6px 8px;font-size:11px}#tokey-cockpit #tc-feedback{display:block;margin-top:7px;color:var(--tc-cyan);font-size:11px}
+ #tokey-cockpit[data-running=true] .tc-brand pre{animation:none;background-position:100% 50%,0 0}
+ #tokey-cockpit{max-width:940px}#tokey-cockpit .tc-head{padding-top:7px;padding-bottom:7px;gap:14px}#tokey-cockpit button,#tokey-cockpit select{padding:4px 8px}#tokey-cockpit .tc-toolbar{padding-top:6px;padding-bottom:6px}#tokey-cockpit .tc-devices button{padding:4px 9px}#tokey-cockpit th{padding-top:6px;padding-bottom:6px}#tokey-cockpit tbody td{padding-top:3px;padding-bottom:3px}#tokey-cockpit .tc-metric{display:grid;grid-template-columns:minmax(0,1fr) 4ch;align-items:center;gap:9px}#tokey-cockpit .tc-number{grid-column:2;grid-row:1;margin:0;line-height:1.35}#tokey-cockpit .tc-track{grid-column:1;grid-row:1;height:5px}#tokey-cockpit .tc-pending{grid-column:1 / -1}#tokey-cockpit tfoot td{padding-top:5px;padding-bottom:5px}#tokey-cockpit .tc-sharing{padding-top:6px;padding-bottom:6px}#tokey-cockpit .tc-captionbar{margin-top:0}#tokey-cockpit #tc-caption{padding-top:4px;padding-bottom:4px}
+ @media(min-width:650px){#tokey-cockpit .tc-model{flex-wrap:nowrap;gap:5px}#tokey-cockpit .tc-size{margin-left:auto}#tokey-cockpit .tc-model-col{width:29%}}
+ @media(max-width:480px){#tokey-cockpit .tc-metric{grid-template-columns:1fr;gap:4px}#tokey-cockpit .tc-number{grid-column:1;grid-row:1}#tokey-cockpit .tc-track{grid-column:1;grid-row:2}}
+ @keyframes tc-glint-burst{0%{background-position:100% 50%,0 0}16.6667%{background-position:0% 50%,0 0}16.676%,100%{background-position:100% 50%,0 0}}
+ @media(max-width:760px){#tokey-cockpit .tc-identity{margin-left:0}#tokey-cockpit .tc-head{gap:12px}#tokey-cockpit .tc-model{flex-wrap:wrap;gap:2px}#tokey-cockpit .tc-size{margin-left:0}#tokey-cockpit .tc-model-col{width:31%}}
+ @media(max-width:480px){#tokey-cockpit .tc-head{padding:10px}#tokey-cockpit .tc-brand{gap:8px}#tokey-cockpit .tc-identity{font-size:11px}#tokey-cockpit .tc-toolbar,#tokey-cockpit .tc-sharing{padding-left:10px;padding-right:10px}#tokey-cockpit .tc-data{padding:0 10px}#tokey-cockpit th,#tokey-cockpit td{padding-left:4px;padding-right:4px}#tokey-cockpit th button,#tokey-cockpit .tc-model-name{font-size:11px}#tokey-cockpit th small{font-size:11px;line-height:1.25}#tokey-cockpit .tc-primary{margin-left:0}#tokey-cockpit .tc-captionbar input{flex-basis:100%}#tokey-cockpit tfoot td{font-size:11px;overflow-wrap:anywhere}#tokey-cockpit .tc-size{margin-left:0}}
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit .tc-brand pre{animation:none;background-image:none;color:var(--tc-brand-base)}#tokey-cockpit #tc-progress span{transition:none}}
+ @media(pointer:coarse){#tokey-cockpit button,#tokey-cockpit select{min-height:44px}#tokey-cockpit #tc-caption{font-size:11px}}
+ #tokey-cockpit .tc-captionbar{margin-top:0;align-items:center}#tokey-cockpit #tc-caption{font:11px/1.35 Inter,system-ui,sans-serif;color:var(--tc-text);flex:1 1 220px;min-width:0;resize:none;overflow:hidden;padding:4px 8px}#tokey-cockpit button.tc-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:26px;padding:4px;flex:none}#tokey-cockpit .tc-icon :is(i,svg){display:block;width:16px;height:16px}#tokey-cockpit #tc-format{flex:none} @media(pointer:coarse){#tokey-cockpit button.tc-icon{width:44px;height:44px}#tokey-cockpit #tc-caption{font-size:11px}}
+ #tokey-cockpit .tc-head .tc-identity{display:grid;gap:2px;text-align:right;margin-left:auto;font-size:11px;color:var(--tc-muted)}#tokey-cockpit #tc-hardware{flex:1;min-width:150px;font-size:11px;color:var(--tc-muted)}#tokey-cockpit #tc-hardware:empty{display:none}
+ #tokey-cockpit .tc-model-name{font-size:11px}#tokey-cockpit tbody td{padding-top:1px;padding-bottom:1px}
+ #tokey-cockpit .tc-identity>span{white-space:nowrap}
+ @media(min-width:560px){#tokey-cockpit .tc-head{flex-wrap:nowrap}#tokey-cockpit .tc-brand{flex-shrink:0;flex-wrap:nowrap}}
+ @media(max-width:600px){#tokey-cockpit .tc-head .tc-extra{display:none}}
+ #tokey-cockpit .tc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+ #tokey-cockpit .tc-primary{background:var(--tc-accent);border-color:var(--tc-accent);box-shadow:0 0 14px #3bfb1b22}
+ #tokey-cockpit td[data-key] .tc-track span,#tokey-cockpit #tc-progress span{background:var(--tc-accent)}
+ #tokey-cockpit th button span{color:var(--tc-accent)}
+ #tokey-cockpit .tc-model-name,#tokey-cockpit .tc-number,#tokey-cockpit th,#tokey-cockpit th button{color:var(--tc-text)}
+ #tokey-cockpit .tc-toolbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto}
+ #tokey-cockpit #tc-hardware{min-width:0;overflow-wrap:anywhere}
+ #tokey-cockpit .tc-run-controls{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+ #tokey-cockpit .tc-context{min-width:0;container-type:inline-size}
+ #tokey-cockpit #tc-status{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-size:11px;color:var(--tc-muted)}
+ #tokey-cockpit #tc-status span{color:inherit}
+ #tokey-cockpit #tc-detail-compact{display:none}
+ @container(max-width:639px){#tokey-cockpit #tc-stage{display:none}}
+ @container(max-width:439px){#tokey-cockpit #tc-detail{display:none}#tokey-cockpit #tc-detail-compact{display:inline}}
+ #tokey-cockpit .tc-run-controls #tc-run{margin-left:0;min-width:82px;white-space:nowrap}
+ #tokey-cockpit .tc-run-controls #tc-run.tc-icon{min-width:28px}
+ #tokey-cockpit #tc-run{color:var(--tc-accent);border:1px solid var(--tc-edge);background:var(--tc-panel);box-shadow:none;font-weight:400}
+ #tokey-cockpit :is(#tc-pause-icon,#tc-resume-icon,#tc-rerun-icon){display:flex;align-items:center;justify-content:center}
+ #tokey-cockpit button.tc-icon svg{--icon-size:14px;width:14px;height:14px;stroke-width:1.6;fill:none}
+ /* Two supplied circular arrows, with outlined edges and a dark interior. */
+ #tokey-cockpit #tc-rerun-icon{display:grid;width:14px;height:14px;place-items:center}
+ #tokey-cockpit #tc-rerun-icon svg{--icon-size:12px;width:12px;height:12px;grid-area:1 / 1;stroke-width:4.8;stroke-linecap:round;stroke-linejoin:round}
+ #tokey-cockpit #tc-rerun-icon svg.tc-arrow-core{stroke-width:1.6;color:var(--tc-bg)}
+ /* Trim both arc tails equally; keep the supplied arrowheads and optical size. */
+ #tokey-cockpit #tc-rerun-icon svg path:nth-child(odd){stroke-dasharray:100 3;stroke-dashoffset:100}
+ #tokey-cockpit #tc-run.tc-icon{border-radius:5px}
+ #tokey-cockpit #tc-pause-icon svg rect{rx:1px;ry:1px}
+ #tokey-cockpit .tc-brand{gap:4px}#tokey-cockpit .tc-brand .tc-rabbit{transform:scaleX(.7);transform-origin:center;margin-inline:-6px}
+ #tokey-cockpit[data-export=true] [data-share-exclude]{display:none!important}
+ @media print{#tokey-cockpit [data-share-exclude]{display:none!important}}
+ #tokey-cockpit{--tc-font:"JetBrainsMono Nerd Font","JetBrains Mono","DejaVu Sans Mono",monospace;font-family:var(--tc-font)}
+ #tokey-cockpit :is(button,input,select,textarea,pre),#tokey-cockpit #tc-caption,#tokey-cockpit .tc-brand pre{font-family:var(--tc-font);font-variant-ligatures:none}
+ #tokey-cockpit .tc-devices button:disabled{opacity:1}
+ #tokey-cockpit #tc-caption{height:calc(1.35em + 10px);white-space:nowrap}
+ #tokey-cockpit :is(#tc-save,#tc-copy){color:var(--tc-accent)}
+ #tokey-cockpit :is([data-device][aria-pressed=false],#tc-save,#tc-copy){border:1px solid var(--tc-edge);border-radius:5px;box-shadow:none}
+ #tokey-cockpit :is([data-device][aria-pressed=false],#tc-save,#tc-copy):not(:disabled):hover{border-color:var(--tc-accent)}
+ #tokey-cockpit #tc-feedback.tc-sr{margin:0}
+ #tokey-cockpit :is(#tc-save,#tc-copy) :is(i,svg){--icon-size:14px;width:14px;height:14px}
+ #tokey-cockpit :is(button,select,input):focus-visible{outline-color:var(--tc-accent)}
+ #tokey-cockpit #tc-caption:is(:hover,:focus-visible),#tokey-cockpit .tc-sharing :is(button,select):not(:disabled):hover{border-color:var(--tc-accent)}
+ #tokey-cockpit #tc-caption:focus-visible{outline-width:1px}
+ #tokey-cockpit #tc-caption:focus{background:#0b697466}
+ /* Share the approved thin green hover treatment without changing hit areas. */
+ #tokey-cockpit button:not(:disabled):hover,#tokey-cockpit #tc-run:not(:disabled):hover,#tokey-cockpit [data-device]:not(:disabled):hover,#tokey-cockpit select:not(:disabled):hover{border-color:var(--tc-accent)}
+ #tokey-cockpit th button:hover{outline:1px solid var(--tc-accent);outline-offset:-1px;border-radius:5px}
+ #tokey-cockpit th button:focus-visible{outline:2px solid var(--tc-accent);outline-offset:2px}
+ /* Momentary press mirrors the original selected-device palette. */
+ #tokey-cockpit :is(button,select,#tc-run,#tc-save,#tc-copy):not(:disabled):active{background:#0b697466;border-color:#55ead466;color:var(--tc-cyan)}
+ #tokey-cockpit th button:active{outline-color:#55ead466;border-radius:5px}
+ #tokey-cockpit th button:active :is(.tc-label-full,.tc-label-brief){color:inherit}
+ #tokey-cockpit :is(#tc-format,#tc-save,#tc-copy):disabled{color:var(--tc-muted);opacity:.55;cursor:not-allowed;border-color:var(--tc-edge);background:var(--tc-panel);box-shadow:none}
+ #tokey-cockpit #tc-format{padding:2px 3px;height:26px;min-width:0}
+ /* Native picker, themed without replacing selection/keyboard behavior. */
+ #tokey-cockpit #tc-format option{background:var(--tc-panel);color:var(--tc-text)}
+ #tokey-cockpit #tc-format option:checked{background:var(--tc-accent);color:var(--tc-bg)}
+ @supports(appearance:base-select){
+  #tokey-cockpit #tc-format,#tokey-cockpit #tc-format::picker(select){appearance:base-select}
+  #tokey-cockpit #tc-format{gap:5px;align-items:center}
+  #tokey-cockpit #tc-format::picker(select){background:var(--tc-panel);color:var(--tc-text);border:1px solid var(--tc-edge);border-radius:5px;padding:3px;box-shadow:0 4px 12px #0008;font:11px/1.35 var(--tc-font);color-scheme:dark}
+  #tokey-cockpit #tc-format option{padding:4px 6px;min-height:26px;border-radius:3px;gap:6px;font:inherit}
+  #tokey-cockpit #tc-format option:is(:hover,:focus-visible){background:#0b6974;color:var(--tc-text);outline:1px solid var(--tc-accent);outline-offset:-1px}
+  #tokey-cockpit #tc-format option:checked{background:var(--tc-accent);color:var(--tc-bg)}
+  #tokey-cockpit #tc-format option::checkmark{color:currentColor}
+  #tokey-cockpit #tc-format::picker-icon{color:currentColor}
+  @media(pointer:coarse){#tokey-cockpit #tc-format option{min-height:44px}}
+ }
+ @media(pointer:coarse){#tokey-cockpit #tc-format{min-width:44px;height:44px}}
+ /* Metric estimates glide to new values. Overall progress uses the existing
+    10ms work increments directly, with no trailing transition: the displayed
+    fill must reach each equal-device boundary at the actual handoff. */
+ #tokey-cockpit .tc-track span,#tokey-cockpit #tc-progress span{transition:none}
+ #tokey-cockpit:is([data-running=true],[data-complete=true]) .tc-track span{transition:width .1s linear}
+ #tokey-cockpit:is([data-paused=true],[data-resetting=true],[data-export=true]) :is(.tc-track span,#tc-progress span){transition:none}
+ #tokey-cockpit .tc-identity{min-width:0}
+ #tokey-cockpit thead th{vertical-align:top}
+ #tokey-cockpit .tc-col-head{container-type:inline-size;display:grid;grid-template-rows:auto auto}
+ #tokey-cockpit .tc-head-title{display:flex;align-items:center;gap:3px;white-space:nowrap;line-height:16px;min-height:16px}
+ #tokey-cockpit .tc-col-head small{white-space:nowrap;line-height:15px;margin-top:2px}
+ #tokey-cockpit th button :is(.tc-label-full,.tc-label-brief){color:var(--tc-text)}
+ #tokey-cockpit .tc-sort-arrow{display:inline-block;min-width:1ch}
+ #tokey-cockpit .tc-sort-arrow:empty{display:none}
+ #tokey-cockpit th:not(:first-child) .tc-col-head{text-align:right}
+ #tokey-cockpit th:not(:first-child) .tc-head-title{justify-content:flex-end;text-align:right}
+ #tokey-cockpit th button.tc-head-title{justify-self:end;width:max-content;max-width:100%;padding-inline:3px;margin-right:-3px}
+ #tokey-cockpit .tc-model{column-gap:8px;row-gap:2px}
+ #tokey-cockpit .tc-model-name{white-space:nowrap}
+ #tokey-cockpit .tc-model .tc-size{margin-left:0}
+ #tokey-cockpit .tc-metric{container-type:inline-size}
+ #tokey-cockpit .tc-pending{min-width:0;white-space:nowrap}
+ #tokey-cockpit .tc-pending-short{display:none}
+ @container(max-width:100px){#tokey-cockpit .tc-pending-full{display:none}#tokey-cockpit .tc-pending-short{display:inline}}
+ @media(max-width:480px){#tokey-cockpit tfoot td{padding-right:4px;padding-left:4px}#tokey-cockpit tfoot td:first-child{padding-left:0}}
+ #tokey-cockpit :is(.tc-label-brief,.tc-desc-brief,.tc-desc-mid,.tc-desc-short){display:none}
+ @container(max-width:164px){#tokey-cockpit .tc-desc-full{display:none}#tokey-cockpit :is(.tc-desc-mid,.tc-desc-brief){display:inline}}
+ @container(max-width:109px){#tokey-cockpit .tc-label-full{display:none}#tokey-cockpit .tc-label-brief{display:inline}#tokey-cockpit .tc-desc-mid{display:none}#tokey-cockpit .tc-desc-short{display:inline}}
+ @media(pointer:coarse){#tokey-cockpit .tc-head-title{min-height:44px}#tokey-cockpit th button.tc-head-title{min-width:44px}}
+ @media(max-width:740px){#tokey-cockpit .tc-head .tc-extra{display:none}}
+ @media(max-width:650px){#tokey-cockpit .tc-head{flex-wrap:wrap}#tokey-cockpit .tc-head .tc-identity{margin-left:0;text-align:left}}
+ @media(max-width:600px){#tokey-cockpit .tc-toolbar{grid-template-columns:1fr auto;gap:6px}#tokey-cockpit .tc-devices{grid-row:1;grid-column:1}#tokey-cockpit .tc-run-controls{grid-row:1;grid-column:2}#tokey-cockpit .tc-context{grid-row:2;grid-column:1 / -1}}
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit:is([data-running=true],[data-complete=true]) :is(.tc-track span,#tc-progress span){transition:none}}
+ /* Compact width without soft-wrapping text or moving caption controls. */
+ #tokey-cockpit{width:560px;min-width:560px;max-width:560px;height:332px;min-height:332px;max-height:332px;margin-inline:auto}
+ #tokey-cockpit .tc-head .tc-extra{display:none}
+ #tokey-cockpit :is(.tc-head,.tc-toolbar,.tc-sharing){padding-left:10px;padding-right:10px}
+ #tokey-cockpit .tc-head{padding-top:9px;padding-bottom:0;border-bottom:0}
+ #tokey-cockpit .tc-toolbar{padding-top:1px}
+ /* Fixed benchmark cockpit: resizing may crop/scroll the host, but never
+    reflow application controls or identity into additional rows. */
+ #tokey-cockpit .tc-head{flex-wrap:nowrap}
+ #tokey-cockpit .tc-head .tc-brand{transform:translateY(4px)}
+ #tokey-cockpit .tc-wordmark-stack{position:relative;display:block;flex:none}
+ #tokey-cockpit :is(.tc-wordmark,.tc-wordmark-glint){box-sizing:content-box;font-size:11px;line-height:11px;height:33px;padding-block:4px;margin-block:-4px;transform:none}
+ #tokey-cockpit .tc-wordmark-glint{position:absolute;inset:0;opacity:0;pointer-events:none;filter:none}
+ #tokey-cockpit .tc-head .tc-identity{margin-left:auto;text-align:right;transform:translateY(2px)}
+ #tokey-cockpit .tc-toolbar{grid-template-columns:auto minmax(0,1fr) auto;gap:6px}
+ #tokey-cockpit :is(.tc-devices,.tc-context,.tc-run-controls){grid-row:auto;grid-column:auto}
+ #tokey-cockpit .tc-data{padding:0 10px;overflow-x:auto}
+ #tokey-cockpit th:last-child,#tokey-cockpit td:last-child{padding-right:0}
+ #tokey-cockpit table{min-width:520px}
+ #tokey-cockpit .tc-model-col{width:170px}
+ #tokey-cockpit :is(.tc-brand,.tc-model,.tc-captionbar){flex-wrap:nowrap}
+ #tokey-cockpit :is(.tc-devices,.tc-captionbar){gap:3px}
+ #tokey-cockpit :is(button,select,option,.tc-model,.tc-number,.tc-pending){white-space:nowrap}
+ #tokey-cockpit .tc-model>*{flex-shrink:0}
+ #tokey-cockpit .tc-metric{grid-template-columns:minmax(0,1fr) 4ch;gap:5px}
+ #tokey-cockpit .tc-number{grid-column:2;grid-row:1}
+ #tokey-cockpit .tc-track{grid-column:1;grid-row:1;background:#0b697466}
+ #tokey-cockpit #tc-caption{flex:1 1 0;min-width:0;margin-inline-end:3px}
+ #tokey-cockpit{position:relative}
+ #tokey-cockpit #tc-copy{anchor-name:--tc-copy-anchor}
+ #tokey-cockpit #tc-copy-menu{position:absolute;position-anchor:--tc-copy-anchor;inset:auto;bottom:anchor(top);right:anchor(right);margin:0 0 6px;padding:4px;max-width:calc(100% - 20px);width:max-content;border:1px solid var(--tc-edge);border-radius:5px;background:var(--tc-panel);color:var(--tc-text);font:11px/1.35 var(--tc-font);box-shadow:0 4px 12px #0008;color-scheme:dark}
+ #tokey-cockpit #tc-copy-menu:popover-open{display:grid;gap:3px}
+ #tokey-cockpit #tc-copy-menu button{width:100%;min-height:28px;text-align:left;padding:5px 8px;white-space:nowrap}
+ #tokey-cockpit #tc-copy-menu button:not(:disabled):is(:hover,:focus-visible){background:var(--tc-deep)}
+ #tokey-cockpit #tc-copy-menu button:disabled{color:var(--tc-muted);opacity:.55;cursor:not-allowed;border-color:var(--tc-edge)}
+ #tokey-cockpit #tc-caption[data-copied=true]{color:var(--tc-accent)}
+ /* Temporary visual copy of the input's interior, never an editable control.
+    The native input retains its value, selection, border and hit target. */
+ #tokey-cockpit #tc-caption-celebration{position:absolute;box-sizing:border-box;pointer-events:none;user-select:none;overflow:hidden;border-radius:3px;background:var(--tc-bg);color:var(--tc-accent);z-index:2}
+ #tokey-cockpit #tc-caption-celebration[hidden]{display:none}
+ #tokey-cockpit .tc-caption-viewport{height:100%;display:flex;align-items:center;overflow:hidden}
+ #tokey-cockpit .tc-caption-mirror{flex:none;white-space:pre}
+ #tokey-cockpit .tc-caption-copy-rabbit{display:inline-block;animation:tc-rabbit-hop .4s linear 3}
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit #tc-caption-celebration{display:none}}
+ @media print{#tokey-cockpit #tc-caption-celebration{display:none}}
+ #tokey-cockpit[data-export=true] #tc-caption-celebration{display:none}
+ #tokey-cockpit #tc-caption-status{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;max-width:calc(100% - 20px);padding:6px 10px;border:1px solid var(--tc-edge);border-radius:5px;background:var(--tc-panel);color:var(--tc-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0}
+ #tokey-cockpit #tc-caption-status[data-visible=true]{opacity:1}
+ #tokey-cockpit #tc-caption-status[data-success=true]{color:var(--tc-accent)}
+ @media(pointer:coarse){#tokey-cockpit #tc-copy-menu button{min-height:44px}}
+ #tokey-cockpit #tc-hardware{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal}
+ #tokey-cockpit .tc-identity>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+ @media(max-width:360px){#tokey-cockpit .tc-head{padding-left:5px;padding-right:5px}#tokey-cockpit .tc-brand{gap:4px}}
+ /* Denser rows: retain subtle zebra shading, remove all inter-model rules. */
+ #tokey-cockpit tbody td{border-bottom:0;padding-top:0;padding-bottom:0}
+ #tokey-cockpit .tc-head{padding-top:5px;padding-bottom:5px}
+ #tokey-cockpit :is(.tc-toolbar,.tc-sharing){padding-top:4px;padding-bottom:4px}
+ #tokey-cockpit th{padding-top:4px;padding-bottom:4px}
+ /* Keep arrow-first guidance intact at the table's narrowest width. */
+ #tokey-cockpit th:not(:first-child){padding-left:2px}
+ /* Match Queued and the scale labels; ASCII artwork keeps its own proportions. */
+ #tokey-cockpit{--tc-ui-size:11px;font-size:var(--tc-ui-size)}
+ /* Explicit on every UI node: embedded table/control styles must not enlarge headings. */
+ #tokey-cockpit :is(.tc-identity,.tc-toolbar,.tc-data,.tc-sharing),
+ #tokey-cockpit :is(.tc-identity,.tc-toolbar,.tc-data,.tc-sharing) *{font-size:var(--tc-ui-size)!important}
+ /* A rabbit-only system name unlocks a tiny running/hopping Easter egg.
+    Reserve its lane even at rest so starting a run cannot shift the header. */
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true]{display:inline-block;position:relative;width:60px;text-align:left}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true]+.tc-system-meta>.tc-name-separator{display:none}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true] :is(.tc-rabbit-travel,.tc-rabbit-facing,.tc-system-rabbit){display:inline-block;vertical-align:baseline}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true] .tc-rabbit-travel{transform:translateX(var(--tc-rabbit-x,var(--tc-rabbit-right,24px)))}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true] .tc-rabbit-facing{transform:scaleX(var(--tc-rabbit-facing,1))}
+ #tokey-cockpit .tc-identity>span:has([data-rabbit-egg=true]){overflow:visible}
+ #tokey-cockpit .tc-ram-line{padding-right:6px}
+ #tokey-cockpit[data-running=true] #tc-system-name[data-rabbit-egg=true] .tc-rabbit-travel{animation:tc-rabbit-travel 2.4s linear infinite}
+ #tokey-cockpit[data-running=true] #tc-system-name[data-rabbit-egg=true] .tc-rabbit-facing{animation:tc-rabbit-facing 2.4s steps(1,end) infinite}
+ /* Keep the same hop animation through completion; switch only on landing. */
+ #tokey-cockpit:is([data-running=true],[data-complete=true]) #tc-system-name[data-rabbit-egg=true] .tc-system-rabbit{animation:tc-rabbit-hop .4s linear infinite}
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true] :is(.tc-rabbit-travel,.tc-rabbit-facing,.tc-system-rabbit){animation-play-state:paused}
+ #tokey-cockpit[data-complete=true] #tc-system-name[data-rabbit-egg=true][data-celebrating=true] .tc-system-rabbit{animation:tc-rabbit-dance 2s linear infinite}
+ /* Decorative generated content leaves the exact-name gate and layout intact. */
+ #tokey-cockpit:not([data-running=true]):not([data-complete=true]) #tc-system-name[data-rabbit-egg=true] .tc-rabbit-travel{visibility:hidden}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-entrance=true]::before{content:'⛁' / '';position:absolute;left:calc(var(--tc-rabbit-anchor,30.5px) - 7px);top:-1px;width:14px;height:14px;display:grid;place-items:center;color:#ffd557;text-shadow:0 0 3px #ffcc4b88;font:700 14px/1 var(--tc-font);animation:tc-rabbit-coin 1.6s linear both}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-entrance=true]::after{content:'💥' / '';position:absolute;left:calc(var(--tc-rabbit-anchor,30.5px) - 7px);top:-1px;animation:tc-rabbit-burst 1.6s linear both}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-entrance=true] .tc-rabbit-travel{animation:tc-rabbit-reveal 1.6s linear both;transform:translateX(var(--tc-rabbit-right,24px))}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-entrance=true] :is(.tc-rabbit-facing,.tc-system-rabbit){animation:none;transform:none}
+ #tokey-cockpit .tc-rabbit-facing{position:relative}
+ #tokey-cockpit[data-running=true]:not([data-paused=true]) #tc-system-name[data-rabbit-egg=true]:not([data-entrance=true]) .tc-rabbit-facing::after{content:'💨' / '';position:absolute;left:10px;top:3px;font-size:8px;line-height:1;animation:tc-rabbit-wind .4s ease-out infinite;pointer-events:none}
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true]::after,
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true] .tc-rabbit-facing::after{content:none}
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true]::before,
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true]::after,
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true] .tc-rabbit-facing::after,
+ #tokey-cockpit[data-paused=true] #tc-system-name[data-rabbit-egg=true] .tc-rabbit-travel{animation-play-state:paused}
+ @keyframes tc-rabbit-coin{0%{opacity:0;transform:translateY(-5px) scale(.6) rotate(0)}10%,52%{opacity:1;transform:translate(0,0) scale(1) rotate(0)}58%{transform:translate(-1px,0) scale(1) rotate(-7deg)}62%{transform:translate(1px,-1px) scale(1.02) rotate(7deg)}66%{transform:translate(-1px,1px) scale(1) rotate(-8deg)}70%{transform:translate(1px,0) scale(1.03) rotate(8deg)}74%{opacity:1;transform:translate(-1px,-1px) scale(1.05) rotate(-6deg)}79%{opacity:1;transform:translate(0,0) scale(1.08) rotate(0)}83%,100%{opacity:0;transform:translate(0,0) scale(.5) rotate(0)}}
+ @keyframes tc-rabbit-burst{0%,79%{opacity:0;transform:scale(.2)}84%{opacity:1;transform:scale(.75)}89%{opacity:1;transform:scale(1.25)}95%,100%{opacity:0;transform:scale(1.6)}}
+ @keyframes tc-rabbit-reveal{0%,94%{opacity:0}98%,100%{opacity:1}}
+ @keyframes tc-rabbit-wind{0%{opacity:0;transform:translateX(-2px) scale(.65)}25%{opacity:.6}100%{opacity:0;transform:translateX(5px) scale(.85)}}
+ #tokey-cockpit .tc-rabbit-friends{position:absolute;inset:0;pointer-events:none;opacity:0}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-celebrating=true] .tc-rabbit-friends{opacity:1}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-celebrating=true] .tc-rabbit-friend{animation:tc-friend-arrive-left .48s var(--tc-friend-arrival-delay,0s) ease-out both,tc-friend-dance var(--tc-friend-speed,1.55s) var(--tc-friend-delay,.48s) ease-in-out infinite}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-celebrating=true] .tc-rabbit-friend[data-entry=right]{animation-name:tc-friend-arrive-right,tc-friend-dance}
+ #tokey-cockpit #tc-system-name[data-rabbit-egg=true][data-celebrating=true] .tc-rabbit-friend[data-entry=still]{animation-name:tc-friend-arrive-still,tc-friend-dance}
+ #tokey-cockpit .tc-rabbit-friend{position:absolute;top:0;left:0;display:inline-block;font:inherit;line-height:inherit;white-space:nowrap}
+ #tokey-cockpit .tc-rabbit-friend:last-child{--tc-friend-arrival-delay:.08s;--tc-friend-speed:1.9s;--tc-friend-delay:.64s}
+ @keyframes tc-friend-arrive-left{0%{opacity:0;transform:translateX(-6px) translateY(0) scale(.7)}70%{opacity:1;transform:translateX(1px) translateY(-2px) scale(1)}100%{opacity:1;transform:translateX(0) translateY(0) scale(1)}}
+ @keyframes tc-friend-arrive-right{0%{opacity:0;transform:translateX(6px) translateY(0) scale(.7)}70%{opacity:1;transform:translateX(-1px) translateY(-2px) scale(1)}100%{opacity:1;transform:translateX(0) translateY(0) scale(1)}}
+ @keyframes tc-friend-arrive-still{0%{opacity:0;transform:translateY(0) scale(.7)}70%{opacity:1;transform:translateY(-2px) scale(1)}100%{opacity:1;transform:translateY(0) scale(1)}}
+ @keyframes tc-friend-dance{0%,12%,34%,100%{transform:translateY(0)}23%{transform:translateY(-3px)}57%{transform:translateY(-4px)}}
+ @keyframes tc-rabbit-travel{0%,100%{transform:translateX(var(--tc-rabbit-right,24px))}50%{transform:translateX(var(--tc-rabbit-left,0px))}}
+ /* Discrete turns on the ground, never a tweened mirror/fan motion. */
+ @keyframes tc-rabbit-facing{0%,100%{transform:scaleX(1)}50%{transform:scaleX(-1)}}
+ @keyframes tc-rabbit-hop{
+  0%,10%{transform:translateY(0);animation-timing-function:ease-out}
+  45%{transform:translateY(-4px);animation-timing-function:ease-in}
+  80%,100%{transform:translateY(0)}
+ }
+ @keyframes tc-rabbit-dance{
+  0%,8%,28%{transform:translateY(0);animation-timing-function:ease-out}
+  18%{transform:translateY(-4px);animation-timing-function:ease-in}
+  38%{transform:translateY(-5px);animation-timing-function:ease-in}
+  48%,100%{transform:translateY(0)}
+ }
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit #tc-system-name :is(.tc-rabbit-travel,.tc-rabbit-facing,.tc-system-rabbit){animation:none!important}}
+ @media print{#tokey-cockpit #tc-system-name :is(.tc-rabbit-travel,.tc-rabbit-facing,.tc-system-rabbit){animation:none!important}}
+ #tokey-cockpit[data-export=true][data-export-format=PNG] #tc-system-name :is(.tc-rabbit-travel,.tc-rabbit-facing,.tc-system-rabbit){animation:none!important}
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit #tc-system-name::before,#tokey-cockpit #tc-system-name::after,#tokey-cockpit .tc-rabbit-facing::after{content:none!important}#tokey-cockpit .tc-rabbit-friends{display:none!important}}
+ @media print{#tokey-cockpit #tc-system-name::before,#tokey-cockpit #tc-system-name::after,#tokey-cockpit .tc-rabbit-facing::after{content:none!important}#tokey-cockpit .tc-rabbit-friends{display:none!important}}
+ #tokey-cockpit[data-export=true][data-export-format=PNG] #tc-system-name::before,#tokey-cockpit[data-export=true][data-export-format=PNG] #tc-system-name::after,#tokey-cockpit[data-export=true][data-export-format=PNG] .tc-rabbit-facing::after{content:none!important}
+ #tokey-cockpit[data-export=true][data-export-format=PNG] .tc-rabbit-friends{display:none!important}
+ /* Reuse the host tooltip portal, with Tokey's own fixed dark theme. Explicit
+    short lines keep details readable without soft wrapping or widening rows. */
+ body:has(#tokey-cockpit)>.tooltip{color:#71848b;background:#0a1318;border:1px solid #18323d;border-radius:5px;padding:8px 10px;font:11px/1.45 "JetBrainsMono Nerd Font","JetBrains Mono",monospace;white-space:pre;overflow-wrap:normal;box-shadow:none}
+ body:has(#tokey-cockpit)>.tooltip::first-line{color:#d0d0d0}
+ #tokey-cockpit button.tc-model{width:100%;height:auto;min-height:0;padding:0;border:0;border-radius:2px;background:transparent;box-shadow:none;text-align:left;justify-content:flex-start;color:var(--tc-text)}
+ #tokey-cockpit tbody tr:hover,#tokey-cockpit tbody tr:focus-within{background:#0b697466}
+ @media(pointer:coarse){#tokey-cockpit button.tc-model{min-height:44px}}
+ /* Completion is the only glint trigger; all green surfaces share one cycle. */
+ #tokey-cockpit{--tc-glint:linear-gradient(110deg,transparent 0 39%,#168fe800 41%,#168fe866 43%,#168fe8 45%,#30cfff 47%,#abffbf 48% 49.5%,#ffffff 49.75% 50.25%,#abffbf 50.5% 52%,#30cfff 53%,#168fe8 55%,#168fe866 57%,#168fe800 59%,transparent 61% 100%)}
+ #tokey-cockpit .tc-brand pre{animation:none;background-image:none;color:var(--tc-brand-base)}
+ #tokey-cockpit[data-complete=true] :is(.tc-brand pre,.tc-track span,#tc-progress span){background-image:var(--tc-glint),linear-gradient(var(--tc-accent),var(--tc-accent));background-size:300% 100%,100% 100%;background-position:100% 50%,0 0;background-repeat:no-repeat;animation:tc-bar-glint-burst 2.7s linear infinite}
+ /* One viewport-aligned light field, clipped by each completed fill. Neither
+    the sweep position nor its physical thickness depends on a bar's length. */
+ #tokey-cockpit[data-complete=true] :is(.tc-track span,#tc-progress span){background-attachment:fixed,fixed;background-image:linear-gradient(110deg,transparent calc(50% - 56px),#168fe800 calc(50% - 50px),#168fe866 calc(50% - 43px),#168fe8 calc(50% - 36px),#30cfff calc(50% - 29px),#abffbf calc(50% - 22px),#ffffff calc(50% - 14px),#ffffff calc(50% + 14px),#abffbf calc(50% + 22px),#30cfff calc(50% + 29px),#168fe8 calc(50% + 36px),#168fe866 calc(50% + 43px),#168fe800 calc(50% + 50px),transparent calc(50% + 56px)),linear-gradient(var(--tc-accent),var(--tc-accent));animation:tc-bar-glint-burst 2.7s linear infinite}
+ @keyframes tc-bar-glint-burst{0%{background-position:100% 50%,0 0}7.4074%{background-position:0% 50%,0 0}7.417%,100%{background-position:100% 50%,0 0}}
+ /* Short metric fills retain one aligned field, but the pass takes three times
+    longer so the highlight remains visible before the same 2.5s clean rest. */
+ #tokey-cockpit[data-complete=true] .tc-metric .tc-track span{animation:tc-performance-glint-burst 2.7s linear infinite!important}
+ @keyframes tc-performance-glint-burst{0%{background-position:100% 50%,0 0}22.2222%{background-position:0% 50%,0 0}22.232%,100%{background-position:100% 50%,0 0}}
+ /* The rabbit needs a broader local pass than the wordmark, but its resting
+    frame must be pure brand green rather than sitting inside the fixed field. */
+ #tokey-cockpit[data-complete=true] .tc-rabbit{background-attachment:scroll,scroll;background-image:linear-gradient(110deg,transparent 0 24%,#168fe800 30%,#168fe866 35%,#168fe8 39%,#30cfff 43%,#abffbf 46% 48%,#ffffff 49% 51%,#abffbf 52% 54%,#30cfff 57%,#168fe8 61%,#168fe866 65%,#168fe800 70%,transparent 76% 100%),linear-gradient(var(--tc-brand-base),var(--tc-brand-base))}
+ #tokey-cockpit[data-complete=true] .tc-brand pre{color:transparent}
+ /* Keep the complete green wordmark painted normally at all times. The glint
+    is a separate overlay, so background clipping can never trim its silhouette. */
+ #tokey-cockpit[data-complete=true] .tc-wordmark{animation:none!important;background-image:none!important;color:var(--tc-brand-base)!important}
+ #tokey-cockpit[data-complete=true] .tc-wordmark-glint{opacity:1}
+ /* Capture contract only: exporters are not implemented in this preview.
+    GIF/MP4 retain the completion cycle; PNG removes the glint, not just motion. */
+ #tokey-cockpit[data-export=true][data-export-format=PNG] :is(.tc-brand pre,.tc-track span,#tc-progress span){animation:none;background-image:none}
+ #tokey-cockpit[data-export=true][data-export-format=PNG] .tc-brand pre{color:var(--tc-brand-base)}
+ #tokey-cockpit[data-export=true][data-export-format=PNG] .tc-wordmark-glint{display:none}
+ @media(prefers-reduced-motion:reduce){
+  #tokey-cockpit[data-complete=true] :is(.tc-brand pre,.tc-track span,#tc-progress span){animation:none;background-image:none}
+  #tokey-cockpit[data-complete=true] .tc-brand pre{color:var(--tc-brand-base)}
+  #tokey-cockpit[data-complete=true] .tc-wordmark-glint{display:none}
+ }
+ @media print{
+  #tokey-cockpit[data-complete=true] :is(.tc-brand pre,.tc-track span,#tc-progress span){animation:none;background-image:none}
+  #tokey-cockpit[data-complete=true] .tc-brand pre{color:var(--tc-brand-base)}
+  #tokey-cockpit[data-complete=true] .tc-wordmark-glint{display:none}
+ }
+</style>
+<script>
+(()=>{
+ const root=document.getElementById('tokey-cockpit'),el=id=>root.querySelector('#tc-'+id);
+ // Separate travel, facing and jump so completion can freeze x/direction
+ // without restarting the current vertical hop or rotating the emoji.
+ const rabbit=el('system-name').querySelector('.tc-system-rabbit'),rabbitTravel=document.createElement('span'),rabbitFacing=document.createElement('span');
+ rabbitTravel.className='tc-rabbit-travel';rabbitFacing.className='tc-rabbit-facing';
+ rabbit.replaceWith(rabbitTravel);rabbitTravel.append(rabbitFacing);rabbitFacing.append(rabbit);
+ const friendDock=document.createElement('span'),friendRoster=['🐈','🐈‍⬛','🐕','🐩','🐿️','🐇','🐖','🐄','🐂','🐃','🐎','🐐','🐏','🐑','🐅','🐆','🦌','🦬','🦣','🐘','🦏','🦛','🐪','🐫','🦙','🦒','🦓','🦘','🦫','🦭','🐢','🐊','🦎','🦕','🦖','🐦','🐦‍⬛','🐧','🕊️','🦅','🦆','🦢','🦉','🦤','🪿','🦩','🦜','🐓','🦃','🐣','🐤','🐥'];let friendRound=0;
+ friendDock.className='tc-rabbit-friends';friendDock.setAttribute('aria-hidden','true');el('system-name').append(friendDock);
+ let friendFloor=0;
+ const updateRabbitLane=()=>{
+  const systemName=el('system-name'),lane=systemName.getBoundingClientRect(),brand=root.querySelector('.tc-brand').getBoundingClientRect(),meta=root.querySelector('.tc-system-meta').getBoundingClientRect(),anchor=el('ram-anchor').getBoundingClientRect(),rabbitWidth=rabbit.offsetWidth,brandSharesFloor=brand.bottom>lane.top&&brand.top<lane.bottom;
+  const minimumGap=2,leftInkAllowance=5,rightLimit=meta.left-lane.left-rabbitWidth-minimumGap,anchorCenter=anchor.left+anchor.width/2-lane.left,right=Math.min(rightLimit,anchorCenter-rabbitWidth/2),rightGap=Math.max(minimumGap,meta.left-(lane.left+right+rabbitWidth)),leftBoundary=brandSharesFloor?brand.right:lane.left,leftLimit=leftBoundary-lane.left+rightGap+leftInkAllowance,left=Math.min(right,leftLimit);
+  systemName.style.setProperty('--tc-rabbit-anchor',anchorCenter+'px');
+  systemName.style.setProperty('--tc-rabbit-left',left+'px');
+  systemName.style.setProperty('--tc-rabbit-right',right+'px');
+ };
+ const clearRabbitFriends=()=>{friendDock.replaceChildren();delete friendDock.dataset.layout;};
+ const positionRabbitFriends=(captureFloor=false)=>{
+  const friends=[...friendDock.children];if(friends.length!==2)return false;
+  const systemName=el('system-name'),lane=systemName.getBoundingClientRect(),bunny=rabbit.getBoundingClientRect(),brand=root.querySelector('.tc-brand').getBoundingClientRect(),meta=root.querySelector('.tc-system-meta').getBoundingClientRect();
+  const header=root.querySelector('.tc-head').getBoundingClientRect(),brandSharesFloor=brand.bottom>bunny.top&&brand.top<bunny.bottom;
+  const gap=2,entryTravel=6,widths=friends.map(friend=>friend.offsetWidth),bunnyLeft=bunny.left-lane.left,bunnyRight=bunny.right-lane.left,safeLeft=(brandSharesFloor?brand.right+gap:header.left)-lane.left,safeRight=meta.left-lane.left-gap;
+  if(captureFloor)friendFloor=bunny.bottom-lane.top;
+  const split=[bunnyLeft-gap-widths[0],bunnyRight+gap],leftNear=bunnyLeft-gap-widths[0],left=[leftNear,leftNear-gap-widths[1]],rightNear=bunnyRight+gap,right=[rightNear,rightNear+widths[0]+gap];
+  const fits=(positions,margin=entryTravel)=>positions.every((x,i)=>x-margin>=safeLeft&&x+widths[i]+margin<=safeRight);
+  let positions,entries,layout;
+  if(fits(split)){positions=split;entries=['left','right'];layout='split';}
+  else if(fits(left)){positions=left;entries=['left','left'];layout='left';}
+  else if(fits(right)){positions=right;entries=['right','right'];layout='right';}
+  else if(fits(split,0)){positions=split;entries=['still','still'];layout='split-still';}
+  else if(fits(left,0)){positions=left;entries=['still','still'];layout='left-still';}
+  else if(fits(right,0)){positions=right;entries=['still','still'];layout='right-still';}
+  else{clearRabbitFriends();return false;}
+  friends.forEach((friend,i)=>{friend.style.left=positions[i]+'px';friend.style.top=(friendFloor-friend.offsetHeight)+'px';friend.dataset.entry=entries[i];});
+  friendDock.dataset.layout=layout;return true;
+ };
+ const inviteRabbitFriends=()=>{
+  clearRabbitFriends();
+  for(const offset of [0,3]){const friend=document.createElement('span');friend.className='tc-rabbit-friend';friend.textContent=friendRoster[(friendRound+offset)%friendRoster.length];friendDock.append(friend);}
+  friendRound=(friendRound+2)%friendRoster.length;
+  positionRabbitFriends(true);
+ };
+ const rabbitLayoutObserver=new ResizeObserver(()=>{updateRabbitLane();if(el('system-name').dataset.celebrating==='true')positionRabbitFriends();});
+ rabbitLayoutObserver.observe(root);rabbitLayoutObserver.observe(root.querySelector('.tc-identity'));updateRabbitLane();
+ const rabbitTextObserver=new MutationObserver(()=>{updateRabbitLane();if(el('system-name').dataset.celebrating==='true')positionRabbitFriends();});
+ rabbitTextObserver.observe(root.querySelector('.tc-identity'),{subtree:true,childList:true,characterData:true});
+ const rabbitMotion=matchMedia('(prefers-reduced-motion:reduce)');
+ el('system-name').addEventListener('animationend',event=>{
+  if(event.animationName==='tc-rabbit-coin')delete el('system-name').dataset.entrance;
+ });
+ rabbitMotion.addEventListener('change',event=>{if(event.matches)delete el('system-name').dataset.entrance;});
+ rabbit.addEventListener('animationiteration',event=>{
+  if(event.animationName==='tc-rabbit-hop'&&root.dataset.complete==='true'&&el('system-name').dataset.rabbitEgg==='true'){inviteRabbitFriends();el('system-name').dataset.celebrating='true';}
+ });
+ const statusText=(id,text)=>{if(el(id).textContent!==text)el(id).textContent=text;};
+ const models=[
+  {name:'Llama 3.2',size:'3B',speed:38,latency:.8,memory:2.4},
+  {name:'Qwen3',size:'4B',speed:30,latency:1.1,memory:3.1},
+  {name:'Gemma 3',size:'4B',speed:26,latency:1.3,memory:3.4},
+  {name:'Phi-4 mini',size:'3.8B',speed:33,latency:.9,memory:2.9},
+  {name:'DeepSeek R1',size:'8B distill',speed:17,latency:2.2,memory:5.8},
+  {name:'Llama 3.1',size:'8B',speed:19,latency:1.8,memory:5.5},
+  {name:'Mistral',size:'7B',speed:22,latency:1.6,memory:5.1},
+  {name:'Qwen2.5',size:'7B',speed:21,latency:1.7,memory:5.2},
+  {name:'Gemma 2',size:'9B',speed:15,latency:2.4,memory:7.1},
+  {name:'SmolLM2',size:'1.7B',speed:46,latency:.5,memory:1.6}];
+ // All values remain fictional. Separate stores prevent CPU/GPU results mixing.
+ const devices=['CPU','GPU'],completed={CPU:new Set(),GPU:new Set()},live={CPU:new Map(),GPU:new Map()};
+ // UI preview only: 20 jobs x 30 ticks x 10ms = about 6 seconds (40x original).
+ const stepsPerModel=30,stepsPerPhase=3,demoTickMs=10;
+ // Overall progress follows the relative work of the technical stages instead
+ // of advancing at one artificial constant rate. Equal backend boundaries are
+ // still useful guidance because every model completes the same ten stages.
+ const phaseWork=[.04,.12,.05,.10,.17,.06,.17,.20,.06,.03],phaseWorkTotal=phaseWork.reduce((sum,work)=>sum+work,0);
+ let sample=true,running=false,paused=false,device='CPU',sort='speed',queue=[],tick=0,timer=null;
+ // Preview vocabulary only, not reports of real loading or inference.
+ const phases=['Reading tensor metadata and quantization layout','Mapping weight tensors into inference buffers','Binding compute workers to the execution backend','Reserving attention KV-cache and scratch buffers','Warming matrix kernels; priming execution graphs','Tokenizing prompt text; packing input token batches','Prefilling attention; timing first-token latency','Decoding autoregressively; extending the KV cache','Sampling token throughput and memory high-water','Aggregating timings; committing this model row'];
+ const compactPhases=['Tensor metadata','Weight mapping','Worker binding','KV-cache allocation','Kernel warm-up','Tokenizing prompt','Prefill / first token','Decode / KV update','Token-rate sampling','Timing aggregation'];
+ const backendPhases={CPU:['Binding CPU workers; scheduling tensor operations','CPU worker scheduling'],GPU:['Staging GPU tensors; scheduling compute kernels','GPU kernel scheduling']};
+ const hardware={CPU:'Intel Core i7-8650U · 4 cores / 8 threads',GPU:'Intel UHD Graphics 620 · integrated',NPU:'Not detected · unavailable'};
+ const val=(i,key)=>{const f=device==='GPU'?1.7:1;return key==='speed'?models[i][key]*f:key==='latency'?models[i][key]/f:models[i][key];};
+ const max=key=>key==='speed'?(device==='GPU'?90:50):key==='latency'?3:8;
+ const rows=models.map((m,i)=>{
+  const tr=document.createElement('tr');tr.dataset.index=i;
+  tr.innerHTML=`<td><button type="button" class="tc-model" aria-label="Details for ${m.name} ${m.size}"><span class="tc-model-name">${m.name}</span> <span class="tc-size">${m.size}</span></button></td>`+['speed','latency','memory'].map(k=>`<td data-key="${k}"><div class="tc-metric"><span class="tc-number"></span><div class="tc-track" aria-hidden="true"><span></span></div><span class="tc-pending" hidden><span class="tc-pending-full"></span><span class="tc-pending-short" aria-hidden="true"></span></span></div></td>`).join('');
+  return tr;
+ });
+ // Show only values that exist for this row's current run. Do not pad the
+ // hover card with unknown model metadata or placeholder statements.
+ function modelDetails(i,has,active){
+  if(!has&&!active)return '';
+  const m=models[i],partial=live[device]?.get(i)||{},lines=[m.name+' · '+m.size,device];
+  if(has||partial.speed>0)lines.push('Generation: '+(val(i,'speed')*(has?1:partial.speed)).toFixed(1)+' tok/s');
+  if(has||partial.latency>0)lines.push('First token: '+(val(i,'latency')*(has?1:partial.latency)).toFixed(2)+' s');
+  if(has||partial.memory>0)lines.push('Memory: '+(val(i,'memory')*(has?1:partial.memory)).toFixed(2)+' GiB');
+  return lines.join('\n');
+ }
+ function syncTooltips(){
+  root.querySelectorAll('[data-tooltip]').forEach(trigger=>{
+   const text=trigger.dataset.tooltip.split('\n').flatMap(line=>{
+    const lines=[];let part='';
+    for(const word of line.split(/\s+/)){if(part&&part.length+word.length+1>38){lines.push(part);part='';}part+=(part?' ':'')+word;}
+    lines.push(part);return lines;
+   }).join('\n');
+   if(trigger.dataset.tooltip!==text)trigger.dataset.tooltip=text;
+   // The host owns creation, placement and dismissal; refresh its plain text
+   // when a run/device changes while the same tooltip remains visible.
+   for(const id of (trigger.getAttribute('aria-describedby')||'').split(' ')){
+    const tip=document.getElementById(id);
+    if(tip?.matches('.tooltip[role=tooltip]')&&tip.textContent!==text)tip.textContent=text;
+   }
+  });
+ }
+ function draw(){
+  // Exact rabbit name only, not a custom name containing a rabbit. No config
+  // loader implied: this is the explicit name in the current preview.
+  const systemName=el('system-name');
+  systemName.dataset.rabbitEgg=String(rabbit.textContent.trim().replace(/\uFE0F/g,'')==='🐇');
+  el('system-details').dataset.tooltip=[...(systemName.dataset.rabbitEgg==='true'?[]:['System name: '+rabbit.textContent.trim()]),'Board: NUC7i7DNB','OS: Omarchy 4.0.4','Fanless enclosure'].join('\n');
+  updateRabbitLane();
+  if(!running||systemName.dataset.rabbitEgg!=='true')delete systemName.dataset.entrance;
+  if(running||systemName.dataset.rabbitEgg!=='true'){delete systemName.dataset.celebrating;clearRabbitFriends();}
+  // Snapshot the actual painted position before root's running state changes.
+  // The hop keeps its phase; animationiteration begins celebration at ground.
+  if(canShare()&&root.dataset.complete!=='true'&&systemName.dataset.rabbitEgg==='true'){
+   const travel=new DOMMatrixReadOnly(getComputedStyle(rabbitTravel).transform),facing=new DOMMatrixReadOnly(getComputedStyle(rabbitFacing).transform);
+   systemName.style.setProperty('--tc-rabbit-x',travel.m41+'px');
+   systemName.style.setProperty('--tc-rabbit-facing',String(facing.m11<0?-1:1));
+  }
+  const job=queue[Math.floor(tick/stepsPerModel)],current=job?.index;
+  const order=models.map((_,i)=>i).sort((a,b)=>{
+   if(running)return a-b;
+   const av=device!=='NPU'&&completed[device].has(a),bv=device!=='NPU'&&completed[device].has(b);
+   return av&&bv?(sort==='speed'?val(b,sort)-val(a,sort):val(a,sort)-val(b,sort)):Number(bv)-Number(av)||a-b;
+  });
+  for(const i of order){const tr=rows[i],has=device!=='NPU'&&completed[device].has(i),active=running&&current===i;tr.dataset.active=String(active);
+   const details=modelDetails(i,has,active),modelButton=tr.querySelector('.tc-model');
+   if(details){tr.dataset.tooltip=details;modelButton.dataset.tooltip=details;}else{delete tr.dataset.tooltip;delete modelButton.dataset.tooltip;}
+   for(const key of ['speed','latency','memory']){
+    const fraction=has?1:live[device]?.get(i)?.[key]||0,shown=has||fraction>0;
+    const td=tr.querySelector('[data-key='+key+']'),value=val(i,key)*fraction;
+    // Keep every available-device track visible from launch; only live or
+    // completed measurements reveal a value and grow the electric-green fill.
+    td.querySelector('.tc-number').hidden=!shown;td.querySelector('.tc-track').hidden=device==='NPU';td.querySelector('.tc-pending').hidden=device!=='NPU';
+    if(shown)td.removeAttribute('aria-label');else td.setAttribute('aria-label',device==='NPU'?'Unavailable':'Not measured yet');
+    td.querySelector('.tc-number').textContent=value.toFixed(key==='speed'?1:2);td.querySelector('.tc-track span').style.width=value/max(key)*100+'%';
+    const pending=device==='NPU'?'N/A':'Queued';
+    td.querySelector('.tc-pending').setAttribute('aria-label',pending);
+    td.querySelector('.tc-pending-full').textContent=pending;
+    td.querySelector('.tc-pending-short').textContent=pending;
+   }
+   // Leave stable rows mounted during ticks so native bar transitions can run.
+   if(el('models').children[order.indexOf(i)]!==tr)el('models').insertBefore(tr,el('models').children[order.indexOf(i)]||null);
+  }
+  el('hardware').textContent=hardware[device];el('hardware').hidden=running;
+  el('model-note').textContent='Parameters';root.dataset.running=String(running);root.dataset.paused=String(paused);
+  el('model-note-short').textContent='Parameters';
+  const rerun=!running&&!sample,finished=canShare(),label=running?(paused?'Resume run':'Pause run'):rerun?'Run again':'Run Tokey!';
+  root.dataset.complete=String(finished);
+  el('run-label').textContent=label;el('run-label').hidden=running||rerun;el('pause-icon').hidden=!running||paused;el('resume-icon').hidden=!paused;el('rerun-icon').hidden=!rerun;
+  el('run').classList.toggle('tc-icon',running||rerun);el('run').classList.toggle('tc-primary',!running&&!rerun);el('run').dataset.complete=String(finished);
+  el('run').setAttribute('aria-label',finished?'Run complete. Run again':label);el('run').dataset.tooltip=finished?'Run complete - run again':label;
+  syncSharing();
+  // Available devices come from this preview's recorded hardware snapshot.
+  root.querySelectorAll('[data-device]').forEach(b=>{const available=devices.includes(b.dataset.device),active=running&&b.dataset.device===device;b.hidden=!available;b.disabled=running||!available;b.dataset.active=String(active);b.setAttribute('aria-pressed',String(b.dataset.device===device));b.setAttribute('aria-label',b.dataset.device+(active?(paused?' - simulated run paused':' - processing simulated run'):' - view results'));b.dataset.tooltip=active?(paused?'Paused ':'Processing ')+device+' results':'View '+b.dataset.device+' results';});
+  const metricHelp={speed:'Generation speed in tokens per second. Higher is faster.',latency:'Time to first token in seconds. Lower is faster.',memory:'Memory usage in GiB. A shorter bar means less memory used.'};
+  const units={speed:'tok/s',latency:'s',memory:'GiB'};
+  root.querySelectorAll('[data-sort]').forEach(b=>{const key=b.dataset.sort;b.closest('th').setAttribute('aria-sort',key===sort?(sort==='speed'?'descending':'ascending'):'none');b.querySelector('.tc-sort-arrow').textContent=key===sort?(sort==='speed'?'↓':'↑'):'';b.dataset.tooltip=metricHelp[key]+(device==='NPU'?' No NPU results available.':' Bars use a zero-based scale: 0-'+max(key)+' '+units[key]+'.');});
+  const phase=Math.floor((tick%stepsPerModel)/stepsPerPhase);
+  const detail=phase===2?backendPhases[device]?.[0]||phases[phase]:phases[phase],compactDetail=phase===2?backendPhases[device]?.[1]||compactPhases[phase]:compactPhases[phase];
+  el('status').hidden=!running;
+  statusText('status-prefix',paused?'Paused · ':'');
+  statusText('stage',running?models[current].name+' '+models[current].size+' · ':'');
+  statusText('detail',running?detail:'');statusText('detail-compact',running?compactDetail:'');
+  if(running){const message='Simulated · '+(paused?'Paused · ':'')+device+' · '+models[current].name+' '+models[current].size+' - '+detail;if(el('status').getAttribute('aria-label')!==message)el('status').setAttribute('aria-label',message);}else el('status').removeAttribute('aria-label');
+  el('outcome').textContent=paused?'Simulated run paused. Progress preserved. Resume to continue.':rerun?'Simulated CPU and GPU run complete. NPU unavailable.':'';
+  // Whole-run work, never the selected device's local progress. Completed jobs
+  // count fully; the active job advances according to its actual technical
+  // stage, so metadata, mapping, warm-up, prefill and decode move differently.
+  const completedJobs=Math.floor(tick/stepsPerModel),jobStep=tick%stepsPerModel,phaseIndex=Math.min(phaseWork.length-1,Math.floor(jobStep/stepsPerPhase)),phaseStep=jobStep%stepsPerPhase,finishedPhaseWork=phaseWork.slice(0,phaseIndex).reduce((sum,work)=>sum+work,0),activePhaseWork=phaseWork[phaseIndex]*(phaseStep/stepsPerPhase),workDone=completedJobs+(finishedPhaseWork+activePhaseWork)/phaseWorkTotal;
+  const progress=queue.length?Math.min(100,workDone/queue.length*100):0;el('progress').setAttribute('aria-valuenow',String(progress));el('progress').firstElementChild.style.width=progress+'%';
+  syncTooltips();
+ }
+ function clearTimer(){clearInterval(timer);timer=null;}
+ function advance(){
+  if(!running||paused)return;
+  const job=queue[Math.floor(tick/stepsPerModel)],step=tick%stepsPerModel+1;
+  const clamp=n=>Math.max(0,Math.min(1,n));
+  live[job.device].set(job.index,{memory:step/stepsPerModel,latency:clamp((step-12)/12),speed:clamp((step-18)/12)});
+  tick++;if(step===stepsPerModel)completed[job.device].add(job.index);
+  if(tick===queue.length*stepsPerModel){clearTimer();running=false;}else device=queue[Math.floor(tick/stepsPerModel)].device;
+  draw();
+ }
+ el('run').addEventListener('click',()=>{
+  if(running){
+   clearTimer();paused=!paused;draw();
+   if(!paused)timer=setInterval(advance,demoTickMs);
+   return;
+  }
+  clearTimer();sample=false;paused=false;devices.forEach(d=>{completed[d].clear();live[d].clear();});
+  // Commit zero widths and progress semantics before enabling interpolation.
+  // This also clears an in-flight final transition if rerun is clicked quickly.
+  root.dataset.resetting='true';root.dataset.complete='false';
+  el('system-name').style.removeProperty('--tc-rabbit-x');el('system-name').style.removeProperty('--tc-rabbit-facing');
+  if(el('system-name').dataset.rabbitEgg==='true'&&!rabbitMotion.matches)el('system-name').dataset.entrance='true';
+  queue=devices.flatMap(d=>models.map((_,index)=>({device:d,index})));device='CPU';tick=0;running=true;draw();
+  void el('progress').offsetWidth;
+  delete root.dataset.resetting;
+  timer=setInterval(advance,demoTickMs);
+ });
+ root.querySelectorAll('[data-device]').forEach(b=>b.addEventListener('click',()=>{if(running||!devices.includes(b.dataset.device))return;device=b.dataset.device;draw();}));
+ root.querySelectorAll('[data-sort]').forEach(b=>b.addEventListener('click',()=>{sort=b.dataset.sort;draw();}));
+ const feedback=text=>{el('feedback').textContent=text;};
+ const canShare=()=>!sample&&!running&&queue.length>0&&tick===queue.length*stepsPerModel;
+ el('save').addEventListener('click',()=>{if(canShare())feedback(el('format').value+" export isn't ready in this demo yet. Nothing was saved or uploaded.");});
+ el('copy-results').addEventListener('click',()=>{
+  if(!canShare())return;
+  el('copy-menu').hidePopover();el('copy').focus();
+  captionNotice(el('format').value+' export not available yet',false);
+ });
+ function syncSharing(){
+  const ready=canShare();
+  root.dataset.exportFormat=el('format').value;
+  for(const id of ['format','save','copy-results'])el(id).disabled=!ready;
+  el('copy-results').textContent='Copy results · '+el('format').value;
+  el('copy-results').dataset.tooltip=ready?'Result copying is unavailable in this prototype':'Complete the run to copy results';
+  statusText('export-note',(ready?'':'Complete the run to unlock sharing controls. ')+ 'Saving and copying media are unavailable in this prototype.');
+  el('format').dataset.tooltip=ready?'Export format':'Export format - complete the run first';
+  for(const action of ['save']){
+   const label=(action==='save'?'Save ':'Copy ')+el('format').value;
+   el(action).setAttribute('aria-label',label);el(action).setAttribute('aria-describedby','tc-export-note');el(action).dataset.tooltip=label+(ready?' - unavailable in this demo':' - complete the run first');
+  }
+  if(!ready)el('feedback').textContent='';
+ }
+ el('format').addEventListener('change',()=>{syncSharing();el('feedback').textContent='';});
+ const caption=el('caption');
+ const captionCelebration=document.createElement('div');
+ captionCelebration.id='tc-caption-celebration';captionCelebration.hidden=true;
+ captionCelebration.setAttribute('aria-hidden','true');root.append(captionCelebration);
+ function stopCaptionDance(){captionCelebration.hidden=true;captionCelebration.replaceChildren();}
+ function startCaptionDance(){
+  stopCaptionDance();
+  if(!caption.value.includes('🐇')||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const c=getComputedStyle(caption),r=caption.getBoundingClientRect(),bounds=root.getBoundingClientRect();
+  Object.assign(captionCelebration.style,{
+   left:(r.left-bounds.left-root.clientLeft+parseFloat(c.borderLeftWidth))+'px',
+   top:(r.top-bounds.top-root.clientTop+parseFloat(c.borderTopWidth))+'px',
+   width:caption.clientWidth+'px',height:caption.clientHeight+'px',
+   paddingLeft:c.paddingLeft,paddingRight:c.paddingRight,font:c.font,
+   letterSpacing:c.letterSpacing,background:c.backgroundColor
+  });
+  const viewport=document.createElement('div'),mirror=document.createElement('span');
+  viewport.className='tc-caption-viewport';mirror.className='tc-caption-mirror';
+  // Text nodes preserve arbitrary user captions safely, without HTML parsing.
+  caption.value.split('🐇').forEach((part,i)=>{
+   if(i){const bunny=document.createElement('span');bunny.className='tc-caption-copy-rabbit';bunny.textContent='🐇';mirror.append(bunny);}
+   mirror.append(document.createTextNode(part));
+  });
+  mirror.style.transform='translateX('+(-caption.scrollLeft)+'px)';
+  viewport.append(mirror);captionCelebration.append(viewport);captionCelebration.hidden=false;
+ }
+ captionCelebration.addEventListener('animationend',event=>{if(event.animationName==='tc-rabbit-hop')stopCaptionDance();});
+ for(const event of ['focus','pointerdown','scroll'])caption.addEventListener(event,stopCaptionDance);
+ // Cancel on layout changes; never let a transient visual cover another control.
+ new ResizeObserver(stopCaptionDance).observe(root);
+ let captionNoticeTimer=null,captionCopyPending=false,captionRevision=0;
+ function clearCaptionNotice(){
+  stopCaptionDance();
+  clearTimeout(captionNoticeTimer);caption.dataset.copied='false';
+  el('caption-status').dataset.visible='false';el('caption-status').textContent='';
+ }
+ function captionNotice(message,success){
+  clearCaptionNotice();caption.dataset.copied=String(success);
+  const notice=el('caption-status');notice.dataset.success=String(success);
+  notice.textContent=message;notice.dataset.visible='true';
+  if(success)startCaptionDance();
+  captionNoticeTimer=setTimeout(clearCaptionNotice,success?1600:3000);
+ }
+ el('copy-caption').addEventListener('click',async()=>{
+  if(captionCopyPending)return;
+  el('copy-menu').hidePopover();el('copy').focus();
+  const text=caption.value,revision=captionRevision;
+  if(!text){captionNotice('Caption is empty',false);return;}
+  clearCaptionNotice();captionCopyPending=true;
+  try{
+   if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+   await navigator.clipboard.writeText(text);
+   if(revision===captionRevision)captionNotice('Caption copied to clipboard',true);
+  }catch{
+   if(revision===captionRevision){
+    // Respect host clipboard permissions. Native copying remains available.
+    caption.focus();caption.select();captionNotice('Copy blocked - use Ctrl+C',false);
+   }
+  }finally{captionCopyPending=false;}
+ });
+ caption.addEventListener('input',()=>{captionRevision++;clearCaptionNotice();});
+ const copyChoices=()=>[...el('copy-menu').querySelectorAll('button:not(:disabled)')];
+ el('copy').addEventListener('keydown',event=>{
+  if(!['ArrowDown','ArrowUp'].includes(event.key))return;
+  event.preventDefault();el('copy-menu').showPopover();
+  const choices=copyChoices();choices[event.key==='ArrowUp'?choices.length-1:0]?.focus();
+ });
+ el('copy-menu').addEventListener('keydown',event=>{
+  if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
+  event.preventDefault();const choices=copyChoices(),index=choices.indexOf(document.activeElement);
+  const next=event.key==='Home'?0:event.key==='End'?choices.length-1:(index+(event.key==='ArrowDown'?1:-1)+choices.length)%choices.length;
+  choices[next]?.focus();
+ });
+ // Original themed copy, assembled only within a compatible voice.
+ // Caption copy is for the UI preview; fixture data is still fictional.
+ const captionVoices=[
+  {name:'White rabbit',leads:[
+   'Follow the rabbit.','The rabbit found another door.','One more turn down the rabbit hole.',
+   'A white rabbit in the machine room.','Curiosity has a way of finding the exit.','The rabbit left the terminal open.'
+  ],tails:[
+   'Question the numbers.','Keep a little doubt in the system.','Look past the pretty bars.',
+   'The interesting part is what comes next.','Bring questions, not prophecies.','No oracle included.'
+  ]},
+  {name:'Neon noir',leads:[
+   'Rain outside. Neon on the screen.','Somewhere between midnight and a blinking cursor.',
+   'The city can wait a minute.','Another late night at the terminal.',
+   'A little neon for the night shift.','The skyline looks better in dark mode.'
+  ],tails:[
+   'Still curious about what comes next.','Nothing here needs a dramatic soundtrack.',
+   'Leaving room for a plot twist.','Coffee is doing most of the heavy lifting.',
+   'The rabbit keeps odd hours.','Just one more look before signing off.'
+  ]},
+  {name:'Terminal notes',leads:[
+   'Operator note: curiosity is still online.','Console open. Questions queued.',
+   'Session log: exploring the interface.','Status: somewhere inside the rabbit hole.',
+   'New entry in the machine-room notebook.','The cursor is waiting for a better question.'
+  ],tails:[
+   'Evidence gets the last word.','No victory claims in this log.',
+   'The real test comes later.','Keep the assumptions visible.',
+   'Nothing to declare except curiosity.','Leave the hype at the login screen.'
+  ]},
+  {name:'Dry humor',leads:[
+   'The rabbit has better cable management.','Cyberpunk budget: one desk lamp.',
+   'I was promised a trench coat.','My hacker origin story involves a spreadsheet.',
+   'The sunglasses were not strictly necessary.','Plot twist: the rabbit works in QA.'
+  ],tails:[
+   'The aesthetic is ahead of the evidence.','Dramatic lighting sold separately.',
+   'Please hold the victory music.','No chosen-one privileges here.',
+   'Someone still has to read the fine print.','Very cinematic. Still a work in progress.'
+  ]},
+  {name:'Curiosity',leads:[
+   'What would the real run look like?','Which model would you try first?',
+   'How deep does this rabbit hole go?','What would change on your machine?',
+   'Which bar caught your eye?','What should we ask the machine next?'
+  ],tails:[
+   'I have questions, not a verdict.','The rabbit has my attention.',
+   'Saving the conclusions for actual measurements.','A good question beats a bold claim.',
+   "I'm here for the details.",'Curiosity is the whole point.'
+  ]},
+  {name:'Minimal',leads:[
+   'Neon mood.','Rabbit mode.','After-hours curiosity.','Inside the grid.',
+   'A quiet terminal.','Dark screen. Open questions.'
+  ],tails:[
+   'No prophecy.','Just the preview.','Stay curious.','Read the fine print.',
+   'Evidence first.','One Tokey run at a time.'
+  ]}
+ ];
+ const captionPool=captionVoices.flatMap(voice=>voice.leads.flatMap(lead=>voice.tails.map(tail=>({
+  voice:voice.name,lead,text:lead+' '+tail+' 🐇 #Tokey'
+ }))));
+ let captionDeck=[],lastCaption=caption.value,lastVoice='White rabbit',lastLead='Follow the rabbit.';
+ function refillCaptions(){
+  captionDeck=captionPool.filter(item=>item.text!==lastCaption);
+  for(let i=captionDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[captionDeck[i],captionDeck[j]]=[captionDeck[j],captionDeck[i]];}
+ }
+ function nextCaption(){
+  if(!captionDeck.length)refillCaptions();
+  // Prefer a different voice and opening, without discarding unseen entries.
+  const index=captionDeck.findIndex(item=>item.voice!==lastVoice&&item.lead!==lastLead);
+  const next=captionDeck.splice(index<0?0:index,1)[0];
+  caption.value=next.text;lastCaption=next.text;lastVoice=next.voice;lastLead=next.lead;
+  el('caption-status').textContent=next.voice+' caption: '+next.text;
+ }
+ // Caption library retained for future sharing work; no shuffle control.
+ const layout={row:17};function density(){root.style.setProperty('--tc-row',layout.row+'px');}draw();density();
+ if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:density});tweak.addSlider(layout,'row',{label:'Row spacing',min:17,max:30,unit:'px'});}
+ window.addEventListener('pagehide',clearTimer,{once:true});
+})();
+</script>

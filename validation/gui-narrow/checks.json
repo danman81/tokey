@@ -1,0 +1,16 @@
+{
+  "requested_size": [
+    460,
+    620
+  ],
+  "errors": [],
+  "actual_size": [
+    460,
+    620
+  ],
+  "wayland": true,
+  "status_text": "SAVED RESULT  /  Showing validated local evidence.",
+  "export_roundtrip": true,
+  "comparison_text": "Same measured workload and engine. Review environment and variability before attributing differences to hardware.\n\nPrompt: 162.74 vs 192.44 tok/s (-15.4%)\nVariation: 1.1% vs 0.9%\nGeneration: 72.45 vs 98.02 tok/s (-26.1%)\nVariation: 10.1% vs 0.9%\n\nObserved difference only; no statistical significance or causal claim.",
+  "elapsed_s": 3.5153743070550263
+}
