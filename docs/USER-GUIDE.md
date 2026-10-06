@@ -11,7 +11,7 @@ Tokey measures generation throughput in this release. Blank first-token and
 memory cells mean those values were not measured. Quiet the machine before a
 comparison and repeat runs when ordinary desktop activity causes variation.
 
-PNG saving and result copying unlock after every configured runner completes.
+PNG, GIF and MP4 saving and result copying unlock after every configured runner completes.
 The caption can be copied at any time. Results stay on the machine unless you
 share them yourself.
 

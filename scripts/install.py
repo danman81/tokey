@@ -25,7 +25,8 @@ manifest = app_root/"install-manifest.json"
 version_dir = app_root/("app-"+__version__)
 launcher = prefix/"bin/llm-benchmark"
 desktop = prefix/"share/applications/net.llmbenchmark.Desktop.desktop"
-icon = prefix/"share/icons/hicolor/scalable/apps/net.llmbenchmark.Desktop.svg"
+icon = prefix/"share/icons/hicolor/scalable/apps/net.llmbenchmark.TokeyRabbit.svg"
+legacy_icon = prefix/"share/icons/hicolor/scalable/apps/net.llmbenchmark.Desktop.svg"
 stamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%S%fZ")
 
 if args.uninstall:
@@ -33,7 +34,7 @@ if args.uninstall:
         parser.error("No installer manifest found; nothing removed")
     record = json.loads(manifest.read_text())
     paths = [Path(p) for p in record["paths"]]
-    approved = {launcher, desktop, icon}
+    approved = {launcher, desktop, icon, legacy_icon}
     for path in paths:
         if path not in approved and not (path.parent == app_root and path.name.startswith("app-")):
             parser.error("Manifest contains an unexpected path; removal refused")
@@ -48,14 +49,15 @@ if args.uninstall:
     raise SystemExit(0)
 
 subprocess.run([sys.executable, "-c", "import gi, cairo; gi.require_version('Gtk','4.0'); from gi.repository import Gtk"], check=True)
-if not shutil.which("llama-bench") or not shutil.which("timeout"):
-    parser.error("Install llama-cpp and coreutils through Omarchy's package manager first")
+missing = [name for name in ("llama-bench", "ffmpeg", "timeout") if not shutil.which(name)]
+if missing:
+    parser.error("Missing required command(s): " + ", ".join(missing))
 
 # Do not overwrite an unrelated executable or desktop launcher.
 if not manifest.exists() and any(p.exists() for p in (launcher, desktop, icon, version_dir)):
     parser.error("An untracked installation target exists. Inspect it before installation")
 backup = app_root/("previous-"+stamp)
-for path in (version_dir, launcher, desktop, icon, manifest):
+for path in (version_dir, launcher, desktop, icon, legacy_icon, manifest):
     if path.exists():
         target = backup/path.relative_to(prefix)
         target.parent.mkdir(parents=True, exist_ok=True)

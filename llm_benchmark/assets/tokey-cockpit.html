@@ -1,7 +1,7 @@
 <div id="tokey-cockpit" aria-label="Compact Tokey dashboard">
   <header class="tc-head">
-    <div class="tc-brand">
-      <pre class="tc-rabbit" role="img" aria-label="Tokey rabbit mascot"> (\_/)
+    <div class="tc-brand" role="button" tabindex="0" aria-label="About Tokey" aria-haspopup="dialog" aria-controls="tc-about">
+      <pre class="tc-rabbit" role="img" aria-label="Tokey rabbit mascot">(\_/)
 (='.'=)
 (")_(")
 </pre>
@@ -19,6 +19,18 @@ Fanless enclosure"><span id="tc-system-name"><span class="tc-system-rabbit">🐇
 2 × 16 GiB Kingston
 DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston DDR4-2133<span class="tc-extra"> · SO-DIMM</span></span></div>
   </header>
+  <div id="tc-about" popover role="dialog" aria-labelledby="tc-about-title">
+    <button type="button" id="tc-about-close" class="tc-about-close" aria-label="Close About">×</button>
+    <div id="tc-about-rabbit" class="tc-brand tc-about-brand" aria-hidden="true"></div>
+    <div id="tc-about-title" class="tc-about-title">TOKEY</div>
+    <div class="tc-about-tagline">Follow the rabbit. Question the numbers.</div>
+    <div class="tc-about-version">Version <span id="tc-about-version">—</span></div>
+    <div class="tc-about-support"><span>Tokey is independent.&nbsp;<span class="tc-about-rabbit-emoji">🐇</span></span> If it helps you, please support <span>its maintenance.&nbsp;❤️</span></div>
+    <div class="tc-about-actions">
+      <button type="button" data-about-url="https://github.com/danman81">danman81 on GitHub</button>
+      <button type="button" class="tc-kofi" data-about-url="https://ko-fi.com/K6W0277G7B"><img src="kofi-cup.png" alt="">Help maintain Tokey</button>
+    </div>
+  </div>
   <div class="tc-toolbar">
     <div class="tc-devices" role="group" aria-label="Example execution device"><button data-device="CPU" aria-pressed="true" type="button">CPU</button><button data-device="GPU" aria-pressed="false" type="button">GPU</button><button data-device="NPU" aria-pressed="false" type="button" hidden disabled>NPU</button></div>
     <div class="tc-context">
@@ -55,7 +67,26 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
   </section>
 </div>
 <style>
- #tokey-cockpit{--tc-bg:#05090d;--tc-panel:#0a1318;--tc-edge:#18323d;--tc-text:#d0d0d0;--tc-muted:#71848b;--tc-accent:#3bfb1b;--tc-cyan:#55ead4;--tc-blue:#3fc2e0;--tc-deep:#0b6974;--tc-brand-base:#3bfb1b;--tc-row:32px;color:var(--tc-text);background:radial-gradient(circle at 84% -24%,#0b697422,transparent 34rem),var(--tc-bg);border:1px solid var(--tc-edge);border-radius:10px;font:11px/1.35 Inter,system-ui,sans-serif;color-scheme:dark;max-width:980px;margin:auto;overflow:hidden}
+ #tokey-cockpit{--tc-bg:#05090d;--tc-panel:#0a1318;--tc-edge:#18323d;--tc-text:#d0d0d0;--tc-muted:#71848b;--tc-accent:#3bfb1b;--tc-cyan:#55ead4;--tc-blue:#3fc2e0;--tc-deep:#0b6974;--tc-brand-base:#3bfb1b;--tc-row:25px;color:var(--tc-text);background:radial-gradient(circle at 84% -24%,#0b697422,transparent 34rem),var(--tc-bg);border:1px solid var(--tc-edge);border-radius:10px;font:11px/1.35 Inter,system-ui,sans-serif;color-scheme:dark;max-width:980px;margin:auto;overflow:hidden}
+ #tokey-cockpit .tc-brand{cursor:pointer;border-radius:5px}#tokey-cockpit .tc-brand:focus-visible{outline:1px solid var(--tc-accent);outline-offset:3px}
+ #tokey-cockpit #tc-about{inset:50% auto auto 50%;transform:translate(-50%,-50%);box-sizing:border-box;width:310px;max-width:calc(100% - 28px);margin:0;padding:18px 18px 14px;border:1px solid var(--tc-accent);border-radius:9px;background:radial-gradient(circle at 50% 0,#0b697433,transparent 150px),var(--tc-panel);color:var(--tc-text);text-align:center;box-shadow:0 12px 34px #000c;font:11px/1.45 var(--tc-font);color-scheme:dark}
+ #tokey-cockpit #tc-about::backdrop{background:#020507b8}
+ #tokey-cockpit .tc-about-close{position:absolute;right:7px;top:6px;width:24px;height:24px;padding:0;border:0;background:transparent;color:var(--tc-muted);font-size:18px;line-height:1}
+ #tokey-cockpit .tc-about-close:is(:hover,:focus-visible){color:var(--tc-accent);border:0}
+ #tokey-cockpit .tc-about-brand{width:max-content;margin:0 auto 4px;gap:0;justify-content:center}
+ #tokey-cockpit .tc-rabbit{width:7ch;text-align:center}
+ #tokey-cockpit .tc-about-title{color:var(--tc-accent);font-size:18px;font-weight:800;letter-spacing:.18em;margin-left:.18em}
+ #tokey-cockpit .tc-about-tagline{margin-top:4px;color:var(--tc-text)}
+ #tokey-cockpit .tc-about-version{margin-top:3px;color:var(--tc-muted)}
+ #tokey-cockpit .tc-about-support{width:100%;margin:11px auto 0;color:var(--tc-text)}
+ #tokey-cockpit .tc-about-support span{white-space:nowrap}
+ #tokey-cockpit .tc-about-rabbit-emoji{display:inline-block}
+ #tokey-cockpit #tc-about:popover-open .tc-about-rabbit-emoji{animation:tc-rabbit-dance 2s linear 1.5s infinite}
+ @media(prefers-reduced-motion:reduce){#tokey-cockpit #tc-about:popover-open .tc-about-rabbit-emoji{animation:none}}
+ #tokey-cockpit .tc-about-actions{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:13px;padding-top:11px;border-top:1px solid var(--tc-edge)}
+ #tokey-cockpit .tc-about-actions button{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:5px 7px;color:var(--tc-muted);background:var(--tc-bg);border-color:var(--tc-edge);white-space:nowrap}
+ #tokey-cockpit .tc-about-actions button:is(:hover,:focus-visible){color:var(--tc-cyan);background:#0b697466;border-color:var(--tc-accent)}
+ #tokey-cockpit .tc-kofi img{width:16px;height:14px;object-fit:contain}
  #tokey-cockpit *{box-sizing:border-box}#tokey-cockpit [hidden]{display:none!important}#tokey-cockpit button,#tokey-cockpit input,#tokey-cockpit select{font:inherit;color:var(--tc-text)}#tokey-cockpit button,#tokey-cockpit select{background:var(--tc-panel);border:1px solid var(--tc-edge);border-radius:5px;padding:6px 10px;cursor:pointer}#tokey-cockpit button:hover{border-color:var(--tc-cyan)}#tokey-cockpit button:disabled{opacity:.45;cursor:not-allowed}#tokey-cockpit :is(button,select,input):focus-visible{outline:2px solid var(--tc-cyan);outline-offset:2px}#tokey-cockpit .tc-muted,#tokey-cockpit small{color:var(--tc-muted);font-size:11px}#tokey-cockpit .tc-head{display:flex;align-items:center;gap:20px;padding:12px 14px;border-bottom:1px solid var(--tc-edge);flex-wrap:wrap}
  #tokey-cockpit .tc-brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}#tokey-cockpit .tc-brand pre{padding:0;margin:0;border:0;background-color:transparent;white-space:pre;letter-spacing:0;font-family:"DejaVu Sans Mono","Liberation Mono",monospace;font-weight:400;font-variant-ligatures:none;font-feature-settings:"liga" 0;overflow:visible;flex:none}#tokey-cockpit .tc-rabbit{font-size:13px;line-height:1.05;color:var(--tc-brand-base)}#tokey-cockpit .tc-wordmark{font-size:11px;line-height:1;color:var(--tc-brand-base)}#tokey-cockpit .tc-brand pre{background-image:linear-gradient(110deg,transparent 0 39%,#168fe800 41%,#168fe866 43%,#168fe8 45%,#30cfff 47%,#abffbf 48% 49.5%,#ffffff 49.75% 50.25%,#abffbf 50.5% 52%,#30cfff 53%,#168fe8 55%,#168fe866 57%,#168fe800 59%,transparent 61% 100%),linear-gradient(var(--tc-brand-base),var(--tc-brand-base));background-size:300% 100%,100% 100%;background-position:100% 50%,0 0;background-repeat:no-repeat,no-repeat;animation:tc-glint-burst 1.2s linear infinite;background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 4px #30cfff66)}#tokey-cockpit .tc-identity{display:grid;gap:3px;margin-left:auto}#tokey-cockpit .tc-toolbar{display:flex;align-items:center;gap:10px;padding:9px 14px;flex-wrap:wrap}#tokey-cockpit .tc-devices{display:flex;gap:3px}#tokey-cockpit .tc-devices button{padding:5px 11px}#tokey-cockpit [data-device][aria-pressed=true]{background:#0b697466;border-color:#55ead466;color:var(--tc-cyan)}#tokey-cockpit #tc-status{font-size:11px;color:var(--tc-muted)}#tokey-cockpit .tc-primary{background:var(--tc-blue);color:#05090d;border-color:var(--tc-blue);font-weight:600;margin-left:auto;box-shadow:0 0 14px #3fc2e022}
  #tokey-cockpit #tc-progress{height:1px;background:var(--tc-edge)}#tokey-cockpit #tc-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--tc-deep),var(--tc-blue),var(--tc-cyan));transition:width .2s}
@@ -88,8 +119,6 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
  #tokey-cockpit #tc-status{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-size:11px;color:var(--tc-muted)}
  #tokey-cockpit #tc-status span{color:inherit}
  #tokey-cockpit #tc-detail-compact{display:none}
- @container(max-width:639px){#tokey-cockpit #tc-stage{display:none}}
- @container(max-width:439px){#tokey-cockpit #tc-detail{display:none}#tokey-cockpit #tc-detail-compact{display:inline}}
  #tokey-cockpit .tc-run-controls #tc-run{margin-left:0;min-width:82px;white-space:nowrap}
  #tokey-cockpit .tc-run-controls #tc-run.tc-icon{min-width:28px}
  #tokey-cockpit #tc-run{color:var(--tc-accent);border:1px solid var(--tc-edge);background:var(--tc-panel);box-shadow:none;font-weight:400}
@@ -206,9 +235,9 @@ DDR4-2133 SO-DIMM">32 GiB <span id="tc-ram-anchor">·</span> 2×16 · Kingston D
  #tokey-cockpit #tc-caption{flex:1 1 0;min-width:0;margin-inline-end:3px}
  #tokey-cockpit{position:relative}
  #tokey-cockpit #tc-copy{anchor-name:--tc-copy-anchor}
- #tokey-cockpit #tc-copy-menu{position:absolute;position-anchor:--tc-copy-anchor;inset:auto;bottom:anchor(top);right:anchor(right);margin:0 0 6px;padding:4px;max-width:calc(100% - 20px);width:max-content;border:1px solid var(--tc-edge);border-radius:5px;background:var(--tc-panel);color:var(--tc-text);font:11px/1.35 var(--tc-font);box-shadow:0 4px 12px #0008;color-scheme:dark}
- #tokey-cockpit #tc-copy-menu:popover-open{display:grid;gap:3px}
- #tokey-cockpit #tc-copy-menu button{width:100%;min-height:28px;text-align:left;padding:5px 8px;white-space:nowrap}
+ #tokey-cockpit #tc-copy-menu{position:absolute;inset:auto 10px 38px auto;margin:0;padding:4px;width:154px;height:auto;min-height:0;max-height:none;border:1px solid var(--tc-edge);border-radius:5px;background:var(--tc-panel);color:var(--tc-text);font:11px/1.35 var(--tc-font);box-shadow:0 4px 12px #0008;color-scheme:dark}
+ #tokey-cockpit #tc-copy-menu:popover-open{display:grid;grid-template-rows:repeat(2,28px);align-content:start;gap:3px}
+ #tokey-cockpit #tc-copy-menu button{width:100%;height:28px;min-height:28px;text-align:left;padding:5px 8px;white-space:nowrap}
  #tokey-cockpit #tc-copy-menu button:not(:disabled):is(:hover,:focus-visible){background:var(--tc-deep)}
  #tokey-cockpit #tc-copy-menu button:disabled{color:var(--tc-muted);opacity:.55;cursor:not-allowed;border-color:var(--tc-edge)}
  #tokey-cockpit #tc-caption[data-copied=true]{color:var(--tc-accent)}

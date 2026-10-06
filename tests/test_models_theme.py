@@ -74,7 +74,7 @@ class DownloadTests(unittest.TestCase):
 class ThemeTests(unittest.TestCase):
     def test_locked_mascot(self):
         asset = Path(__file__).resolve().parents[1]/"assets/tokey-mascot.txt"
-        expected = b" (\\_/)\n(='.'=)\n(\")_(\")\n"
+        expected = b"(\\_/)\n(='.'=)\n(\")_(\")\n"
         self.assertEqual(asset.read_bytes(), expected)
         brand = (asset.parent.parent/"docs/BRAND.md").read_text()
         self.assertIn("```text\n"+expected.decode()+"```", brand)
@@ -106,13 +106,41 @@ class ThemeTests(unittest.TestCase):
             _, p = theme.read_palette(root)
         self.assertEqual(p["background"], theme.FALLBACK["background"])
 
+    def test_about_uses_local_coffee_branding_and_accessible_trigger(self):
+        assets = Path(__file__).resolve().parents[1] / "llm_benchmark" / "assets"
+        surface = (assets / "tokey-cockpit.html").read_text()
+        adapter = (assets / "production-adapter.js").read_text()
+        self.assertIn('aria-label="About Tokey"', surface)
+        self.assertIn('id="tc-about" popover role="dialog"', surface)
+        self.assertIn("border:1px solid var(--tc-accent);border-radius:9px", surface)
+        self.assertIn('src="kofi-cup.png"', surface)
+        self.assertIn('class="tc-about-rabbit-emoji">🐇', surface)
+        self.assertIn("#tc-about:popover-open .tc-about-rabbit-emoji{animation:tc-rabbit-dance 2s linear 1.5s infinite}", surface)
+        self.assertIn("its maintenance.&nbsp;❤️", surface)
+        self.assertIn('id="tc-about-rabbit" class="tc-brand tc-about-brand"', surface)
+        self.assertIn(".tc-head .tc-rabbit').cloneNode(true)", adapter)
+        self.assertTrue((assets / "kofi-cup.png").is_file())
+        self.assertIn("event.key === 'Enter'", adapter)
+
+    def test_all_export_formats_are_available(self):
+        assets = Path(__file__).resolve().parents[1] / "llm_benchmark" / "assets"
+        surface = (assets / "tokey-cockpit.html").read_text()
+        adapter = (assets / "production-adapter.js").read_text()
+        for format_name in ("GIF", "PNG", "MP4"):
+            self.assertIn(f'<option value="{format_name}"', surface)
+        self.assertNotIn("option.disabled", adapter)
+        self.assertIn("Copy results · ' + el('format').value", adapter)
+
 
 class ConfigTests(unittest.TestCase):
     def test_shipped_config_has_current_pinned_runners(self):
         loaded = config.load_config(config.default_config_path())
         self.assertEqual(loaded.system_name, "")
         self.assertEqual(len(loaded.runners), 10)
+        self.assertIn("gemma-3-4b", [item.id for item in loaded.runners])
+        self.assertNotIn("spark-x2.5-4b", [item.id for item in loaded.runners])
         self.assertTrue(all(len(item.sha256) == 64 and item.bytes > 0 for item in loaded.runners))
+        self.assertNotIn("easter", config.default_config_path().read_text().lower())
 
     def test_empty_optional_values_stay_empty(self):
         with tempfile.TemporaryDirectory() as root:

@@ -1,104 +1,15 @@
-# Tokey 0.1.0rc1 — local validation
+# Local validation
 
-Executed 2026-10-03 America/New_York (raw run timestamps use UTC, October 4).
-Result: locally tested CPU reference release candidate. Not a universal
-accuracy certification or broad commercial release. No public upload.
+Tokey is tested on an Intel i7-8650U system running Omarchy. Automated tests
+cover model verification, parsing, statistics, cancellation, interrupted runs,
+stored-report checks, configuration, installation and UI state.
 
-## Environment and model
+Real CPU runs pass with the pinned starter model. A real Vulkan run also passes
+on the Intel UHD Graphics 620 and records `Vulkan0` as the device. These checks
+show that the supported paths work on this machine; they are not a promise that
+every driver, GPU or future llama.cpp build behaves identically.
 
-Omarchy 4.0.4-1, Linux 7.2.3-arch1-3, Intel i7-8650U (4 cores/8 logical),
-Python 3.14.7, GTK4 4.22.4, PyGObject 3.56.3, llama-cpp 0.4.0-1,
-ggml 0.23.0-2, build 10809 / 5266f24da7. CPU tests use 2 threads.
-Engine prints assertions-enabled warning; reports preserve it.
-
-Starter: bartowski/SmolLM2-135M-Instruct-GGUF revision
-09816acd5d99df7be770d85ea30822623dab342c; file
-SmolLM2-135M-Instruct-Q4_K_M.gguf; 105454432 bytes; SHA-256
-2e8040ceae7815abe0dcb3540b9995eaa1fa0d2ca9e797d0a635ae4433c68c2d.
-Actual HTTPS download and exact checksum passed.
-
-## Automated checks
-
-40 unittest cases passed, including parameter/sample corruption, independent
-rates/aggregates, Boolean counter rejection, compatible comparisons, privacy
-export, digest corruption and forged-summary rejection, interrupted-run
-recovery, lock exclusion, invalid/missing models, bounded subprocess output,
-timeout, cancellation, clock jumps and missing-supervisor fail-closed behavior.
-Download tests cover resume, ignored/wrong ranges, hash rejection, insecure
-redirect response, cancellation and preserving a user's existing file.
-Contrast/theme parsing, exact locked mascot bytes, install/reinstall/uninstall
-and untracked-file preservation pass.
-
-Reproduce: python3 scripts/check_release.py. Local output and source hashes:
-validation/unit-tests.txt and validation/release-checks.json. Synthetic
-fixtures are test-only and never populate production history.
-
-## Real measurements and independent arithmetic
-
-scripts/live_validate.py ran all three profiles on the actual starter and
-separately recomputed mean/SD using 50-digit Decimal arithmetic. Maximum
-relative differences in the observed audit were below 5e-16. This establishes
-arithmetic agreement, not that the physical timer is accurate to that tolerance.
-
-| Profile | Prompt mean tok/s | Generation mean tok/s | Prompt CV | Generation CV |
-|---|---:|---:|---:|---:|
-| Quick | 149.4872 | 68.7401 | 3.83% | 3.25% |
-| Standard | 126.2425 | 75.3708 | 8.57% | 2.95% |
-| Long input | 91.4350 | 74.9451 | 7.80% | 5.51% |
-
-These are observations of this model/build/session, not expected hardware
-ratings. High variation flags remain. Background work and power/thermal state
-were uncontrolled; no cause is inferred. Audit IDs, raw samples and warnings
-are in validation/live-audit.json and validation/state/runs. A real interrupted
-long test saved status cancelled and an empty metrics object.
-
-The source audit found upstream integer-duration SD discrepancies. For the
-first prompt row, upstream 6066455 ns versus independently 6066373.357325223 ns.
-Tokey uses raw samples and independently calculated rate/duration statistics;
-the unused aggregate discrepancy is flagged. Details in METHODOLOGY.md.
-
-## Desktop acceptance
-
-Native Wayland graphical runs completed with real engine data; export reload
-matched the original result ID. Closing during a live run produced cancelled,
-not complete. Tests were kept on desktop 4 with native per-launch rules;
-brief screenshots returned to the prior desktop. No global rules changed.
-
-Actual visual inspections: 1000×620 logical, 460×620, and a requested 430×620
-whose GTK content minimum yielded 434×620. Layout reflow/vertical scrolling,
-Netrunner colors, results/history/evidence and chart rendering were inspected.
-The initial inherited X11/GDK-scale mismatch was found and corrected by the
-installed launcher's native Wayland/compositor-scale selection.
-
-Local acceptance folders: validation/gui-tokey-wide, gui-tokey-narrow,
-gui-close. Checks and screenshots are actual application captures, not mockups.
-Native file dialogs use GTK's supported async API; a full independent
-first-time-user usability study/accessibility audit has not been performed.
-
-## Exploratory GUI overhead probe
-
-Six real quick runs in H/G/G/H/H/G order (three headless, three background
-GUI), same workload/runtime. Median prompt throughput: 149.0936 headless,
-151.3534 GUI (+1.52% observed). Generation: 79.3092 versus 76.5465 (−3.48%).
-Evidence: validation/overhead/summary.json and validation/overhead-state.
-
-Small sample, normal desktop load and background GUI: this does not establish
-causal overhead, equivalence or a visible-animation overhead bound. No
-animations/live sensor polling run in the app. A controlled visible-UI and
-multi-machine repeatability campaign remains a commercial-release gate.
-
-## Packaging and operational scope
-
-Isolated install/reinstall/removal passed; models were preserved and removed
-app files remained recoverable. Persistent user installation and an installed
-end-to-end run were checked on this host. Desktop entry validation passed.
-Deterministic source archive and local Arch recipe are generated by package.py;
-source archive SHA-256 verification and a makepkg build passed locally. The
-source archive is reproducible for identical input files; the Arch binary
-package contains build-time metadata and is not claimed byte-reproducible.
-Final artifact checks are recorded in the release handoff/state.
-
-No reboot, GPU/AMD/Apple testing, large-model validation, external timer
-calibration, formal security penetration test or customer acceptance study.
-No guarantees of cheat-proof results, every future engine update, zero
-observer effect, optimized-build ranking or absolute physical accuracy.
+The release checklist also includes opening the installed Wayland app, running
+its configured queue, and checking PNG, GIF and MP4 export. Raw reports and
+engine logs remain local so failures can be inspected without uploading private
+system data.

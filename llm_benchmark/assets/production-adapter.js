@@ -16,8 +16,46 @@
   const run = ownButton('run', () => post('toggle'));
   const save = ownButton('save', () => post('save', {format: el('format').value}));
   const copy = ownButton('copy', () => {});
-  const copyCaption = ownButton('copy-caption', () => post('copy-caption', {text: el('caption').value}));
-  const copyResults = ownButton('copy-results', () => post('copy-results', {format: el('format').value}));
+  const copyCaption = ownButton('copy-caption', () => {
+    el('copy-menu').hidePopover?.();
+    post('copy-caption', {text: el('caption').value});
+  });
+  const copyResults = ownButton('copy-results', () => {
+    el('copy-menu').hidePopover?.();
+    post('copy-results', {format: el('format').value});
+  });
+  const brand = root.querySelector('.tc-brand');
+  const about = el('about');
+  const rabbitClone = root.querySelector('.tc-head .tc-rabbit').cloneNode(true);
+  rabbitClone.removeAttribute('role');
+  rabbitClone.removeAttribute('aria-label');
+  el('about-rabbit').replaceChildren(rabbitClone);
+  const openAbout = () => about.showPopover?.();
+  brand.addEventListener('click', openAbout);
+  brand.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openAbout();
+    }
+  });
+  el('about-close').addEventListener('click', () => about.hidePopover?.());
+  about.querySelectorAll('[data-about-url]').forEach(button => {
+    button.addEventListener('click', () => post('open-url', {url: button.dataset.aboutUrl}));
+  });
+  let noticeTimer = 0;
+  function showNotice(message) {
+    const notice = el('caption-status');
+    notice.textContent = message;
+    notice.dataset.visible = 'true';
+    notice.dataset.success = String(message.includes('copied'));
+    el('caption').dataset.copied = String(message.includes('copied'));
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(() => {
+      delete notice.dataset.visible;
+      delete notice.dataset.success;
+      delete el('caption').dataset.copied;
+    }, 1300);
+  }
   root.querySelectorAll('[data-device]').forEach(button => {
     const fresh = button.cloneNode(true); button.replaceWith(fresh);
     fresh.addEventListener('click', () => post('device', {device: fresh.dataset.device}));
@@ -27,7 +65,9 @@
     fresh.addEventListener('click', () => post('sort', {key: fresh.dataset.sort}));
   });
   el('format').value = 'PNG';
-  [...el('format').options].forEach(option => option.disabled = option.value !== 'PNG');
+  el('format').addEventListener('change', () => {
+    copyResults.textContent = 'Copy results · ' + el('format').value;
+  });
 
   function iconState(state) {
     run.classList.toggle('tc-icon', state.running || state.complete);
@@ -68,6 +108,7 @@
       root.dataset.paused = String(Boolean(state.paused));
       root.dataset.complete = String(Boolean(state.complete));
       root.dataset.production = 'true';
+      el('about-version').textContent = state.version || '';
       const systemName = el('system-name');
       if (state.systemName === '🐇') {
         if (!systemName.querySelector('.tc-rabbit-travel')) {
@@ -80,6 +121,8 @@
         systemName.dataset.rabbitEgg = 'false';
         delete systemName.dataset.celebrating;
       }
+      systemName.hidden = !state.systemName;
+      root.querySelector('.tc-name-separator').hidden = !state.systemName;
       iconState(state);
       el('hardware').textContent = state.running ? '' : (state.hardware || '');
       el('status').hidden = !state.status;
@@ -89,16 +132,20 @@
       const progress = Math.max(0, Math.min(100, Number(state.progress || 0)));
       el('progress').setAttribute('aria-valuenow', String(progress));
       el('progress').firstElementChild.style.width = progress + '%';
-      root.querySelector('[data-device="CPU"]').hidden = false;
-      root.querySelector('[data-device="CPU"]').setAttribute('aria-pressed', 'true');
-      for (const device of ['GPU','NPU']) root.querySelector(`[data-device="${device}"]`).hidden = true;
+      const available = new Set((state.devices || []).map(device => device.key));
+      for (const device of ['CPU','GPU','NPU']) {
+        const button = root.querySelector(`[data-device="${device}"]`);
+        button.hidden = !available.has(device);
+        button.disabled = !available.has(device) || Boolean(state.running);
+        button.setAttribute('aria-pressed', String(state.selectedDevice === device));
+      }
       renderRows(state);
       const ready = Boolean(state.complete);
       el('format').disabled = !ready;
       save.disabled = !ready;
       copyResults.disabled = !ready;
-      copyResults.textContent = 'Copy results · PNG';
-      if (state.notice) el('caption-status').textContent = state.notice;
+      copyResults.textContent = 'Copy results · ' + el('format').value;
+      if (state.notice) showNotice(state.notice);
     }
   };
   save.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h10l2 2v10H2zM4 2v4h7V2M4 10h8v4H4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';

@@ -17,6 +17,7 @@ import shutil
 import signal
 import statistics
 import subprocess
+import tempfile
 import threading
 import time
 import uuid
@@ -136,22 +137,58 @@ def validate_model(path):
     return path
 
 
-def build_command(binary, model, profile, threads):
+def build_command(binary, model, profile, threads, device="CPU"):
     if type(threads) is not int or not 1 <= threads <= (os.cpu_count() or 1):
         raise BenchmarkError("Thread count is outside this computer's available range.")
     if profile not in PROFILES:
         raise BenchmarkError("Unknown benchmark profile.")
+    if device == "CPU":
+        offload = ["-ngl", "0", "-dev", "none"]
+    elif isinstance(device, str) and device:
+        offload = ["-ngl", "999", "-dev", device]
+    else:
+        raise BenchmarkError("Unknown execution device.")
     return [str(binary), "-m", str(model), "-p", str(profile.prompt), "-n", str(profile.generation),
             "-r", str(profile.repetitions), "-d", str(profile.depth), "-t", str(threads),
-            "-b", "512", "-ub", "128", "-ngl", "0", "-dev", "none", "--poll", "0",
+            "-b", "512", "-ub", "128", *offload, "--poll", "0",
             "-fa", "off", "-ctk", "f16", "-ctv", "f16", "-o", "json", "--offline"]
+
+
+def probe_model(binary, model, cancel=None, pause=None, device="CPU"):
+    """Prove the installed engine can load a model before timed work starts."""
+    cancel = cancel or threading.Event()
+    model = validate_model(model)
+    if not binary:
+        raise BenchmarkError("llama-bench is missing. Install the Omarchy/Arch llama-cpp package.")
+    offload = ["-ngl", "0", "-dev", "none"] if device == "CPU" else ["-ngl", "999", "-dev", device]
+    command = [str(binary), "-m", str(model), "-p", "1", "-n", "0", "-r", "1",
+               "-t", "1", "-b", "128", "-ub", "128", *offload,
+               "--poll", "0", "-fa", "off", "-ctk", "f16", "-ctv", "f16",
+               "-o", "json", "--offline"]
+    with tempfile.TemporaryDirectory(prefix="tokey-probe-") as folder:
+        root = Path(folder)
+        try:
+            raw, _log, _wall = process(command, cancel, root / "engine.json", root / "engine.log",
+                                       timeout=180, pause=pause)
+        except Cancelled:
+            raise
+        except BenchmarkError as exc:
+            raise BenchmarkError(f"{model.name} is not compatible with the installed llama.cpp engine.") from exc
+    try:
+        rows = json.loads(raw)
+    except (ValueError, TypeError) as exc:
+        raise BenchmarkError(f"{model.name} compatibility probe returned invalid evidence.") from exc
+    if (not isinstance(rows, list) or len(rows) != 1 or rows[0].get("n_prompt") != 1
+            or rows[0].get("n_gen") != 0 or rows[0].get("model_filename") != str(model)
+            or type(rows[0].get("model_n_params")) is not int or rows[0]["model_n_params"] <= 0):
+        raise BenchmarkError(f"{model.name} compatibility probe could not verify a successful load.")
 
 
 def _number(value):
     return type(value) in (int, float) and math.isfinite(value)
 
 
-def validate_output(raw, profile, threads):
+def validate_output(raw, profile, threads, device="CPU"):
     """Recalculate rates from integer nanoseconds; refuse unverified rows."""
     try:
         rows = json.loads(raw, parse_constant=lambda x: (_ for _ in ()).throw(ValueError(x)))
@@ -175,13 +212,15 @@ def validate_output(raw, profile, threads):
         if name in seen:
             raise BenchmarkError("Duplicate workload result.")
         seen.add(name)
-        expected = {"n_threads": threads, "n_gpu_layers": 0, "n_batch": 512, "n_ubatch": 128,
+        gpu = device != "CPU"
+        expected = {"n_threads": threads, "n_gpu_layers": 999 if gpu else 0, "n_batch": 512, "n_ubatch": 128,
                     "n_depth": profile.depth, "poll": 0, "type_k": "f16", "type_v": "f16"}
         for key, value in expected.items():
             if type(row.get(key)) is not type(value) or row.get(key) != value:
                 raise BenchmarkError(f"Engine setting mismatch: {key}.")
-        if row.get("backends") != "CPU" or row.get("devices") != "none":
-            raise BenchmarkError("CPU-only execution could not be verified.")
+        if (not gpu and (row.get("backends") != "CPU" or row.get("devices") != "none")) or \
+                (gpu and (device not in str(row.get("devices")) or row.get("backends") == "CPU")):
+            raise BenchmarkError("Execution device could not be verified.")
         if row.get("flash_attn") not in (False, 0):
             raise BenchmarkError("Attention configuration could not be verified.")
         if not isinstance(row.get("build_commit"), str) or not row["build_commit"] or type(row.get("model_n_params")) is not int or row["model_n_params"] <= 0:
@@ -305,7 +344,8 @@ class Store:
             profile = Profile(**report["profile"])
             if profile not in PROFILES or report.get("suite") != SUITE or not report.get("comparison_key"):
                 raise BenchmarkError("Unrecognized completed benchmark.")
-            _, metrics = validate_output(json.dumps(report["raw_rows"]), profile, report["threads"])
+            _, metrics = validate_output(json.dumps(report["raw_rows"]), profile, report["threads"],
+                                         report.get("device", "CPU"))
             if metrics != report["metrics"]:
                 raise BenchmarkError("Stored metrics do not match raw evidence.")
         return report
@@ -360,7 +400,7 @@ class Runner:
         self.store = store or Store()
         self.binary = binary or shutil.which("llama-bench")
 
-    def run(self, model, profile, threads, cancel=None, progress=None, pause=None):
+    def run(self, model, profile, threads, cancel=None, progress=None, pause=None, device="CPU"):
         cancel = cancel or threading.Event()
         progress = progress or (lambda message: None)
         lock = open(self.store.root / "runner.lock", "a+")
@@ -381,7 +421,7 @@ class Runner:
             if any(os.environ.get(key) for key in ("LD_PRELOAD", "LD_LIBRARY_PATH", "GGML_BACKEND_PATH")):
                 raise BenchmarkError("Custom library-loading overrides are unsupported by this reference suite. Start without LD_PRELOAD, LD_LIBRARY_PATH or GGML_BACKEND_PATH.")
             model = validate_model(model)
-            command = build_command(self.binary, model, profile, threads)
+            command = build_command(self.binary, model, profile, threads, device)
             progress("Verifying model and engine fingerprints…")
             before = model.stat()
             report["model"] = {"name": model.name, "path": str(model), "bytes": before.st_size, "sha256": file_hash(model, cancel)}
@@ -395,7 +435,7 @@ class Runner:
             progress("Measuring prompt processing and generation. Warmup is excluded by the engine…")
             raw, log, wall_ns = process(command, cancel, folder / "engine.json", folder / "engine.log", lease_fd=lock.fileno(), pause=pause)
             progress("Independently validating every timing sample…")
-            rows, metrics = validate_output(raw, profile, threads)
+            rows, metrics = validate_output(raw, profile, threads, device)
             if any(row.get("model_filename") != str(model) for row in rows):
                 raise BenchmarkError("Engine did not report the selected model path.")
             if sum(sum(m["samples_ns"]) for m in metrics.values()) > wall_ns:
@@ -418,9 +458,10 @@ class Runner:
             report["formula"] = "rate_i = tokens_per_repetition * 1e9 / sample_ns_i; mean = arithmetic mean of rates; SD = sample SD (n-1); CV = 100 * SD / mean"
             report["environment_after"] = environment()
             report["engine"]["build_commit"] = rows[0]["build_commit"]
+            report["device"] = device
             report["comparison_key"] = digest({"suite": SUITE, "profile": report["profile"], "threads": threads,
                                                "model": report["model"]["sha256"], "engine": files,
-                                               "commit": rows[0]["build_commit"]})
+                                               "commit": rows[0]["build_commit"], "device": device})
             if "asserts enabled" in log:
                 report["warnings"].append("Engine asserts are enabled; these results describe this build, not an optimized-build rating.")
             if any(m["cv_percent"] > 5 for m in metrics.values()):

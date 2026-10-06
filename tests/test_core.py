@@ -68,6 +68,16 @@ class CalculationTests(unittest.TestCase):
         with self.assertRaises(core.BenchmarkError):
             self.validate(rows)
 
+    def test_gpu_execution_identity_is_verified(self):
+        rows = fixture()
+        for row in rows:
+            row.update(n_gpu_layers=999, backends="Vulkan", devices="Vulkan0")
+        _, metrics = core.validate_output(json.dumps(rows), core.PROFILES[0], 2, "Vulkan0")
+        self.assertIn("generation", metrics)
+        rows[0]["devices"] = "none"
+        with self.assertRaises(core.BenchmarkError):
+            core.validate_output(json.dumps(rows), core.PROFILES[0], 2, "Vulkan0")
+
     def test_reject_invalid_samples(self):
         for value in ([], [1], [0]*5, [-1]*5, [True]*5, [1.2]*5, None):
             with self.subTest(value=value):
@@ -247,6 +257,42 @@ class ProcessTests(unittest.TestCase):
     def test_flood_output_is_bounded(self):
         with patch.object(core, "MAX_OUTPUT", 1000), self.assertRaises(core.BenchmarkError):
             self.run_process("print('x'*10000)")
+
+
+class CompatibilityProbeTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.model = Path(self.tmp.name) / "model.gguf"
+        self.model.write_bytes(b"GGUF" + b"test")
+
+    def test_success_requires_load_evidence_for_exact_model(self):
+        row = {"n_prompt": 1, "n_gen": 0, "model_filename": str(self.model.resolve()),
+               "model_n_params": 100}
+        with patch.object(core, "process", return_value=(json.dumps([row]), "", 1)) as run:
+            core.probe_model("/engine", self.model)
+        command = run.call_args.args[0]
+        self.assertIn("--offline", command)
+        self.assertEqual(command[command.index("-n") + 1], "0")
+
+    def test_gpu_probe_requests_full_offload_and_exact_device(self):
+        row = {"n_prompt": 1, "n_gen": 0, "model_filename": str(self.model.resolve()),
+               "model_n_params": 100}
+        with patch.object(core, "process", return_value=(json.dumps([row]), "", 1)) as run:
+            core.probe_model("/engine", self.model, device="Vulkan0")
+        command = run.call_args.args[0]
+        self.assertEqual(command[command.index("-ngl") + 1], "999")
+        self.assertEqual(command[command.index("-dev") + 1], "Vulkan0")
+
+    def test_engine_failure_is_reported_as_incompatibility(self):
+        with patch.object(core, "process", side_effect=core.BenchmarkError("exit 1")), \
+                self.assertRaisesRegex(core.BenchmarkError, "not compatible"):
+            core.probe_model("/engine", self.model)
+
+    def test_cancellation_is_not_misreported_as_incompatibility(self):
+        with patch.object(core, "process", side_effect=core.Cancelled("stopped")), \
+                self.assertRaises(core.Cancelled):
+            core.probe_model("/engine", self.model)
 
 
 if __name__ == "__main__":

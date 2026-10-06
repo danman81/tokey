@@ -7,7 +7,7 @@ The mascot and wordmark source files are `assets/tokey-mascot.txt` and
 `assets/tokey-wordmark.txt`. Keep their characters and whitespace unchanged.
 
 ```text
- (\_/)
+(\_/)
 (='.'=)
 (")_(")
 ```

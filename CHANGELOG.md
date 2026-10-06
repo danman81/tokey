@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Replace the unsupported default Spark X2.5 runner with pinned Gemma 3 4B.
+- Download and verify the full configured roster, then prove every model loads
+  in the installed llama.cpp before starting any timed benchmark.
+- Detect usable llama.cpp devices and run the queue on CPU and GPU without
+  treating a visible control as proof that a backend exists.
+- Add PNG, animated GIF and MP4 saving and clipboard export.
+- Keep the completion status line empty; the finished-state glint is the cue.
+- Shorten the README and documentation, with Tokey artwork and a support link.
+
 ## 0.2.0a3 — 2026-10-05
 
 - Expand the default roster to ten popular Q4 models that individually fit

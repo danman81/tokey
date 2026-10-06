@@ -5,7 +5,8 @@ pkgrel=1
 pkgdesc='Local LLM engine benchmarking with independently verified sample statistics'
 arch=('any')
 license=('LicenseRef-Proprietary')
-depends=('python' 'python-gobject' 'python-cairo' 'gtk4' 'webkitgtk-6.0' 'llama-cpp' 'coreutils')
+depends=('python' 'python-gobject' 'python-cairo' 'gtk4' 'webkitgtk-6.0' 'llama-cpp' 'ffmpeg' 'coreutils')
+optdepends=('ggml-vulkan: GPU benchmarks through Vulkan')
 source=("$pkgname-$pkgver.tar.gz")
 # Replace with the SHA-256 in the accompanying release manifest before makepkg.
 sha256sums=('REPLACE_WITH_RELEASE_SHA256')
@@ -19,7 +20,7 @@ package() {
   install -m644 llm_benchmark/assets/production-adapter.js "$pkgdir/usr/lib/llm-benchmark/llm_benchmark/assets/"
   install -m755 packaging/llm-benchmark "$pkgdir/usr/bin/llm-benchmark"
   install -Dm644 packaging/net.llmbenchmark.Desktop.desktop "$pkgdir/usr/share/applications/net.llmbenchmark.Desktop.desktop"
-  install -Dm644 assets/net.llmbenchmark.Desktop.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/net.llmbenchmark.Desktop.svg"
+  install -Dm644 assets/net.llmbenchmark.Desktop.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/net.llmbenchmark.TokeyRabbit.svg"
   install -Dm644 NOTICE.md "$pkgdir/usr/share/licenses/$pkgname/NOTICE.md"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
