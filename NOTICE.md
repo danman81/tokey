@@ -1,12 +1,10 @@
-# Local prerelease and third-party notices
+# Third-party notices
 
 Tokey is the product name. No relationship with UL, 3DMark, Omarchy,
 Hugging Face or the llama.cpp authors is implied.
 
-The project owner has not selected a public source license, commercial terms,
-or distribution policy. This is a local prerelease; no public redistribution
-license is granted by these notes. The packaging label LicenseRef-Proprietary
-means there is no public open-source grant, not that business terms are final.
+Tokey is open-source software under the MIT License. See `LICENSE` for the
+permission grant and conditions.
 
 The app invokes the separately installed llama.cpp/ggml packages; their MIT
 licenses and upstream notices remain with those packages. GTK/PyGObject/Cairo

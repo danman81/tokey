@@ -6,7 +6,7 @@
     "llm_benchmark/__main__.py": "1b7c914ee6635c359d1a7abcda2a14cdb70cbc88eb9a877eb85aae1247d86011",
     "llm_benchmark/assets/kofi-cup.png": "36c6b7a7f2111b317208329473cdcecb2d62010600fe691d0ce3d31920ca2c33",
     "llm_benchmark/assets/production-adapter.js": "9dbb88ed42b10e2923465ebf2edc89d8cf80af8d3cfa251d1dea452bfc61122d",
-    "llm_benchmark/assets/tokey-cockpit.html": "1b71c8bb383e8966956a9321357b38251750c10a872cfd4b04241bd7cec2b6d6",
+    "llm_benchmark/assets/tokey-cockpit.html": "a00807eb42602ab511336f57637900a8366e0f9ac63a989c6988eaa6c9e9c01a",
     "llm_benchmark/config.py": "e89ab1997c74d2ce7d72fc3e8b7466755ffe2e1d9323baee46ae2d49119c2e37",
     "llm_benchmark/core.py": "6e8a2c439ad41777f31d3d633273e21af11981df32bd686d885192fcdc3d62c0",
     "llm_benchmark/default-config.toml": "b2bfe6702432734826478a26a8f1e4b2dd37cf5d5333c398f02aee79ede07d86",
@@ -22,11 +22,11 @@
     "scripts/package.py": "b9fc276ec4ac7cdd37685f3560e17d2caae3240d863c26fbd4df7b53f2ae63d4",
     "tests/test_core.py": "d428584c0b8d92674d028175fddbf41cbec3739e8164a403ef3541e743be2bcd",
     "tests/test_install.py": "f2d5650bb563aac6856d0f5207313ed7e09468eb2929985bb69ef4f3980e3305",
-    "tests/test_models_theme.py": "c01502e32e54aa09cb5bd2a13e6bcc3af21add8e9b555cd70518b32efe9be846",
+    "tests/test_models_theme.py": "4523e3e870806974761209f36eb9799a72a4295d3f6d00da95ebe02baf7a2683",
     "assets/net.llmbenchmark.Desktop.svg": "ef995fcb89998ae2f6e432c6a167c594b3e3a33709a7bc0052574fbb5581abb3",
-    "assets/tokey-mascot.txt": "15a886d2c4426c9599f4b02772334b4fce951766a565823a45b1ab1bae08dc01",
+    "assets/tokey-mascot.txt": "bf044d8e5b23f56d924d6fdb3286baf88a4c5e18b98135d500bd5c9627e0529f",
     "assets/tokey-wordmark.txt": "9427dfe3b04915403d9e1ac1c3741bc6a6a728510f7ef8c209bb27f777893b2a",
-    "packaging/PKGBUILD": "ee79801eb02e9ada05ba830c719b7d3c49779756bb7720df8584ab51351eb4a8",
+    "packaging/PKGBUILD": "6dae873f6721244e405c01154d1962a640ce2ea5ad1c36c0fc80265c748b7078",
     "packaging/llm-benchmark": "13adc2e90a1dc284cc68eaa39c02063ae27722f3a91d9573bcc894e3017ce249",
     "packaging/net.llmbenchmark.Desktop.desktop": "677c6f9317677fc9e3e67b5c9520927bc5734ae88c3800d1cc26678992494d68"
   }

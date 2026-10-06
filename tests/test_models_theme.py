@@ -74,10 +74,22 @@ class DownloadTests(unittest.TestCase):
 class ThemeTests(unittest.TestCase):
     def test_locked_mascot(self):
         asset = Path(__file__).resolve().parents[1]/"assets/tokey-mascot.txt"
-        expected = b"(\\_/)\n(='.'=)\n(\")_(\")\n"
+        expected = b" (\\_/)\n(='.'=)\n(\")_(\")\n"
         self.assertEqual(asset.read_bytes(), expected)
         brand = (asset.parent.parent/"docs/BRAND.md").read_text()
         self.assertIn("```text\n"+expected.decode()+"```", brand)
+        root = asset.parent.parent
+        readme = (root/"README.md").read_text()
+        surface = (root/"llm_benchmark/assets/tokey-cockpit.html").read_text()
+        self.assertIn(" (\\_/)    ██████", readme)
+        self.assertIn("> (\\_/)\n(='.'=)", surface)
+
+    def test_project_uses_mit_license(self):
+        root = Path(__file__).resolve().parents[1]
+        license_text = (root / "LICENSE").read_text()
+        self.assertTrue(license_text.startswith("MIT License\n"))
+        self.assertIn("Permission is hereby granted, free of charge", license_text)
+        self.assertIn("license=('MIT')", (root / "packaging/PKGBUILD").read_text())
 
     def test_fallback_text_contrast(self):
         with tempfile.TemporaryDirectory() as root:

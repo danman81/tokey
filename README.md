@@ -1,5 +1,5 @@
 ```text
-(\_/)   ██████ ▄████▄ ██ ▄█▀ ██████ ██  ██
+ (\_/)    ██████ ▄████▄ ██ ▄█▀ ██████ ██  ██
 (='.'=)   ██   ██  ██ ████   ██▄▄    ▀██▀
 (")_(")   ██   ▀████▀ ██ ▀█▄ ██▄▄▄▄   ██
 ```
@@ -69,3 +69,5 @@ See [how measurements work](docs/METHODOLOGY.md) and
 <p align="center">
   <a href="https://ko-fi.com/K6W0277G7B"><img src="llm_benchmark/assets/kofi-cup.png" width="22" alt="Coffee cup"> <strong>Help maintain Tokey</strong></a>
 </p>
+
+MIT licensed. See [LICENSE](LICENSE).

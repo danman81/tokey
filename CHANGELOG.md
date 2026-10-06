@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Release Tokey under the MIT License.
+- Center the rabbit's shorter ear row in its seven-column mascot cell everywhere,
+  including GitHub's README and raw mascot source.
 - Replace the unsupported default Spark X2.5 runner with pinned Gemma 3 4B.
 - Download and verify the full configured roster, then prove every model loads
   in the installed llama.cpp before starting any timed benchmark.
