@@ -43,6 +43,15 @@ def report():
 
 
 class CalculationTests(unittest.TestCase):
+    def test_device_parser_preserves_parentheses_in_gpu_name(self):
+        output = """Available devices:
+  Vulkan0: Intel(R) UHD Graphics 620 (KBL GT2) (23972 MiB, 13672 MiB free)
+"""
+        self.assertEqual(
+            core.parse_engine_devices(output),
+            [("Vulkan0", "Intel(R) UHD Graphics 620 (KBL GT2)")],
+        )
+
     def validate(self, rows):
         return core.validate_output(json.dumps(rows), core.PROFILES[0], 2)
 

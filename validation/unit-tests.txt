@@ -1,5 +1,6 @@
 test_boolean_counts_not_accepted_as_integers (test_core.CalculationTests.test_boolean_counts_not_accepted_as_integers) ... ok
 test_comparisons_fail_closed (test_core.CalculationTests.test_comparisons_fail_closed) ... ok
+test_device_parser_preserves_parentheses_in_gpu_name (test_core.CalculationTests.test_device_parser_preserves_parentheses_in_gpu_name) ... ok
 test_gpu_execution_identity_is_verified (test_core.CalculationTests.test_gpu_execution_identity_is_verified) ... ok
 test_recalculate_exact_samples (test_core.CalculationTests.test_recalculate_exact_samples) ... ok
 test_reject_bad_workload_settings (test_core.CalculationTests.test_reject_bad_workload_settings) ... ok
@@ -50,6 +51,6 @@ test_locked_mascot (test_models_theme.ThemeTests.test_locked_mascot) ... ok
 test_theme_is_data_not_css_code (test_models_theme.ThemeTests.test_theme_is_data_not_css_code) ... ok
 
 ----------------------------------------------------------------------
-Ran 50 tests in 1.582s
+Ran 51 tests in 1.348s
 
 OK

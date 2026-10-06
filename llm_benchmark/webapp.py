@@ -5,7 +5,6 @@ import json
 import os
 import base64
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import tempfile
@@ -19,7 +18,7 @@ gi.require_version("Gdk", "4.0")
 gi.require_version("WebKit", "6.0")
 from gi.repository import Gdk, Gio, GLib, Gtk, WebKit
 
-from .core import PROFILES, Runner, Store, environment, probe_model
+from .core import PROFILES, Runner, Store, environment, parse_engine_devices, probe_model
 from .config import load_config
 from .models import download_catalog_model
 from . import __version__
@@ -136,10 +135,9 @@ class TokeyWindow(Gtk.ApplicationWindow):
             output = result.stdout + result.stderr
         except (OSError, subprocess.SubprocessError):
             return devices
-        for identifier, name in re.findall(r"^\s*(\w+\d+):\s*(.+?)\s*\(", output, re.MULTILINE):
-            if identifier.lower().startswith(("vulkan", "cuda", "sycl", "hip")):
-                devices.append({"key": "GPU", "engine": identifier, "name": name.strip()})
-                break
+        for identifier, name in parse_engine_devices(output):
+            devices.append({"key": "GPU", "engine": identifier, "name": name})
+            break
         return devices
 
     def _deny_navigation(self, _view, decision, decision_type):

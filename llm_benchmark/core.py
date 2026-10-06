@@ -62,6 +62,21 @@ def digest(value):
     return hashlib.sha256(canonical(value)).hexdigest()
 
 
+def parse_engine_devices(output):
+    """Return usable accelerator IDs and names from llama-bench output."""
+    devices = []
+    for line in output.splitlines():
+        match = re.match(r"^\s*(\w+\d+):\s*(.+?)\s*$", line)
+        if not match:
+            continue
+        identifier, name = match.groups()
+        if not identifier.lower().startswith(("vulkan", "cuda", "sycl", "hip")):
+            continue
+        name = re.sub(r"\s+\(\d+\s+MiB(?:,\s*\d+\s+MiB free)?\)\s*$", "", name)
+        devices.append((identifier, name.strip()))
+    return devices
+
+
 def file_hash(path, cancel=None):
     h = hashlib.sha256()
     with open(path, "rb") as f:
