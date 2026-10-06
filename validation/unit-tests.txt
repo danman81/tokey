@@ -1,5 +1,6 @@
 test_boolean_counts_not_accepted_as_integers (test_core.CalculationTests.test_boolean_counts_not_accepted_as_integers) ... ok
 test_comparisons_fail_closed (test_core.CalculationTests.test_comparisons_fail_closed) ... ok
+test_gpu_execution_identity_is_verified (test_core.CalculationTests.test_gpu_execution_identity_is_verified) ... ok
 test_recalculate_exact_samples (test_core.CalculationTests.test_recalculate_exact_samples) ... ok
 test_reject_bad_workload_settings (test_core.CalculationTests.test_reject_bad_workload_settings) ... ok
 test_reject_changed_identity (test_core.CalculationTests.test_reject_changed_identity) ... ok
@@ -9,6 +10,10 @@ test_reject_injection_and_bad_threads (test_core.CalculationTests.test_reject_in
 test_reject_invalid_samples (test_core.CalculationTests.test_reject_invalid_samples) ... ok
 test_reject_sample_rate_disagreement (test_core.CalculationTests.test_reject_sample_rate_disagreement) ... ok
 test_upstream_integer_duration_sd_not_used (test_core.CalculationTests.test_upstream_integer_duration_sd_not_used) ... ok
+test_cancellation_is_not_misreported_as_incompatibility (test_core.CompatibilityProbeTests.test_cancellation_is_not_misreported_as_incompatibility) ... ok
+test_engine_failure_is_reported_as_incompatibility (test_core.CompatibilityProbeTests.test_engine_failure_is_reported_as_incompatibility) ... ok
+test_gpu_probe_requests_full_offload_and_exact_device (test_core.CompatibilityProbeTests.test_gpu_probe_requests_full_offload_and_exact_device) ... ok
+test_success_requires_load_evidence_for_exact_model (test_core.CompatibilityProbeTests.test_success_requires_load_evidence_for_exact_model) ... ok
 test_cancel_preserves_raw_evidence (test_core.ProcessTests.test_cancel_preserves_raw_evidence) ... ok
 test_clock_jump_is_rejected (test_core.ProcessTests.test_clock_jump_is_rejected) ... ok
 test_flood_output_is_bounded (test_core.ProcessTests.test_flood_output_is_bounded) ... ok
@@ -37,12 +42,14 @@ test_resume_exact_range (test_models_theme.DownloadTests.test_resume_exact_range
 test_server_ignoring_range_restarts (test_models_theme.DownloadTests.test_server_ignoring_range_restarts) ... ok
 test_valid_download_and_cached_verification (test_models_theme.DownloadTests.test_valid_download_and_cached_verification) ... ok
 test_wrong_range_and_insecure_redirect (test_models_theme.DownloadTests.test_wrong_range_and_insecure_redirect) ... ok
+test_about_uses_local_coffee_branding_and_accessible_trigger (test_models_theme.ThemeTests.test_about_uses_local_coffee_branding_and_accessible_trigger) ... ok
+test_all_export_formats_are_available (test_models_theme.ThemeTests.test_all_export_formats_are_available) ... ok
 test_fallback_text_contrast (test_models_theme.ThemeTests.test_fallback_text_contrast) ... ok
 test_light_theme_keeps_dark_product (test_models_theme.ThemeTests.test_light_theme_keeps_dark_product) ... ok
 test_locked_mascot (test_models_theme.ThemeTests.test_locked_mascot) ... ok
 test_theme_is_data_not_css_code (test_models_theme.ThemeTests.test_theme_is_data_not_css_code) ... ok
 
 ----------------------------------------------------------------------
-Ran 43 tests in 1.628s
+Ran 50 tests in 1.582s
 
 OK
