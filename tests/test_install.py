@@ -15,9 +15,10 @@ class InstallTests(unittest.TestCase):
             prefix = Path(root)/"local"
             fake_bin = Path(root)/"bin"
             fake_bin.mkdir()
-            fake_engine = fake_bin/"llama-bench"
-            fake_engine.write_text("#!/bin/sh\nexit 0\n")
-            fake_engine.chmod(0o755)
+            for name in ("llama-bench", "ffmpeg"):
+                command = fake_bin/name
+                command.write_text("#!/bin/sh\nexit 0\n")
+                command.chmod(0o755)
             env = {**os.environ, "PATH": str(fake_bin) + os.pathsep + os.environ.get("PATH", "")}
             cmd = [sys.executable, str(ROOT/"scripts/install.py"), "--prefix", str(prefix)]
             subprocess.run(cmd, check=True, capture_output=True, env=env)
